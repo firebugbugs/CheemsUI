@@ -19,6 +19,7 @@ public partial class ShowcaseControl : UserControl
 
     private bool _sourceLoaded;
     private int _copyToken;
+    private int _hoverToken;
 
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(
         nameof(Title), typeof(string), typeof(ShowcaseControl), new PropertyMetadata(string.Empty));
@@ -55,11 +56,29 @@ public partial class ShowcaseControl : UserControl
 
     private void CodeButton_MouseEnter(object sender, MouseEventArgs e)
     {
+        _hoverToken++;
         EnsureSourceLoaded();
         CodePopup.IsOpen = true;
     }
 
-    private void CodeButton_MouseLeave(object sender, MouseEventArgs e) => CodePopup.IsOpen = false;
+    private async void CodeButton_MouseLeave(object sender, MouseEventArgs e)
+    {
+        var token = ++_hoverToken;
+        await Task.Delay(80);
+
+        if (token == _hoverToken && !IsPointerInsideCodeButton())
+        {
+            CodePopup.IsOpen = false;
+        }
+    }
+
+    private bool IsPointerInsideCodeButton()
+    {
+        var position = Mouse.GetPosition(CodeButton);
+        return position.X >= 0 && position.Y >= 0
+            && position.X <= CodeButton.ActualWidth
+            && position.Y <= CodeButton.ActualHeight;
+    }
 
     private async void CodeButton_Click(object sender, RoutedEventArgs e)
     {

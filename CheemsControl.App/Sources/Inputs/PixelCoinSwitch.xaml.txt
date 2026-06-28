@@ -1,0 +1,2 @@
+<!-- CheemsPixelCoinSwitch：Uiverse santhosh_2608 像素表情硬币开关 -->
+<cheems:CheemsPixelCoinSwitch />

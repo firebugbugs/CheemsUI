@@ -1,0 +1,61 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CheemsControl">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Basic/Colors.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Basic/Brushes.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="Cheems.AiMatrixLoader.Digit" TargetType="TextBlock">
+        <Setter Property="Width" Value="36.6666666667" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="Foreground" Value="{DynamicResource Cheems.Brush.AiMatrixLoader.Digit}" />
+        <Setter Property="FontFamily" Value="Consolas" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="IsHitTestVisible" Value="False" />
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="{StaticResource Cheems.Color.AiMatrixLoader.Digit}"
+                                  ShadowDepth="0" BlurRadius="5" Opacity="1" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:CheemsAiMatrixLoader}">
+        <Setter Property="Width" Value="120" />
+        <Setter Property="Height" Value="160" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsHitTestVisible" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CheemsAiMatrixLoader}">
+                    <Viewbox Stretch="Uniform">
+                        <!-- 三列：每列 (120 - 2×5) / 3；三行：每行 (160 - 2×5) / 3。 -->
+                        <Canvas Width="120" Height="160">
+                            <TextBlock x:Name="PartDigit1" Style="{StaticResource Cheems.AiMatrixLoader.Digit}" Text="0" Canvas.Left="0" Canvas.Top="0" />
+                            <TextBlock x:Name="PartDigit2" Style="{StaticResource Cheems.AiMatrixLoader.Digit}" Text="1" Canvas.Left="41.6666666667" Canvas.Top="0" />
+                            <TextBlock x:Name="PartDigit3" Style="{StaticResource Cheems.AiMatrixLoader.Digit}" Text="0" Canvas.Left="83.3333333333" Canvas.Top="0" />
+                            <TextBlock x:Name="PartDigit4" Style="{StaticResource Cheems.AiMatrixLoader.Digit}" Text="1" Canvas.Left="0" Canvas.Top="55" />
+                            <TextBlock x:Name="PartDigit5" Style="{StaticResource Cheems.AiMatrixLoader.Digit}" Text="1" Canvas.Left="41.6666666667" Canvas.Top="55" />
+                            <TextBlock x:Name="PartDigit6" Style="{StaticResource Cheems.AiMatrixLoader.Digit}" Text="0" Canvas.Left="83.3333333333" Canvas.Top="55" />
+                            <TextBlock x:Name="PartDigit7" Style="{StaticResource Cheems.AiMatrixLoader.Digit}" Text="0" Canvas.Left="0" Canvas.Top="110" />
+                            <TextBlock x:Name="PartDigit8" Style="{StaticResource Cheems.AiMatrixLoader.Digit}" Text="1" Canvas.Left="41.6666666667" Canvas.Top="110" />
+
+                            <!-- .glow：最后一个 DOM 子项，保持在数字上方。CSS circle 使用 farthest-corner，半径为 100px。 -->
+                            <Rectangle x:Name="PartGlow" Width="120" Height="160" Canvas.Left="0" Canvas.Top="0" IsHitTestVisible="False">
+                                <Rectangle.Fill>
+                                    <RadialGradientBrush Center="0.5,0.5" GradientOrigin="0.5,0.5" RadiusX="0.8333333333" RadiusY="0.625">
+                                        <GradientStop Offset="0" Color="{StaticResource Cheems.Color.AiMatrixLoader.Glow}" />
+                                        <GradientStop Offset="0.7" Color="{StaticResource Cheems.Color.AiMatrixLoader.GlowTransparent}" />
+                                        <GradientStop Offset="1" Color="{StaticResource Cheems.Color.AiMatrixLoader.GlowTransparent}" />
+                                    </RadialGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </Canvas>
+                    </Viewbox>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

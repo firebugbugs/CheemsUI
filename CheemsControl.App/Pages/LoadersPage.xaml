@@ -13,7 +13,7 @@
                        FontSize="24"
                        FontWeight="Bold"
                        Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
-            <TextBlock Text="加载动画均按 Uiverse 原始 HTML/CSS 逐层移植：打字机保留滑轨、纸张和逐键下压；洗衣机保留多层面板背景、门内条纹、外部转轴摇晃和连续加速旋转。"
+            <TextBlock Text="加载动画均按 Uiverse 原始 HTML/CSS 逐层移植：打字机、洗衣机、AI Matrix 与仓鼠跑轮均保留原始结构、错峰动作、关键帧和循环节奏。"
                        Margin="0,8,0,24"
                        FontSize="13"
                        Foreground="{DynamicResource Cheems.Brush.Text.Secondary}"
@@ -38,6 +38,20 @@
                         <cheems:CheemsWashingMachineLoader Width="93" Height="118.5" Margin="0,0,32,0" />
                         <cheems:CheemsWashingMachineLoader Width="62" Height="79" />
                     </StackPanel>
+                </infra:ShowcaseControl.Demo>
+            </infra:ShowcaseControl>
+
+            <infra:ShowcaseControl Title="CheemsAiMatrixLoader"
+                                   Source="/CheemsControl.App;component/Sources/Loaders/AiMatrix.xaml.txt">
+                <infra:ShowcaseControl.Demo>
+                    <cheems:CheemsAiMatrixLoader HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </infra:ShowcaseControl.Demo>
+            </infra:ShowcaseControl>
+
+            <infra:ShowcaseControl Title="CheemsHamsterWheelLoader"
+                                   Source="/CheemsControl.App;component/Sources/Loaders/HamsterWheel.xaml.txt">
+                <infra:ShowcaseControl.Demo>
+                    <cheems:CheemsHamsterWheelLoader HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </infra:ShowcaseControl.Demo>
             </infra:ShowcaseControl>
         </StackPanel>

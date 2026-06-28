@@ -1,0 +1,4 @@
+<!-- CheemsRockerSwitch：Uiverse Nawsome 三维红色摇臂开关
+     原 HTML 默认 checked，因此 WPF 默认 IsChecked=True -->
+<!-- xmlns:cheems="https://cheemscontrol.com/wpf" -->
+<cheems:CheemsRockerSwitch />

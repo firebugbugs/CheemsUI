@@ -1,0 +1,81 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CheemsControl">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Basic/Colors.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Basic/Brushes.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type local:Cheems3DKeyButton}">
+        <!-- .cover content 64px + padding-bottom 11px；宽 75px。 -->
+        <Setter Property="Width" Value="75"/><Setter Property="Height" Value="75"/>
+        <Setter Property="Foreground" Value="{DynamicResource Cheems.Brush.3DKeyButton.Foreground}"/>
+        <Setter Property="FontSize" Value="22"/><Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Cursor" Value="Hand"/><Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Cheems3DKeyButton}">
+                    <Grid Width="75" Height="75" Background="Transparent">
+                        <!-- cover box-shadow: 0 1px 1px 1px white。 -->
+                        <Border Width="75" Height="75" CornerRadius="10"
+                                Background="{DynamicResource Cheems.Brush.3DKeyButton.Cover}"
+                                RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform><ScaleTransform ScaleY="0.9743700648"/></Border.RenderTransform>
+                            <Border.Effect><DropShadowEffect Color="{StaticResource Cheems.Color.3DKeyButton.White}" Direction="270" ShadowDepth="1" BlurRadius="1" Opacity="1"/></Border.Effect>
+                        </Border>
+
+                        <!-- button 的 4px 实体底部阴影。 -->
+                        <Border x:Name="PartKeyShadow" Width="70" Height="60" Margin="0,2,0,0"
+                                HorizontalAlignment="Center" VerticalAlignment="Top" CornerRadius="8"
+                                Background="{DynamicResource Cheems.Brush.3DKeyButton.Shadow}"
+                                RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <TransformGroup><ScaleTransform x:Name="PartShadowTilt" ScaleY="0.9743700648"/><TranslateTransform Y="4"/></TransformGroup>
+                            </Border.RenderTransform>
+                        </Border>
+
+                        <!-- 正常态 rotateX(13deg)；按下态 transform 被 translateY(4.5px) 替换。 -->
+                        <Border x:Name="PartKey" Width="70" Height="60" Margin="0,2,0,0"
+                                HorizontalAlignment="Center" VerticalAlignment="Top"
+                                Background="{DynamicResource Cheems.Brush.3DKeyButton.Face}"
+                                CornerRadius="8" RenderTransformOrigin="0.5,0.5">
+                            <Border.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform x:Name="PartKeyTilt" ScaleY="0.9743700648"/>
+                                    <TranslateTransform x:Name="PartKeyTranslate"/>
+                                </TransformGroup>
+                            </Border.RenderTransform>
+                            <Grid>
+                                <Border Height="2" VerticalAlignment="Bottom" Background="{DynamicResource Cheems.Brush.3DKeyButton.White}" CornerRadius="0,0,8,8"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                  RecognizesAccessKey="True"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PartKeyShadow" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.08"/>
+                                        <DoubleAnimation Storyboard.TargetName="PartKeyTilt" Storyboard.TargetProperty="ScaleY" To="1" Duration="0:0:0.08"/>
+                                        <DoubleAnimation Storyboard.TargetName="PartKeyTranslate" Storyboard.TargetProperty="Y" To="4.5" Duration="0:0:0.08"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PartKeyShadow" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.08"/>
+                                        <DoubleAnimation Storyboard.TargetName="PartKeyTilt" Storyboard.TargetProperty="ScaleY" To="0.9743700648" Duration="0:0:0.08"/>
+                                        <DoubleAnimation Storyboard.TargetName="PartKeyTranslate" Storyboard.TargetProperty="Y" To="0" Duration="0:0:0.08"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

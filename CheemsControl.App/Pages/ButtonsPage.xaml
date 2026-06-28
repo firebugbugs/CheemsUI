@@ -14,7 +14,7 @@
                        FontSize="24"
                        FontWeight="Bold"
                        Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
-            <TextBlock Text="包含虚线按钮与软拟态按钮；简单控件使用透明横向展示器，每个控件只保留一个代表实例。"
+            <TextBlock Text="按钮均按原始 HTML/CSS 移植；简单控件使用透明横向展示器，每个控件只保留一个代表实例。"
                        Margin="0,8,0,24"
                        FontSize="13"
                        Foreground="{DynamicResource Cheems.Brush.Text.Secondary}"
@@ -32,6 +32,13 @@
                                               Margin="0,0,32,28">
                     <infra:CompactShowcaseControl.Demo>
                         <cheems:CheemsSoftButton Content="Click me" />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Buttons/3DKeyButton.xaml.txt"
+                                              Margin="0,0,32,28">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:Cheems3DKeyButton Content="S" />
                     </infra:CompactShowcaseControl.Demo>
                 </infra:CompactShowcaseControl>
             </WrapPanel>

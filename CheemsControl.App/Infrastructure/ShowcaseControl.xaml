@@ -26,7 +26,6 @@
                             Content="&lt;/&gt;"
                             Style="{StaticResource Cheems.App.Style.CodeButton}"
                             Margin="16,0,10,0"
-                            ToolTip="悬停预览源码，点击复制"
                             MouseEnter="CodeButton_MouseEnter"
                             MouseLeave="CodeButton_MouseLeave"
                             Click="CodeButton_Click" />

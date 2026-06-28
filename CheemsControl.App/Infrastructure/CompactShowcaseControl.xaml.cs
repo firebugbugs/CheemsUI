@@ -17,6 +17,7 @@ public partial class CompactShowcaseControl : UserControl
 
     private bool _sourceLoaded;
     private int _copyToken;
+    private int _hoverToken;
 
     public static readonly DependencyProperty DemoProperty = DependencyProperty.Register(
         nameof(Demo), typeof(object), typeof(CompactShowcaseControl), new PropertyMetadata(null));
@@ -43,13 +44,30 @@ public partial class CompactShowcaseControl : UserControl
 
     private void CodeButton_MouseEnter(object sender, MouseEventArgs e)
     {
+        _hoverToken++;
         EnsureSourceLoaded();
         CodePopup.IsOpen = true;
     }
 
-    private void CodeButton_MouseLeave(object sender, MouseEventArgs e)
+    private async void CodeButton_MouseLeave(object sender, MouseEventArgs e)
     {
-        CodePopup.IsOpen = false;
+        var token = ++_hoverToken;
+        await Task.Delay(80);
+
+        // Popup 是独立窗口；打开瞬间可能令按钮短暂收到 MouseLeave。
+        // 延迟后再次按屏幕指针位置确认，避免在打开/关闭之间循环闪烁。
+        if (token == _hoverToken && !IsPointerInsideCodeButton())
+        {
+            CodePopup.IsOpen = false;
+        }
+    }
+
+    private bool IsPointerInsideCodeButton()
+    {
+        var position = Mouse.GetPosition(CodeButton);
+        return position.X >= 0 && position.Y >= 0
+            && position.X <= CodeButton.ActualWidth
+            && position.Y <= CodeButton.ActualHeight;
     }
 
     private async void CodeButton_Click(object sender, RoutedEventArgs e)
