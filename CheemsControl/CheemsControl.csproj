@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <!-- 字体内嵌打包：新字体丢进 Resources/Fonts 即自动打包（CONVENTIONS F1） -->
+  <ItemGroup>
+    <Resource Include="Resources\Fonts\**\*.ttf" />
+    <Resource Include="Resources\Fonts\**\*.otf" />
+  </ItemGroup>
+
+</Project>

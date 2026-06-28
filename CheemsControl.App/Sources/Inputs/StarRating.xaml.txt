@@ -1,0 +1,4 @@
+<!-- CheemsStarRating：Uiverse PriyanshuGupta28 五星 RadioButton 评分组
+     Value 范围 0～5；默认 0，与原始 HTML 未设置 checked 一致 -->
+<!-- xmlns:cheems="https://cheemscontrol.com/wpf" -->
+<cheems:CheemsStarRating Value="0" />

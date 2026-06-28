@@ -1,0 +1,5 @@
+<!-- 同一控件的必要尺寸变体集中在一个 Showcase 中 -->
+<cheems:CheemsTypewriterLoader Width="136"
+                               Height="94" />
+<cheems:CheemsTypewriterLoader Width="102" Height="70.5" />
+<cheems:CheemsTypewriterLoader Width="68" Height="47" />

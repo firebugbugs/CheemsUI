@@ -1,0 +1,87 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- 字典自包含（CONVENTIONS R3.9）：自身合并 L1 色板，保证任何引用路径（App 合并/延迟实例化）下 StaticResource 都可解析 -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Basic/Colors.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- L2 语义画刷：只允许画刷，键 Cheems.Brush.*；颜色只准 StaticResource 引用 L1（CONVENTIONS R3.2） -->
+
+    <!-- 基础语义 -->
+    <SolidColorBrush x:Key="Cheems.Brush.Primary" Color="{StaticResource Cheems.Color.Primary}" />
+    <SolidColorBrush x:Key="Cheems.Brush.Accent" Color="{StaticResource Cheems.Color.Accent}" />
+    <SolidColorBrush x:Key="Cheems.Brush.Text.Primary" Color="{StaticResource Cheems.Color.Text.Primary}" />
+    <SolidColorBrush x:Key="Cheems.Brush.Text.Secondary" Color="{StaticResource Cheems.Color.Text.Secondary}" />
+    <SolidColorBrush x:Key="Cheems.Brush.Background.Default" Color="{StaticResource Cheems.Color.Background.Default}" />
+    <SolidColorBrush x:Key="Cheems.Brush.Background.Elevated" Color="{StaticResource Cheems.Color.Background.Elevated}" />
+    <SolidColorBrush x:Key="Cheems.Brush.Border.Default" Color="{StaticResource Cheems.Color.Border.Default}" />
+
+    <!-- 控件级：CheemsDashedButton（前景与描边同色，对应 CSS 的 color/border 同值） -->
+    <SolidColorBrush x:Key="Cheems.Brush.DashedButton.Border" Color="{StaticResource Cheems.Color.DashedButton.Border}" />
+    <SolidColorBrush x:Key="Cheems.Brush.DashedButton.Background" Color="{StaticResource Cheems.Color.DashedButton.Background}" />
+    <SolidColorBrush x:Key="Cheems.Brush.DashedButton.Foreground" Color="{StaticResource Cheems.Color.DashedButton.Border}" />
+
+    <!-- 控件级：CheemsSoftButton -->
+    <SolidColorBrush x:Key="Cheems.Brush.SoftButton.Foreground" Color="{StaticResource Cheems.Color.SoftButton.Foreground}" />
+    <SolidColorBrush x:Key="Cheems.Brush.SoftButton.ForegroundPressed" Color="{StaticResource Cheems.Color.SoftButton.ForegroundPressed}" />
+    <SolidColorBrush x:Key="Cheems.Brush.SoftButton.Background" Color="{StaticResource Cheems.Color.SoftButton.Background}" />
+    <SolidColorBrush x:Key="Cheems.Brush.SoftButton.Border" Color="{StaticResource Cheems.Color.SoftButton.Background}" />
+    <LinearGradientBrush x:Key="Cheems.Brush.SoftButton.InsetDarkTop" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0" Color="{StaticResource Cheems.Color.SoftButton.ShadowDark}" />
+        <GradientStop Offset="1" Color="{StaticResource Cheems.Color.SoftButton.ShadowDarkTransparent}" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="Cheems.Brush.SoftButton.InsetDarkLeft" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0" Color="{StaticResource Cheems.Color.SoftButton.ShadowDark}" />
+        <GradientStop Offset="1" Color="{StaticResource Cheems.Color.SoftButton.ShadowDarkTransparent}" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="Cheems.Brush.SoftButton.InsetLightBottom" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0" Color="{StaticResource Cheems.Color.SoftButton.ShadowLightTransparent}" />
+        <GradientStop Offset="1" Color="{StaticResource Cheems.Color.SoftButton.ShadowLight}" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="Cheems.Brush.SoftButton.InsetLightRight" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0" Color="{StaticResource Cheems.Color.SoftButton.ShadowLightTransparent}" />
+        <GradientStop Offset="1" Color="{StaticResource Cheems.Color.SoftButton.ShadowLight}" />
+    </LinearGradientBrush>
+
+    <!-- 控件级：CheemsStarRating -->
+    <SolidColorBrush x:Key="Cheems.Brush.StarRating.Idle" Color="{StaticResource Cheems.Color.StarRating.Idle}" />
+    <SolidColorBrush x:Key="Cheems.Brush.StarRating.Active" Color="{StaticResource Cheems.Color.StarRating.Active}" />
+
+    <!-- 控件级：CheemsLedSwitch -->
+    <SolidColorBrush x:Key="Cheems.Brush.LedSwitch.Container" Color="{StaticResource Cheems.Color.LedSwitch.Container}" />
+    <LinearGradientBrush x:Key="Cheems.Brush.LedSwitch.ToggleOff" StartPoint="0.15,0" EndPoint="0.85,1">
+        <GradientStop Offset="0" Color="{StaticResource Cheems.Color.LedSwitch.ToggleOffStart}" />
+        <GradientStop Offset="1" Color="{StaticResource Cheems.Color.LedSwitch.ToggleOffEnd}" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="Cheems.Brush.LedSwitch.ToggleOn" StartPoint="0.15,0" EndPoint="0.85,1">
+        <GradientStop Offset="0" Color="{StaticResource Cheems.Color.LedSwitch.ToggleOnStart}" />
+        <GradientStop Offset="1" Color="{StaticResource Cheems.Color.LedSwitch.ToggleOnEnd}" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="Cheems.Brush.LedSwitch.ShadowLight" Color="{StaticResource Cheems.Color.LedSwitch.ShadowLight}" />
+    <SolidColorBrush x:Key="Cheems.Brush.LedSwitch.ShadowOffDark" Color="{StaticResource Cheems.Color.LedSwitch.ShadowOffDark}" />
+
+    <!-- 控件级：CheemsTypewriterLoader -->
+    <SolidColorBrush x:Key="Cheems.Brush.TypewriterLoader.Key" Color="{StaticResource Cheems.Color.TypewriterLoader.Key}" />
+    <SolidColorBrush x:Key="Cheems.Brush.TypewriterLoader.Paper" Color="{StaticResource Cheems.Color.TypewriterLoader.Paper}" />
+    <SolidColorBrush x:Key="Cheems.Brush.TypewriterLoader.Text" Color="{StaticResource Cheems.Color.TypewriterLoader.Text}" />
+    <SolidColorBrush x:Key="Cheems.Brush.TypewriterLoader.Tool" Color="{StaticResource Cheems.Color.TypewriterLoader.Tool}" />
+
+    <!-- 控件级：CheemsWashingMachineLoader -->
+    <SolidColorBrush x:Key="Cheems.Brush.WashingMachineLoader.Body" Color="{StaticResource Cheems.Color.WashingMachineLoader.Body}" />
+    <SolidColorBrush x:Key="Cheems.Brush.WashingMachineLoader.LineLight" Color="{StaticResource Cheems.Color.WashingMachineLoader.LineLight}" />
+    <SolidColorBrush x:Key="Cheems.Brush.WashingMachineLoader.ControlDark" Color="{StaticResource Cheems.Color.WashingMachineLoader.ControlDark}" />
+    <SolidColorBrush x:Key="Cheems.Brush.WashingMachineLoader.DoorBase" Color="{StaticResource Cheems.Color.WashingMachineLoader.DoorBase}" />
+    <SolidColorBrush x:Key="Cheems.Brush.WashingMachineLoader.Border" Color="{StaticResource Cheems.Color.WashingMachineLoader.Border}" />
+    <SolidColorBrush x:Key="Cheems.Brush.WashingMachineLoader.InsetRing" Color="{StaticResource Cheems.Color.WashingMachineLoader.InsetRing}" />
+    <SolidColorBrush x:Key="Cheems.Brush.WashingMachineLoader.Stripe" Color="{StaticResource Cheems.Color.WashingMachineLoader.Stripe}" />
+
+    <!-- 控件级：CheemsAmPmToggle -->
+    <SolidColorBrush x:Key="Cheems.Brush.AmPmToggle.TrackDay" Color="{StaticResource Cheems.Color.AmPmToggle.TrackDay}" />
+    <SolidColorBrush x:Key="Cheems.Brush.AmPmToggle.TrackNight" Color="{StaticResource Cheems.Color.AmPmToggle.TrackNight}" />
+    <SolidColorBrush x:Key="Cheems.Brush.AmPmToggle.LabelBlue" Color="{StaticResource Cheems.Color.AmPmToggle.LabelBlue}" />
+    <SolidColorBrush x:Key="Cheems.Brush.AmPmToggle.HandlerDay" Color="{StaticResource Cheems.Color.AmPmToggle.HandlerDay}" />
+    <SolidColorBrush x:Key="Cheems.Brush.AmPmToggle.HandlerNight" Color="{StaticResource Cheems.Color.AmPmToggle.HandlerNight}" />
+    <SolidColorBrush x:Key="Cheems.Brush.AmPmToggle.Crater" Color="{StaticResource Cheems.Color.AmPmToggle.Crater}" />
+    <SolidColorBrush x:Key="Cheems.Brush.AmPmToggle.White" Color="{StaticResource Cheems.Color.AmPmToggle.White}" />
+
+</ResourceDictionary>

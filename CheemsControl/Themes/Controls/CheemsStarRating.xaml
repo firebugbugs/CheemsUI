@@ -1,0 +1,47 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CheemsControl">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Basic/Colors.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Basic/Brushes.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- 原始 input display:none：模板只呈现可点击 label 对应的星形，不显示 RadioButton 本体。 -->
+    <Style x:Key="Cheems.Style.StarRating.Item" TargetType="{x:Type RadioButton}">
+        <Setter Property="Foreground" Value="{DynamicResource Cheems.Brush.StarRating.Idle}" />
+        <Setter Property="FontSize" Value="30" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RadioButton}">
+                    <TextBlock x:Name="PartItemGlyph"
+                               Text="★"
+                               FontSize="{TemplateBinding FontSize}"
+                               Foreground="{TemplateBinding Foreground}"
+                               Cursor="{TemplateBinding Cursor}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:CheemsStarRating}">
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CheemsStarRating}">
+                    <!-- float:right 后的实际视觉顺序为 1→5；WPF 按该结果从左到右排列。 -->
+                    <StackPanel x:Name="PartRoot" Orientation="Horizontal">
+                        <RadioButton x:Name="PartStar1" Style="{StaticResource Cheems.Style.StarRating.Item}" />
+                        <RadioButton x:Name="PartStar2" Style="{StaticResource Cheems.Style.StarRating.Item}" />
+                        <RadioButton x:Name="PartStar3" Style="{StaticResource Cheems.Style.StarRating.Item}" />
+                        <RadioButton x:Name="PartStar4" Style="{StaticResource Cheems.Style.StarRating.Item}" />
+                        <RadioButton x:Name="PartStar5" Style="{StaticResource Cheems.Style.StarRating.Item}" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

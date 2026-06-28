@@ -1,0 +1,18 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- 只做合并入口，合并顺序固定：Colors → Brushes → Fonts →（Icons）→ Controls/*（CONVENTIONS R3.6）。
+         合并源一律用程序集绝对 pack URI：相对路径经 ThemeInfo 主题字典路径加载时按应用根解析而失败（CONVENTIONS R3.9） -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Basic/Colors.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Basic/Brushes.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Basic/Fonts.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsDashedButton.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsSoftButton.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsTypewriterLoader.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsWashingMachineLoader.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsDayNightSwitch.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsAmPmToggle.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsStarRating.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsLedSwitch.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

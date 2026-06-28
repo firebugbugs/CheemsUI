@@ -1,0 +1,55 @@
+<UserControl x:Class="CheemsControl.App.Pages.InputsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cheems="https://cheemscontrol.com/wpf"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:infra="clr-namespace:CheemsControl.App.Infrastructure"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="700">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,0,16,16">
+
+            <TextBlock Text="输入 Input"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+            <TextBlock Text="输入、选择与切换类控件。简单开关和评分控件使用透明横向展示器，并在一行空间允许时自动并排。"
+                       Margin="0,8,0,24"
+                       FontSize="13"
+                       Foreground="{DynamicResource Cheems.Brush.Text.Secondary}"
+                       TextWrapping="Wrap" />
+
+            <WrapPanel>
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Inputs/DayNightSwitch.xaml.txt"
+                                              Margin="0,0,32,28">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsDayNightSwitch Width="108" Height="54" />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Inputs/AmPmToggle.xaml.txt"
+                                              Margin="0,0,32,28">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsAmPmToggle />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Inputs/StarRating.xaml.txt"
+                                              Margin="0,0,32,28">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsStarRating />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Inputs/LedSwitch.xaml.txt"
+                                              Margin="0,0,32,28">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsLedSwitch />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+            </WrapPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

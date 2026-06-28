@@ -1,0 +1,34 @@
+﻿<Application x:Class="CheemsControl.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:CheemsControl.App"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <!-- 合并类库资源入口（规矩 M7）：Demo 界面统一使用 Cheems.* 语义键 -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/CheemsControl;component/Themes/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- 大、小展示器共用的极简源码按钮：只呈现文字，不绘制背景、边框或状态框。 -->
+            <Style x:Key="Cheems.App.Style.CodeButton" TargetType="{x:Type Button}">
+                <Setter Property="Foreground" Value="{DynamicResource Cheems.Brush.Text.Primary}" />
+                <Setter Property="FontFamily" Value="{DynamicResource Cheems.FontFamily.Mono}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Padding" Value="4,2" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Margin="{TemplateBinding Padding}"
+                                              RecognizesAccessKey="True" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

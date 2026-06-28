@@ -1,0 +1,45 @@
+<UserControl x:Class="CheemsControl.App.Pages.LoadersPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cheems="https://cheemscontrol.com/wpf"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:infra="clr-namespace:CheemsControl.App.Infrastructure"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="500" d:DesignWidth="700">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,0,16,16">
+            <TextBlock Text="加载 Loader"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+            <TextBlock Text="加载动画均按 Uiverse 原始 HTML/CSS 逐层移植：打字机保留滑轨、纸张和逐键下压；洗衣机保留多层面板背景、门内条纹、外部转轴摇晃和连续加速旋转。"
+                       Margin="0,8,0,24"
+                       FontSize="13"
+                       Foreground="{DynamicResource Cheems.Brush.Text.Secondary}"
+                       TextWrapping="Wrap" />
+
+            <infra:ShowcaseControl Title="CheemsTypewriterLoader"
+                                   Source="/CheemsControl.App;component/Sources/Loaders/Typewriter.xaml.txt">
+                <infra:ShowcaseControl.Demo>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <cheems:CheemsTypewriterLoader Width="136" Height="94" Margin="0,0,32,0" />
+                        <cheems:CheemsTypewriterLoader Width="102" Height="70.5" Margin="0,0,28,0" />
+                        <cheems:CheemsTypewriterLoader Width="68" Height="47" />
+                    </StackPanel>
+                </infra:ShowcaseControl.Demo>
+            </infra:ShowcaseControl>
+
+            <infra:ShowcaseControl Title="CheemsWashingMachineLoader"
+                                   Source="/CheemsControl.App;component/Sources/Loaders/WashingMachine.xaml.txt">
+                <infra:ShowcaseControl.Demo>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <cheems:CheemsWashingMachineLoader Width="124" Height="158" Margin="0,0,36,0" />
+                        <cheems:CheemsWashingMachineLoader Width="93" Height="118.5" Margin="0,0,32,0" />
+                        <cheems:CheemsWashingMachineLoader Width="62" Height="79" />
+                    </StackPanel>
+                </infra:ShowcaseControl.Demo>
+            </infra:ShowcaseControl>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

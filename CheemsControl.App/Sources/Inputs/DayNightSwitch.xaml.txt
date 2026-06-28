@@ -1,0 +1,5 @@
+<!-- CheemsDayNightSwitch：昼夜开关（Uiverse Mohammad-Rahme-576 风格）
+     IsChecked 为夜晚态；Viewbox 支持等比缩放 -->
+<!-- xmlns:cheems="https://cheemscontrol.com/wpf" -->
+<cheems:CheemsDayNightSwitch Width="108"
+                             Height="54" />
