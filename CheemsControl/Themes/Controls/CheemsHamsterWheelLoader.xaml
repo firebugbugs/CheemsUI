@@ -5,6 +5,11 @@
         <ResourceDictionary Source="/CheemsControl;component/Themes/Basic/Colors.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Basic/Brushes.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
+    <!--
+      14px/em：根 168×168；hamster 98×52.5；body 63×42；head 38.5×35。
+      后肢、前右肢和尾巴对应 translateZ(-1px)，先绘制并由身体遮挡；其余肢体在身体上层。
+    -->
     <Style TargetType="{x:Type local:CheemsHamsterWheelLoader}">
         <Setter Property="Width" Value="168"/><Setter Property="Height" Value="168"/>
         <Setter Property="Focusable" Value="False"/><Setter Property="IsHitTestVisible" Value="False"/>
@@ -13,50 +18,75 @@
                 <ControlTemplate TargetType="{x:Type local:CheemsHamsterWheelLoader}">
                     <Viewbox Stretch="Uniform">
                         <Canvas Width="168" Height="168">
-                            <!-- .spoke：中心轮毂 + 47%..52.9% 的水平辐条，整体反向旋转。 -->
+                            <!-- .spoke：99% 尺寸、5.9% 高度的横杆与 4.8% 中心轮毂。 -->
                             <Canvas x:Name="PartSpoke" Width="168" Height="168">
-                                <Rectangle Width="166.32" Height="10.08" Canvas.Left="0.84" Canvas.Top="78.96" Fill="{DynamicResource Cheems.Brush.HamsterWheel.Spoke}"/>
-                                <Ellipse Width="16.8" Height="16.8" Canvas.Left="75.6" Canvas.Top="75.6" Fill="{DynamicResource Cheems.Brush.HamsterWheel.Wheel}"/>
+                                <Rectangle Width="166.32" Height="9.912" Canvas.Left="0.84" Canvas.Top="79.044"
+                                           Fill="{DynamicResource Cheems.Brush.HamsterWheel.Spoke}"/>
+                                <Ellipse Width="16.128" Height="16.128" Canvas.Left="75.936" Canvas.Top="75.936"
+                                         Fill="{DynamicResource Cheems.Brush.HamsterWheel.Wheel}"/>
                             </Canvas>
 
-                            <!-- .hamster：98×52.5，定位 top:50%、left:50%-3.5em。 -->
                             <Canvas x:Name="PartHamster" Width="98" Height="52.5" Canvas.Left="35" Canvas.Top="84">
-                                <!-- .hamster__body 及其所有子节点共用身体旋转。 -->
                                 <Canvas x:Name="PartBody" Width="63" Height="42" Canvas.Left="28" Canvas.Top="3.5">
-                                    <!-- translateZ(-1px) 的右后肢与尾巴先绘制，置于身体背后。 -->
+                                    <!-- translateZ(-1px)：先画，伸出身体的部分仍可见。 -->
                                     <Path x:Name="PartBackRight" Width="21" Height="35" Canvas.Left="39.2" Canvas.Top="14"
                                           Stretch="Fill" Data="M0,0 L21,0 L21,10.5 L14.7,31.5 L14.7,35 L6.3,35 L8.4,31.5 L0,10.5 Z">
                                         <Path.Fill><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Offset="0.9" Color="{StaticResource Cheems.Color.HamsterWheel.Tan}"/><GradientStop Offset="0.9" Color="{StaticResource Cheems.Color.HamsterWheel.PinkDark}"/></LinearGradientBrush></Path.Fill>
                                     </Path>
-                                    <Path x:Name="PartTail" Width="14" Height="7" Canvas.Left="56" Canvas.Top="21"
-                                          Stretch="Fill" Data="M3.5,0 C7,0 14,1 14,3.5 C14,6 7,7 3.5,7 C1,7 0,6 0,3.5 C0,1 1,0 3.5,0 Z" Fill="{DynamicResource Cheems.Brush.HamsterWheel.Pink}"/>
-
-                                    <!-- body：CSS 非对称椭圆圆角的路径近似；两层 inset 色带独立裁剪。 -->
-                                    <Path Data="M31.5,0 C50,0 63,5 63,12.6 C63,29 54,42 31.5,42 C12,42 0,34 0,16.8 C0,6 12,0 31.5,0 Z" Fill="{DynamicResource Cheems.Brush.HamsterWheel.TanLight}"/>
-                                    <Path Data="M2,28 C18,34 41,42 60,34 L60,42 L0,42 Z" Fill="{DynamicResource Cheems.Brush.HamsterWheel.Orange}"/>
-                                    <Path Data="M3,0 C22,4 42,3 62,0 L62,8 C40,12 20,10 3,7 Z" Fill="{DynamicResource Cheems.Brush.HamsterWheel.Tan}"/>
-
-                                    <!-- .hamster__head -->
-                                    <Canvas x:Name="PartHead" Width="38.5" Height="35" Canvas.Left="-28" Canvas.Top="0">
-                                        <Path Stretch="Fill" Width="38.5" Height="35"
-                                              Data="M27,0 C35,0 38.5,5 38.5,12 C38.5,25 30,35 13,35 C4,35 0,29 0,19 C0,8 11,0 27,0 Z" Fill="{DynamicResource Cheems.Brush.HamsterWheel.Orange}"/>
-                                        <Path Data="M1,27 C11,30 22,31 37,25 L37,35 L0,35 Z" Fill="{DynamicResource Cheems.Brush.HamsterWheel.Tan}"/>
-                                        <Path Data="M19,0 C27,3 35,7 38,15 L38,0 Z" Fill="{DynamicResource Cheems.Brush.HamsterWheel.TanLight}"/>
-                                        <Ellipse x:Name="PartEar" Width="10.5" Height="10.5" Canvas.Left="31.5" Canvas.Top="-3.5" Fill="{DynamicResource Cheems.Brush.HamsterWheel.Pink}"/>
-                                        <Path Data="M31.5,-3.5 A5.25,5.25 0 0 0 31.5,7 L35,5 L35,-2 Z" Fill="{DynamicResource Cheems.Brush.HamsterWheel.Orange}"/>
-                                        <Ellipse x:Name="PartEye" Width="7" Height="7" Canvas.Left="17.5" Canvas.Top="5.25" Fill="#FF000000"/>
-                                        <Path Width="2.8" Height="3.5" Canvas.Left="0" Canvas.Top="10.5" Stretch="Fill"
-                                              Data="M0,0 C2,0 2.8,1 2.8,2 C2.8,3 1,3.5 0,3.5 Z" Fill="{DynamicResource Cheems.Brush.HamsterWheel.PinkDark}"/>
-                                    </Canvas>
-
-                                    <!-- 前后左肢：clip-path polygon 逐点翻译。 -->
-                                    <Path x:Name="PartBackLeft" Width="21" Height="35" Canvas.Left="39.2" Canvas.Top="14"
-                                          Stretch="Fill" Data="M0,0 L21,0 L21,10.5 L14.7,31.5 L14.7,35 L6.3,35 L8.4,31.5 L0,10.5 Z">
-                                        <Path.Fill><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Offset="0.9" Color="{StaticResource Cheems.Color.HamsterWheel.TanLight}"/><GradientStop Offset="0.9" Color="{StaticResource Cheems.Color.HamsterWheel.Pink}"/></LinearGradientBrush></Path.Fill>
-                                    </Path>
                                     <Path x:Name="PartFrontRight" Width="14" Height="21" Canvas.Left="7" Canvas.Top="28"
                                           Stretch="Fill" Data="M0,0 L14,0 L9.8,16.8 L8.4,21 L0,21 L5.6,16.8 Z">
                                         <Path.Fill><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Offset="0.8" Color="{StaticResource Cheems.Color.HamsterWheel.Tan}"/><GradientStop Offset="0.8" Color="{StaticResource Cheems.Color.HamsterWheel.PinkDark}"/></LinearGradientBrush></Path.Fill>
+                                    </Path>
+                                    <Path x:Name="PartTail" Width="14" Height="7" Canvas.Left="56" Canvas.Top="21"
+                                          Stretch="Fill" Data="M0,0.8 C5,-0.3 12,0.2 14,2.7 C14.8,4.7 10,7 3.5,7 C1.2,7 0,5.7 0,3.5 Z"
+                                          Fill="{DynamicResource Cheems.Brush.HamsterWheel.Pink}"/>
+                                    <Path Width="11" Height="2.8" Canvas.Left="59" Canvas.Top="25.2"
+                                          Stretch="Fill" Data="M0,0 C4,1.5 8,1.4 11,0 L11,2.8 L0,2.8 Z"
+                                          Fill="{DynamicResource Cheems.Brush.HamsterWheel.PinkDark}"/>
+
+                                    <!-- body 精确保留四组不同的椭圆圆角，并用同一几何裁剪 inset 色层。 -->
+                                    <Canvas Width="63" Height="42">
+                                        <Canvas.Clip>
+                                            <PathGeometry Figures="M31.5,0 L44.1,0 C54.54,0 63,11.28 63,25.2 C63,34.48 48.9,42 31.5,42 L18.9,42 C8.46,42 0,34.48 0,25.2 L0,6.3 C0,2.82 14.1,0 31.5,0 Z"/>
+                                        </Canvas.Clip>
+                                        <Path Data="M31.5,0 L44.1,0 C54.54,0 63,11.28 63,25.2 C63,34.48 48.9,42 31.5,42 L18.9,42 C8.46,42 0,34.48 0,25.2 L0,6.3 C0,2.82 14.1,0 31.5,0 Z"
+                                              Fill="{DynamicResource Cheems.Brush.HamsterWheel.TanLight}"/>
+                                        <!-- 0.1em 0.75em orange inset：原版可见的橙色背部带。 -->
+                                        <Path Data="M-2,0 C15,-2 43,-1 64,7 L64,15 C43,9 18,10 -2,13 Z"
+                                              Fill="{DynamicResource Cheems.Brush.HamsterWheel.Orange}"/>
+                                        <!-- 0.15em -0.5em tan inset：贴近腹部的暖色内沿。 -->
+                                        <Path Data="M-2,35 C18,39 43,38 65,31 L65,44 L-2,44 Z"
+                                              Fill="{DynamicResource Cheems.Brush.HamsterWheel.Tan}"/>
+                                    </Canvas>
+
+                                    <!-- head：橙色底层 + 大面积浅色 inset，保留橙色头顶而不是整颗橙色。 -->
+                                    <Canvas x:Name="PartHead" Width="38.5" Height="35" Canvas.Left="-28" Canvas.Top="0">
+                                        <Canvas Width="38.5" Height="35">
+                                            <Canvas.Clip>
+                                                <PathGeometry Figures="M26.95,0 C33.33,0 38.5,3.92 38.5,8.75 L38.5,35 C17.24,35 0,25.6 0,14 L0,14 C0,6.27 12.07,0 26.95,0 Z"/>
+                                            </Canvas.Clip>
+                                            <Path Data="M26.95,0 C33.33,0 38.5,3.92 38.5,8.75 L38.5,35 C17.24,35 0,25.6 0,14 C0,6.27 12.07,0 26.95,0 Z"
+                                                  Fill="{DynamicResource Cheems.Brush.HamsterWheel.Orange}"/>
+                                            <Path Data="M-2,10 C8,5 21,7 34,13 C40,16 42,25 40,38 L-2,38 Z"
+                                                  Fill="{DynamicResource Cheems.Brush.HamsterWheel.TanLight}"/>
+                                            <Path Data="M-2,27 C10,30 25,31 39,25 L39,36 L-2,36 Z"
+                                                  Fill="{DynamicResource Cheems.Brush.HamsterWheel.Tan}"/>
+                                        </Canvas>
+
+                                        <Ellipse x:Name="PartEar" Width="10.5" Height="10.5" Canvas.Left="31.5" Canvas.Top="-3.5"
+                                                 Fill="{DynamicResource Cheems.Brush.HamsterWheel.Pink}"/>
+                                        <Path Data="M31.5,-3.5 A5.25,5.25 0 0 0 31.5,7 L35,5 L35,-2 Z"
+                                              Fill="{DynamicResource Cheems.Brush.HamsterWheel.Orange}"/>
+                                        <Ellipse x:Name="PartEye" Width="7" Height="7" Canvas.Left="17.5" Canvas.Top="5.25" Fill="#FF000000"/>
+                                        <Path Width="2.8" Height="3.5" Canvas.Left="0" Canvas.Top="10.5" Stretch="Fill"
+                                              Data="M0,0 C2,0 2.8,1 2.8,2 C2.8,3 1,3.5 0,3.5 Z"
+                                              Fill="{DynamicResource Cheems.Brush.HamsterWheel.PinkDark}"/>
+                                    </Canvas>
+
+                                    <!-- 非 translateZ 的左侧肢体位于身体前方。 -->
+                                    <Path x:Name="PartBackLeft" Width="21" Height="35" Canvas.Left="39.2" Canvas.Top="14"
+                                          Stretch="Fill" Data="M0,0 L21,0 L21,10.5 L14.7,31.5 L14.7,35 L6.3,35 L8.4,31.5 L0,10.5 Z">
+                                        <Path.Fill><LinearGradientBrush StartPoint="0,0" EndPoint="0,1"><GradientStop Offset="0.9" Color="{StaticResource Cheems.Color.HamsterWheel.TanLight}"/><GradientStop Offset="0.9" Color="{StaticResource Cheems.Color.HamsterWheel.Pink}"/></LinearGradientBrush></Path.Fill>
                                     </Path>
                                     <Path x:Name="PartFrontLeft" Width="14" Height="21" Canvas.Left="7" Canvas.Top="28"
                                           Stretch="Fill" Data="M0,0 L14,0 L9.8,16.8 L8.4,21 L0,21 L5.6,16.8 Z">
@@ -65,7 +95,7 @@
                                 </Canvas>
                             </Canvas>
 
-                            <!-- .wheel：透明中心到 47.8%，48% 起为 #999，覆盖仓鼠外缘。 -->
+                            <!-- wheel z-index:2：透明中心、3.36px 金属环。 -->
                             <Ellipse Width="168" Height="168" Panel.ZIndex="2" IsHitTestVisible="False">
                                 <Ellipse.Fill>
                                     <RadialGradientBrush RadiusX="0.5" RadiusY="0.5">

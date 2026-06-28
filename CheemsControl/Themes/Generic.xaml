@@ -19,7 +19,6 @@
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsLedSwitch.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsPixelSwitch.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsMetalSwitch.xaml" />
-        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsRockerSwitch.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsPixelCoinSwitch.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

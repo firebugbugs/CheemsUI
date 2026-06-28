@@ -63,13 +63,6 @@
                     </infra:CompactShowcaseControl.Demo>
                 </infra:CompactShowcaseControl>
 
-                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Inputs/RockerSwitch.xaml.txt"
-                                              Margin="0,0,32,28">
-                    <infra:CompactShowcaseControl.Demo>
-                        <cheems:CheemsRockerSwitch />
-                    </infra:CompactShowcaseControl.Demo>
-                </infra:CompactShowcaseControl>
-
                 <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Inputs/PixelCoinSwitch.xaml.txt"
                                               Margin="0,0,32,28">
                     <infra:CompactShowcaseControl.Demo>
