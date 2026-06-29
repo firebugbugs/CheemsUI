@@ -5,55 +5,32 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:infra="clr-namespace:CheemsControl.App.Infrastructure"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"
-             d:DesignHeight="500" d:DesignWidth="700">
+             mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700">
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="0,0,16,16">
-            <TextBlock Text="加载 Loader"
-                       FontSize="24"
-                       FontWeight="Bold"
-                       Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
-            <TextBlock Text="加载动画均按 Uiverse 原始 HTML/CSS 逐层移植：打字机、洗衣机、AI Matrix 与仓鼠跑轮均保留原始结构、错峰动作、关键帧和循环节奏。"
-                       Margin="0,8,0,24"
-                       FontSize="13"
-                       Foreground="{DynamicResource Cheems.Brush.Text.Secondary}"
-                       TextWrapping="Wrap" />
+            <TextBlock Text="加载 Loader" FontSize="24" FontWeight="Bold"
+                       Foreground="{DynamicResource Cheems.Brush.Text.Primary}"/>
+            <TextBlock Text="每个加载动画只展示一个原始形态，并使用透明横向小容器；页面空间允许时自动并排。"
+                       Margin="0,8,0,24" FontSize="13"
+                       Foreground="{DynamicResource Cheems.Brush.Text.Secondary}" TextWrapping="Wrap"/>
 
-            <infra:ShowcaseControl Title="CheemsTypewriterLoader"
-                                   Source="/CheemsControl.App;component/Sources/Loaders/Typewriter.xaml.txt">
-                <infra:ShowcaseControl.Demo>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <cheems:CheemsTypewriterLoader Width="136" Height="94" Margin="0,0,32,0" />
-                        <cheems:CheemsTypewriterLoader Width="102" Height="70.5" Margin="0,0,28,0" />
-                        <cheems:CheemsTypewriterLoader Width="68" Height="47" />
-                    </StackPanel>
-                </infra:ShowcaseControl.Demo>
-            </infra:ShowcaseControl>
-
-            <infra:ShowcaseControl Title="CheemsWashingMachineLoader"
-                                   Source="/CheemsControl.App;component/Sources/Loaders/WashingMachine.xaml.txt">
-                <infra:ShowcaseControl.Demo>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <cheems:CheemsWashingMachineLoader Width="124" Height="158" Margin="0,0,36,0" />
-                        <cheems:CheemsWashingMachineLoader Width="93" Height="118.5" Margin="0,0,32,0" />
-                        <cheems:CheemsWashingMachineLoader Width="62" Height="79" />
-                    </StackPanel>
-                </infra:ShowcaseControl.Demo>
-            </infra:ShowcaseControl>
-
-            <infra:ShowcaseControl Title="CheemsAiMatrixLoader"
-                                   Source="/CheemsControl.App;component/Sources/Loaders/AiMatrix.xaml.txt">
-                <infra:ShowcaseControl.Demo>
-                    <cheems:CheemsAiMatrixLoader HorizontalAlignment="Center" VerticalAlignment="Center" />
-                </infra:ShowcaseControl.Demo>
-            </infra:ShowcaseControl>
-
-            <infra:ShowcaseControl Title="CheemsHamsterWheelLoader"
-                                   Source="/CheemsControl.App;component/Sources/Loaders/HamsterWheel.xaml.txt">
-                <infra:ShowcaseControl.Demo>
-                    <cheems:CheemsHamsterWheelLoader HorizontalAlignment="Center" VerticalAlignment="Center" />
-                </infra:ShowcaseControl.Demo>
-            </infra:ShowcaseControl>
+            <WrapPanel>
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Loaders/Typewriter.xaml.txt" Margin="0,0,32,28">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsTypewriterLoader Width="136" Height="94"/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Loaders/WashingMachine.xaml.txt" Margin="0,0,32,28">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsWashingMachineLoader Width="124" Height="158"/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Loaders/AiMatrix.xaml.txt" Margin="0,0,32,28">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsAiMatrixLoader/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Loaders/HamsterWheel.xaml.txt" Margin="0,0,32,28">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsHamsterWheelLoader/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Loaders/CubeLoading.xaml.txt" Margin="0,0,32,28">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsCubeLoadingLoader/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+            </WrapPanel>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

@@ -8,11 +8,11 @@
         <ResourceDictionary Source="/CheemsControl;component/Themes/Basic/Fonts.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsDashedButton.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsSoftButton.xaml" />
-        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/Cheems3DKeyButton.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsTypewriterLoader.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsWashingMachineLoader.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsAiMatrixLoader.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsHamsterWheelLoader.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsCubeLoadingLoader.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsDayNightSwitch.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsAmPmToggle.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsStarRating.xaml" />

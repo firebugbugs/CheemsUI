@@ -28,6 +28,9 @@ public static class CheemsKeys
     public const string StarRatingIdleColor = "Cheems.Color.StarRating.Idle";
     public const string StarRatingActiveColor = "Cheems.Color.StarRating.Active";
 
+    // ---- CheemsCubeLoadingLoader 颜色（Colors.xaml） ----
+    public const string CubeLoadingHighlightColor = "Cheems.Color.CubeLoading.Highlight";
+
     // ---- 字体（Fonts.xaml） ----
     public const string FontFamilyDefault = "Cheems.FontFamily.Default";
     public const string FontFamilyMono = "Cheems.FontFamily.Mono";

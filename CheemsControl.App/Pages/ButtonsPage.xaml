@@ -35,12 +35,6 @@
                     </infra:CompactShowcaseControl.Demo>
                 </infra:CompactShowcaseControl>
 
-                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Buttons/3DKeyButton.xaml.txt"
-                                              Margin="0,0,32,28">
-                    <infra:CompactShowcaseControl.Demo>
-                        <cheems:Cheems3DKeyButton Content="S" />
-                    </infra:CompactShowcaseControl.Demo>
-                </infra:CompactShowcaseControl>
             </WrapPanel>
 
         </StackPanel>

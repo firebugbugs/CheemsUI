@@ -36,13 +36,6 @@
     <Color x:Key="Cheems.Color.SoftButton.ShadowLight">#FFFFFF</Color>
     <Color x:Key="Cheems.Color.SoftButton.ShadowLightTransparent">#00FFFFFF</Color>
 
-    <!-- Cheems3DKeyButton：Uiverse chintu_2484 原始色值 -->
-    <Color x:Key="Cheems.Color.3DKeyButton.Cover">#000000</Color>
-    <Color x:Key="Cheems.Color.3DKeyButton.Face">#DDDDDD</Color>
-    <Color x:Key="Cheems.Color.3DKeyButton.Shadow">#747474</Color>
-    <Color x:Key="Cheems.Color.3DKeyButton.Foreground">#B3000000</Color>
-    <Color x:Key="Cheems.Color.3DKeyButton.White">#FFFFFF</Color>
-
     <!-- CheemsStarRating：Uiverse PriyanshuGupta28 原始色值 -->
     <Color x:Key="Cheems.Color.StarRating.Idle">#CCCCCC</Color>
     <Color x:Key="Cheems.Color.StarRating.Active">#6F00FF</Color>
@@ -87,6 +80,9 @@
     <Color x:Key="Cheems.Color.AiMatrixLoader.Digit">#00FF88</Color>
     <Color x:Key="Cheems.Color.AiMatrixLoader.Glow">#1A00FF88</Color>
     <Color x:Key="Cheems.Color.AiMatrixLoader.GlowTransparent">#0000FF88</Color>
+
+    <!-- CheemsCubeLoadingLoader：Uiverse dexter-st 原始自定义属性 -->
+    <Color x:Key="Cheems.Color.CubeLoading.Highlight">#00CC44</Color>
 
     <!-- CheemsHamsterWheelLoader：Uiverse Nawsome HSL 色值换算 -->
     <Color x:Key="Cheems.Color.HamsterWheel.Orange">#F58C25</Color>

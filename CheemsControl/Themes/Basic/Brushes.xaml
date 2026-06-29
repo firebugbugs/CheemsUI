@@ -43,13 +43,6 @@
         <GradientStop Offset="1" Color="{StaticResource Cheems.Color.SoftButton.ShadowLight}" />
     </LinearGradientBrush>
 
-    <!-- 控件级：Cheems3DKeyButton -->
-    <SolidColorBrush x:Key="Cheems.Brush.3DKeyButton.Cover" Color="{StaticResource Cheems.Color.3DKeyButton.Cover}"/>
-    <SolidColorBrush x:Key="Cheems.Brush.3DKeyButton.Face" Color="{StaticResource Cheems.Color.3DKeyButton.Face}"/>
-    <SolidColorBrush x:Key="Cheems.Brush.3DKeyButton.Shadow" Color="{StaticResource Cheems.Color.3DKeyButton.Shadow}"/>
-    <SolidColorBrush x:Key="Cheems.Brush.3DKeyButton.Foreground" Color="{StaticResource Cheems.Color.3DKeyButton.Foreground}"/>
-    <SolidColorBrush x:Key="Cheems.Brush.3DKeyButton.White" Color="{StaticResource Cheems.Color.3DKeyButton.White}"/>
-
     <!-- 控件级：CheemsStarRating -->
     <SolidColorBrush x:Key="Cheems.Brush.StarRating.Idle" Color="{StaticResource Cheems.Color.StarRating.Idle}" />
     <SolidColorBrush x:Key="Cheems.Brush.StarRating.Active" Color="{StaticResource Cheems.Color.StarRating.Active}" />
@@ -84,6 +77,9 @@
 
     <!-- 控件级：CheemsAiMatrixLoader -->
     <SolidColorBrush x:Key="Cheems.Brush.AiMatrixLoader.Digit" Color="{StaticResource Cheems.Color.AiMatrixLoader.Digit}" />
+
+    <!-- 控件级：CheemsCubeLoadingLoader -->
+    <SolidColorBrush x:Key="Cheems.Brush.CubeLoading.Highlight" Color="{StaticResource Cheems.Color.CubeLoading.Highlight}" />
 
     <!-- 控件级：CheemsHamsterWheelLoader -->
     <SolidColorBrush x:Key="Cheems.Brush.HamsterWheel.Orange" Color="{StaticResource Cheems.Color.HamsterWheel.Orange}" />
