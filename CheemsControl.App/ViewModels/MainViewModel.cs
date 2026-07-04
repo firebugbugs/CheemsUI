@@ -1,4 +1,6 @@
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 using CheemsControl.App.Infrastructure;
 
 namespace CheemsControl.App.ViewModels;
@@ -10,7 +12,10 @@ public class MainViewModel : ObservableObject
 {
     public ObservableCollection<ControlGroupViewModel> Groups { get; }
 
+    public ICollectionView GroupsView { get; }
+
     private ControlGroupViewModel? _selectedGroup;
+    private string _searchText = string.Empty;
 
     public ControlGroupViewModel? SelectedGroup
     {
@@ -18,14 +23,53 @@ public class MainViewModel : ObservableObject
         set => SetProperty(ref _selectedGroup, value);
     }
 
+    public string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (!SetProperty(ref _searchText, value)) return;
+            ApplySearch();
+        }
+    }
+
     public MainViewModel()
     {
         Groups = new ObservableCollection<ControlGroupViewModel>
         {
-            new("Buttons 按钮", new ButtonsViewModel()),
-            new("Loaders 加载", new LoadersViewModel()),
-            new("Inputs 输入", new InputsViewModel()),
+            new("Welcome 欢迎", new WelcomeViewModel(), "首页 home start introduction 介绍"),
+            new("Buttons 按钮", new ButtonsViewModel(), "button controls 按键"),
+            new("Loaders 加载", new LoadersViewModel(), "loader loading animation 动画 等待"),
+            new("Inputs 输入", new InputsViewModel(), "input controls 输入控件"),
         };
+        GroupsView = CollectionViewSource.GetDefaultView(Groups);
+        GroupsView.Filter = item => item is ControlGroupViewModel group && group.IsSearchMatch;
         _selectedGroup = Groups[0];
+    }
+
+    private void ApplySearch()
+    {
+        var query = SearchText.Trim();
+        foreach (var group in Groups)
+        {
+            var titleMatches = string.IsNullOrEmpty(query) ||
+                               SearchablePageViewModel.Matches(query, group.SearchTerms);
+
+            if (group.PageViewModel is ISearchablePageViewModel searchablePage)
+            {
+                searchablePage.ApplySearch(query, titleMatches);
+                group.IsSearchMatch = titleMatches || searchablePage.HasMatches;
+            }
+            else
+            {
+                group.IsSearchMatch = titleMatches;
+            }
+        }
+
+        GroupsView.Refresh();
+        if (SelectedGroup is null || !SelectedGroup.IsSearchMatch)
+        {
+            SelectedGroup = Groups.FirstOrDefault(group => group.IsSearchMatch);
+        }
     }
 }

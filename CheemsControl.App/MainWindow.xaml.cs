@@ -13,4 +13,25 @@ public partial class MainWindow : Window
         InitializeComponent();
         DataContext = new MainViewModel();
     }
+
+    private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+    {
+        SystemCommands.MinimizeWindow(this);
+    }
+
+    private void MaximizeRestoreButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (WindowState == WindowState.Maximized)
+        {
+            SystemCommands.RestoreWindow(this);
+            return;
+        }
+
+        SystemCommands.MaximizeWindow(this);
+    }
+
+    private void CloseButton_Click(object sender, RoutedEventArgs e)
+    {
+        SystemCommands.CloseWindow(this);
+    }
 }

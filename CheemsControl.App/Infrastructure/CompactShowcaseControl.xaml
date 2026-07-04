@@ -5,20 +5,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              d:DesignHeight="90" d:DesignWidth="320">
-    <!-- 简单控件展示器：无标题、无边框、无背景；控件与源码按钮横向排列。 -->
+    <!-- 简单控件展示器：无标题、无边框、无背景；源码按钮固定在控件右下角。 -->
     <Grid Background="{x:Null}">
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-            <ContentPresenter Content="{Binding Demo, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                              VerticalAlignment="Center"
-                              Margin="0,0,16,0" />
-            <Button x:Name="CodeButton"
-                    Content="&lt;/&gt;"
-                    Style="{StaticResource Cheems.App.Style.CodeButton}"
-                    VerticalAlignment="Center"
-                    MouseEnter="CodeButton_MouseEnter"
-                    MouseLeave="CodeButton_MouseLeave"
-                    Click="CodeButton_Click" />
-        </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <ContentPresenter Grid.Column="0"
+                          Content="{Binding Demo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                          VerticalAlignment="Center"
+                          Margin="0,0,16,0" />
+        <Button x:Name="CodeButton"
+                Grid.Column="1"
+                Content="&lt;/&gt;"
+                Style="{StaticResource Cheems.App.Style.CodeButton}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                MouseEnter="CodeButton_MouseEnter"
+                MouseLeave="CodeButton_MouseLeave"
+                Click="CodeButton_Click" />
 
         <!-- 与大展示器一致：悬停预览源码，点击按钮复制。 -->
         <Popup x:Name="CodePopup"

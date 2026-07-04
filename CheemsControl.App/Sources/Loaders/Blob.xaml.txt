@@ -1,0 +1,4 @@
+<!-- CheemsBlobLoader：Uiverse vikramsinghnegi 黏液果冻加载动画
+     默认 124×124，可设 Width/Height 缩放 -->
+<!-- xmlns:cheems="https://cheemscontrol.com/wpf" -->
+<cheems:CheemsBlobLoader />

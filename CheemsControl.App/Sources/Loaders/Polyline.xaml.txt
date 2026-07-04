@@ -1,0 +1,2 @@
+<!-- 同一控件的必要尺寸变体集中在一个 Showcase 中 -->
+<cheems:CheemsPolylineLoader Width="64" Height="48" />

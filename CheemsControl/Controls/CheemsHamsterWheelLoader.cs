@@ -6,6 +6,17 @@ using System.Windows.Media;
 namespace CheemsControl;
 
 /// <summary>Uiverse Nawsome 仓鼠跑轮 Loader 的 WPF 等价实现。</summary>
+[TemplatePart(Name = "PartHamster", Type = typeof(FrameworkElement))]
+[TemplatePart(Name = "PartBody", Type = typeof(FrameworkElement))]
+[TemplatePart(Name = "PartHead", Type = typeof(FrameworkElement))]
+[TemplatePart(Name = "PartEar", Type = typeof(FrameworkElement))]
+[TemplatePart(Name = "PartEye", Type = typeof(FrameworkElement))]
+[TemplatePart(Name = "PartFrontRight", Type = typeof(FrameworkElement))]
+[TemplatePart(Name = "PartFrontLeft", Type = typeof(FrameworkElement))]
+[TemplatePart(Name = "PartBackRight", Type = typeof(FrameworkElement))]
+[TemplatePart(Name = "PartBackLeft", Type = typeof(FrameworkElement))]
+[TemplatePart(Name = "PartTail", Type = typeof(FrameworkElement))]
+[TemplatePart(Name = "PartSpoke", Type = typeof(FrameworkElement))]
 public sealed class CheemsHamsterWheelLoader : Control
 {
     private const double DurationSeconds = 1.0;
@@ -67,12 +78,13 @@ public sealed class CheemsHamsterWheelLoader : Control
             eye.RenderTransformOrigin = new Point(0.5, 0.5);
         }
 
-        // translate(-.8em,1.85em) 是 hamster transform 的恒定第二部分。
-        if (GetTemplateChild("PartHamster") is FrameworkElement hamster)
+        // CSS rotate(...) translate(...) 按矩阵从右向左作用：先位移，再绕 50% 0 旋转。
+        if (GetTemplateChild("PartHamster") is FrameworkElement hamster &&
+            _rotations.TryGetValue("PartHamster", out var hamsterRotation))
         {
             var group = new TransformGroup();
-            group.Children.Add(_rotations["PartHamster"]);
             group.Children.Add(new TranslateTransform(-11.2, 25.9));
+            group.Children.Add(hamsterRotation);
             hamster.RenderTransform = group;
         }
 

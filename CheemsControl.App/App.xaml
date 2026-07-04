@@ -10,6 +10,8 @@
                 <ResourceDictionary Source="/CheemsControl;component/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
+            <BooleanToVisibilityConverter x:Key="Cheems.App.Converter.BooleanToVisibility" />
+
             <!-- 大、小展示器共用的极简源码按钮：只呈现文字，不绘制背景、边框或状态框。 -->
             <Style x:Key="Cheems.App.Style.CodeButton" TargetType="{x:Type Button}">
                 <Setter Property="Foreground" Value="{DynamicResource Cheems.Brush.Text.Primary}" />

@@ -1,0 +1,2 @@
+<!-- CheemsPixelHandButton：Uiverse augustin_4687 像素手形按钮 -->
+<cheems:CheemsPixelHandButton AutomationProperties.Name="像素手形按钮" />

@@ -1,0 +1,4 @@
+<!-- CheemsRainbowBarsLoader：Uiverse Gianluks90 彩虹柱状均衡器加载动画
+     默认 107×70，可设 Width/Height 缩放 -->
+<!-- xmlns:cheems="https://cheemscontrol.com/wpf" -->
+<cheems:CheemsRainbowBarsLoader />

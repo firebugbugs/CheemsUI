@@ -24,12 +24,14 @@ public static class CheemsKeys
     public const string DayNightCraterStrongColor = "Cheems.Color.DayNight.Crater.Strong";
     public const string DayNightCraterFaintColor = "Cheems.Color.DayNight.Crater.Faint";
 
-    // ---- CheemsStarRating 颜色（Colors.xaml） ----
-    public const string StarRatingIdleColor = "Cheems.Color.StarRating.Idle";
-    public const string StarRatingActiveColor = "Cheems.Color.StarRating.Active";
-
     // ---- CheemsCubeLoadingLoader 颜色（Colors.xaml） ----
     public const string CubeLoadingHighlightColor = "Cheems.Color.CubeLoading.Highlight";
+
+    // ---- CheemsGlowInput 颜色（Colors.xaml） ----
+    public const string GlowInputBackgroundColor = "Cheems.Color.GlowInput.Background";
+    public const string GlowInputActiveBackgroundColor = "Cheems.Color.GlowInput.ActiveBackground";
+    public const string GlowInputAccentColor = "Cheems.Color.GlowInput.Accent";
+    public const string GlowInputTransparentBorderColor = "Cheems.Color.GlowInput.TransparentBorder";
 
     // ---- 字体（Fonts.xaml） ----
     public const string FontFamilyDefault = "Cheems.FontFamily.Default";

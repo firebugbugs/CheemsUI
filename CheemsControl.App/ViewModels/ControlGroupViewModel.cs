@@ -10,9 +10,14 @@ public class ControlGroupViewModel
     /// <summary>该类型对应页面的 ViewModel，由 MainWindow 里的 DataTemplate 映射为视图。</summary>
     public object PageViewModel { get; }
 
-    public ControlGroupViewModel(string title, object pageViewModel)
+    public string SearchTerms { get; }
+
+    public bool IsSearchMatch { get; set; } = true;
+
+    public ControlGroupViewModel(string title, object pageViewModel, string searchTerms = "")
     {
         Title = title;
         PageViewModel = pageViewModel;
+        SearchTerms = $"{title} {searchTerms}";
     }
 }

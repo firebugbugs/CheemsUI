@@ -22,7 +22,10 @@ public sealed class CheemsCubeLoadingSurface : FrameworkElement
 {
     private const double Duration = 2.1;
     private const double Perspective = 350;
-    private const double RootWidth = 336;
+    private const double SurfaceWidth = 384;
+    private const double SurfaceHeight = 82;
+    private const double ContentOffsetX = 24;
+    private const double ContentOffsetY = 6;
     private const double RootHeight = 48;
     private const double CubeSize = 48;
     private static readonly char[] Letters = "LOADING".ToCharArray();
@@ -41,18 +44,20 @@ public sealed class CheemsCubeLoadingSurface : FrameworkElement
         IsHitTestVisible = false;
     }
 
-    protected override Size MeasureOverride(Size availableSize) => new(RootWidth, 76);
-    protected override Size ArrangeOverride(Size finalSize) => new(RootWidth, 76);
+    protected override Size MeasureOverride(Size availableSize) => new(SurfaceWidth, SurfaceHeight);
+    protected override Size ArrangeOverride(Size finalSize) => new(SurfaceWidth, SurfaceHeight);
 
     protected override void OnRender(DrawingContext drawingContext)
     {
         base.OnRender(drawingContext);
+        drawingContext.PushClip(new RectangleGeometry(new Rect(0, 0, SurfaceWidth, SurfaceHeight)));
         var seconds = _startedAt == 0 ? 0 : (Stopwatch.GetTimestamp() - _startedAt) / (double)Stopwatch.Frequency;
 
         foreach (var cubeIndex in PaintOrder)
         {
             DrawCube(drawingContext, cubeIndex, seconds);
         }
+        drawingContext.Pop();
     }
 
     private void DrawCube(DrawingContext dc, int index, double seconds)
@@ -76,10 +81,10 @@ public sealed class CheemsCubeLoadingSurface : FrameworkElement
             phase,
             new KeyFrame(0, 0), new KeyFrame(0.30, 1), new KeyFrame(0.40, 0), new KeyFrame(1, 0));
 
-        var x0 = index * CubeSize;
+        var x0 = ContentOffsetX + index * CubeSize;
         var x1 = x0 + CubeSize;
-        var y0 = y;
-        var y1 = y + RootHeight;
+        var y0 = ContentOffsetY + y;
+        var y1 = ContentOffsetY + y + RootHeight;
         var frontZ = z + CubeSize / 2;
         var backZ = z - CubeSize / 2;
 
@@ -94,19 +99,26 @@ public sealed class CheemsCubeLoadingSurface : FrameworkElement
 
         var faceBrush = BrushFor(_highlight, colorAmount);
         var sideBrush = BrushFor(_highlight, colorAmount * 0.6);
-        var capBrush = BrushFor(_highlight, colorAmount * 0.8);
         var edgeColor = edgeAmount > 0.001
             ? Color.FromArgb((byte)Math.Round(255 * edgeAmount), _highlight.R, _highlight.G, _highlight.B)
-            : Color.FromArgb(0x22, 0x80, 0x80, 0x80);
-        var edgePen = new Pen(new SolidColorBrush(edgeColor), edgeAmount > 0.001 ? 1.2 : 0.8);
+            : Color.FromArgb(0x12, 0x00, 0x00, 0x00);
+        var edgePen = new Pen(new SolidColorBrush(edgeColor), edgeAmount > 0.001 ? 1.0 : 0.45);
         edgePen.Brush.Freeze(); edgePen.Freeze();
 
-        // back → four sides → front，保持 preserve-3d 的遮挡顺序。
-        DrawFace(dc, sideBrush, edgePen, btl, btr, bbr, bbl);
-        DrawFace(dc, sideBrush, edgePen, btl, ftl, fbl, bbl);
-        DrawFace(dc, sideBrush, edgePen, ftr, btr, bbr, fbr);
-        DrawFace(dc, capBrush, edgePen, btl, btr, ftr, ftl);
-        DrawFace(dc, capBrush, edgePen, fbl, fbr, bbr, bbl);
+        // CSS preserve-3d 的背面剔除结果：只画真正朝向相机的侧面。
+        // 左半区看到立方体右侧，右半区看到左侧；背向侧面不能留下外伸描边。
+        var cubeCenterX = (x0 + x1) / 2;
+        if (cubeCenterX < SurfaceWidth / 2 - 0.001)
+        {
+            DrawFace(dc, sideBrush, edgePen, ftr, btr, bbr, fbr);
+        }
+        else if (cubeCenterX > SurfaceWidth / 2 + 0.001)
+        {
+            DrawFace(dc, sideBrush, edgePen, btl, ftl, fbl, bbl);
+        }
+
+        // top/bottom 在原版透明背景中近乎不可见；不绘制其外轮廓，避免 edge-glow
+        // 经透视后在正面上下形成向外伸出的实体线。
         DrawFace(dc, faceBrush, edgePen, ftl, ftr, fbr, fbl);
 
         if (textAmount <= 0.001) return;
@@ -131,7 +143,7 @@ public sealed class CheemsCubeLoadingSurface : FrameworkElement
         dc.Pop();
     }
 
-    private static void DrawFace(DrawingContext dc, Brush brush, Pen pen, params Point[] points)
+    private static void DrawFace(DrawingContext dc, Brush brush, Pen? pen, params Point[] points)
     {
         var geometry = new StreamGeometry();
         using (var context = geometry.Open())
@@ -147,8 +159,8 @@ public sealed class CheemsCubeLoadingSurface : FrameworkElement
     {
         var factor = Perspective / (Perspective - z);
         return new Point(
-            RootWidth / 2 + (x - RootWidth / 2) * factor,
-            RootHeight / 2 + (y - RootHeight / 2) * factor);
+            SurfaceWidth / 2 + (x - SurfaceWidth / 2) * factor,
+            ContentOffsetY + RootHeight / 2 + (y - ContentOffsetY - RootHeight / 2) * factor);
     }
 
     private static SolidColorBrush BrushFor(Color color, double opacity)

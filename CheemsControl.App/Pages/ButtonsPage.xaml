@@ -22,16 +22,56 @@
 
             <WrapPanel>
                 <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Buttons/DashedButton.xaml.txt"
-                                              Margin="0,0,32,28">
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsDashedVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
                     <infra:CompactShowcaseControl.Demo>
                         <cheems:CheemsDashedButton Content="BUTTON" />
                     </infra:CompactShowcaseControl.Demo>
                 </infra:CompactShowcaseControl>
 
                 <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Buttons/SoftButton.xaml.txt"
-                                              Margin="0,0,32,28">
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsSoftVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
                     <infra:CompactShowcaseControl.Demo>
                         <cheems:CheemsSoftButton Content="Click me" />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Buttons/ShineButton.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsShineVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsShineButton Content="SHINE" />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Buttons/DeleteButton.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsDeleteVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsDeleteButton /></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+
+
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Buttons/SubscribeButton.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsSubscribeVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <Grid Margin="16,12"><cheems:CheemsSubscribeButton Content="Subscribe" /></Grid>
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Buttons/Layered3DButton.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsLayered3DVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsLayered3DButton Content="Button" /></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Buttons/PixelHandButton.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsPixelHandVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsPixelHandButton AutomationProperties.Name="像素手形按钮" />
                     </infra:CompactShowcaseControl.Demo>
                 </infra:CompactShowcaseControl>
 

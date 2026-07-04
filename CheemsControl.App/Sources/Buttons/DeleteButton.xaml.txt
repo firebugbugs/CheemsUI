@@ -1,0 +1,4 @@
+<!-- CheemsDeleteButton：Uiverse vinodjangid07 删除按钮
+     悬停展开为红色删除条；图标内置于模板，默认 50×50 -->
+<!-- xmlns:cheems="https://cheemscontrol.com/wpf" -->
+<cheems:CheemsDeleteButton />

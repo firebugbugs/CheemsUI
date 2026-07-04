@@ -1,0 +1,4 @@
+<!-- CheemsJumpingSquareLoader：Uiverse alexruix 跳跃方块加载动画
+     默认 70×66，可设 Width/Height 缩放 -->
+<!-- xmlns:cheems="https://cheemscontrol.com/wpf" -->
+<cheems:CheemsJumpingSquareLoader />

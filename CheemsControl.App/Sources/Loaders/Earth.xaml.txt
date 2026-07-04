@@ -1,0 +1,4 @@
+<!-- CheemsEarthLoader：Uiverse Novaxlo 地球陆地连接加载动画
+     默认 125×153，可设 Width/Height 缩放 -->
+<!-- xmlns:cheems="https://cheemscontrol.com/wpf" -->
+<cheems:CheemsEarthLoader />

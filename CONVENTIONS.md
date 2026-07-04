@@ -74,7 +74,7 @@ L3  Themes/Controls/*.xaml       控件默认样式/模板
 
 ## 4. 命名（N）
 
-- **N1** 控件类用 `Cheems` 前缀：`CheemsDashedButton`、`CheemsSoftButton`、`CheemsTypewriterLoader`、`CheemsWashingMachineLoader`、`CheemsDayNightSwitch`、`CheemsAmPmToggle`、`CheemsStarRating`、`CheemsLedSwitch`。
+- **N1** 控件类用 `Cheems` 前缀：`CheemsDashedButton`、`CheemsSoftButton`、`CheemsTypewriterLoader`、`CheemsWashingMachineLoader`、`CheemsDayNightSwitch`、`CheemsAmPmToggle`、`CheemsLedSwitch`。
 - **N2** 样式文件名 = 控件类名：`CheemsDashedButton.xaml`。
 - **N3** 资源键格式 `Cheems.类别.名称[.状态]`，状态用 MouseOver / Pressed / Disabled，例：`Cheems.Brush.Button.Background.MouseOver`。
 - **N4** Demo 页面：`Pages/{类别复数}Page.xaml`，如 `ButtonsPage`、`InputsPage`。
@@ -130,7 +130,7 @@ L3  Themes/Controls/*.xaml       控件默认样式/模板
 
 ## 10. 演进路线（按需推进，不提前建设）
 
-1. **当前**：`CheemsDashedButton`、`CheemsSoftButton`、两个 Loader、`CheemsDayNightSwitch`、`CheemsAmPmToggle`、`CheemsStarRating` 与 `CheemsLedSwitch` 全链路样板（代码 → 样式 → 资源 → Demo）。
+1. **当前**：按钮、Loader、昼夜开关、AM/PM 开关与 LED 开关等控件均遵循“代码 → 样式 → 资源 → Demo”全链路样板。
 2. **主题**：Light / Dark 同名键字典 + 运行时切换。键名规范已就绪，届时控件样式零改动。
 3. **分发**：多目标（net6 / net8，可选 net472）+ NuGet 打包 + XML 文档注释。
 4. **规模化**：必要时拆 Core / Controls 多包；因 P2 命名空间不变，不影响使用者。
@@ -156,3 +156,4 @@ L3  Themes/Controls/*.xaml       控件默认样式/模板
 | 2026-08-26 | 新增透明横向 `CompactShowcaseControl`：简单控件单实例展示，多个小容器可在同一行自动换行 |
 | 2026-08-26 | 大、小展示器的源码按钮统一改为无背景、无边框的极简文本按钮 |
 | 2026-08-26 | 重写 `CheemsLedSwitch` 阴影：使用圆角孔洞几何模拟 CSS inset box-shadow，并按像素对比校准拨块投影 |
+| 2026-08-27 | 按验收结果移除 `CheemsStarButton`、`CheemsPlayButton`、`CheemsPlLoader` 与 `CheemsStarRating`，同步清理资源、Demo 和搜索入口 |
