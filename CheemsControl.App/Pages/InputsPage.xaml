@@ -134,7 +134,8 @@
                                               Margin="7,7,32,28"
                                               Visibility="{Binding IsSearchBoxVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
                     <infra:CompactShowcaseControl.Demo>
-                        <cheems:CheemsSearchBox Label="Search" />
+                        <cheems:CheemsSearchBox Label="Search"
+                                                SearchCommand="{Binding TestEventCommand}" />
                     </infra:CompactShowcaseControl.Demo>
                 </infra:CompactShowcaseControl>
             </WrapPanel>

@@ -49,6 +49,7 @@
                         <Grid x:Name="PartLabelMotion"
                               Canvas.Left="15" Canvas.Top="14"
                               Width="78" Height="27"
+                              IsHitTestVisible="False"
                               RenderTransformOrigin="0,0">
                             <TextBlock x:Name="PartNormalLabel"
                                        VerticalAlignment="Top"

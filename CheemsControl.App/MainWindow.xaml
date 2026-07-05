@@ -277,6 +277,35 @@
                         VerticalContentAlignment="Stretch"
                         Content="{Binding SelectedGroup.PageViewModel}" />
             </Grid>
+
+            <!-- 全局提示层：当前页面的 BaseViewModel 控制文本与三秒可见期。 -->
+            <Border Grid.RowSpan="2"
+                    Panel.ZIndex="10"
+                    MaxWidth="420"
+                    Margin="24,0,24,32"
+                    Padding="18,11"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Background="#FFFFFF"
+                    BorderBrush="#D6D9DE"
+                    BorderThickness="1"
+                    CornerRadius="10"
+                    IsHitTestVisible="False"
+                    Visibility="{Binding SelectedGroup.PageViewModel.IsNotificationVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="18"
+                                      Direction="270"
+                                      Opacity="0.16"
+                                      ShadowDepth="5"
+                                      Color="#000000" />
+                </Border.Effect>
+                <TextBlock Text="{Binding SelectedGroup.PageViewModel.NotificationMessage}"
+                           FontSize="13"
+                           FontWeight="Medium"
+                           Foreground="{StaticResource App.Text.Primary}"
+                           TextAlignment="Center"
+                           TextWrapping="Wrap" />
+            </Border>
         </Grid>
     </Border>
 </Window>

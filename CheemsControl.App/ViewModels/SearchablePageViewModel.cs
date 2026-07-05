@@ -11,7 +11,7 @@ public interface ISearchablePageViewModel
 /// <summary>
 /// 控件页统一搜索基类。每个控件只登记一次搜索元数据，页面只负责绑定可见性。
 /// </summary>
-public abstract class SearchablePageViewModel : ObservableObject, ISearchablePageViewModel
+public abstract class SearchablePageViewModel : BaseViewModel, ISearchablePageViewModel
 {
     private readonly IReadOnlyDictionary<string, string> _searchIndex;
     private HashSet<string> _visibleKeys;

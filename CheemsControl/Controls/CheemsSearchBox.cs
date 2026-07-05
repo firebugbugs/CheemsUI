@@ -16,8 +16,6 @@ public sealed class CheemsSearchBox : Control
     private const string PartSearchButtonName = "PartSearchButton";
     private const string PartClearButtonName = "PartClearButton";
     private const double MainDurationSeconds = 0.15;
-    private const double SearchHideDelaySeconds = 0.3;
-    private const double SearchHideDurationSeconds = 0.3;
     private const double SearchTravel = 186.9;
 
     private TextBox? _input;
@@ -288,11 +286,9 @@ public sealed class CheemsSearchBox : Control
         var elapsed = (now - _transitionStartedAt) / (double)Stopwatch.Frequency;
         _mainProgress = Advance(_mainStart, _target, elapsed, 0, MainDurationSeconds);
 
-        var searchDelay = _target > 0 ? 0 : SearchHideDelaySeconds;
-        var searchDuration = _target > 0 ? MainDurationSeconds : SearchHideDurationSeconds;
-        _searchProgress = Advance(_searchStart, _target, elapsed, searchDelay, searchDuration);
+        _searchProgress = Advance(_searchStart, _target, elapsed, 0, MainDurationSeconds);
 
-        return elapsed >= Math.Max(MainDurationSeconds, searchDelay + searchDuration);
+        return elapsed >= MainDurationSeconds;
     }
 
     private void ApplyVisuals()
