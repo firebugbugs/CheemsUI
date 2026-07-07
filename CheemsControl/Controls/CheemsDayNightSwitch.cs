@@ -41,6 +41,8 @@ public sealed class CheemsDayNightSwitch : ToggleButton
     private const string PartPseudoBeforeName = "PartPseudoBefore";
     private const string PartPseudoAfterName = "PartPseudoAfter";
     private const string PartHighContrastBorderName = "PartHighContrastBorder";
+    private const double SunPulseNearSpread = 22.0;
+    private const double SunPulseWideSpread = 44.0;
 
     private const double TransitionSeconds = 0.6;
     private const double ThumbStart = 5.4;
@@ -344,16 +346,16 @@ public sealed class CheemsDayNightSwitch : ToggleButton
             return;
         }
 
-        // sunPulse 3s infinite: 0/100% 无扩散，50% 为两层 20/10 与 40/20 阴影。
+        // sunPulse 3s infinite：保留双层脉冲，将最大扩散范围收窄，避免覆盖大半条轨道。
         double sunPulse = PulseEase(seconds / 3.0);
         if (_nearScale is not null)
         {
-            _nearScale.ScaleX = 1.0 + (30.0 / 43.2) * 2.0 * sunPulse;
+            _nearScale.ScaleX = 1.0 + (SunPulseNearSpread / 43.2) * 2.0 * sunPulse;
             _nearScale.ScaleY = _nearScale.ScaleX;
         }
         if (_wideScale is not null)
         {
-            _wideScale.ScaleX = 1.0 + (60.0 / 43.2) * 2.0 * sunPulse;
+            _wideScale.ScaleX = 1.0 + (SunPulseWideSpread / 43.2) * 2.0 * sunPulse;
             _wideScale.ScaleY = _wideScale.ScaleX;
         }
         if (_sunPulseNear is not null) _sunPulseNear.Opacity = sunPulse * (1.0 - state);

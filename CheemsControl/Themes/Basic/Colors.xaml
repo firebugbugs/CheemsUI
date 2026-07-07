@@ -110,8 +110,8 @@
     <Color x:Key="Cheems.Color.DayNight.Night.Hover.Start">#283593</Color>
     <Color x:Key="Cheems.Color.DayNight.Night.Hover.End">#5C6BC0</Color>
     <Color x:Key="Cheems.Color.DayNight.Sun">#FFD700</Color>
-    <Color x:Key="Cheems.Color.DayNight.Sun.Halo.Strong">#B3FFD700</Color>
-    <Color x:Key="Cheems.Color.DayNight.Sun.Halo.Faint">#66FFD700</Color>
+    <Color x:Key="Cheems.Color.DayNight.Sun.Halo.Strong">#66FFD700</Color>
+    <Color x:Key="Cheems.Color.DayNight.Sun.Halo.Faint">#26FFD700</Color>
     <Color x:Key="Cheems.Color.DayNight.Sun.Transparent">#00FFD700</Color>
     <Color x:Key="Cheems.Color.DayNight.Moon">#FFFFFF</Color>
     <Color x:Key="Cheems.Color.DayNight.Moon.Glow">#80FFFFFF</Color>
@@ -216,6 +216,60 @@
     <Color x:Key="Cheems.Color.GlowInput.TransparentBorder">#00000000</Color>
     <Color x:Key="Cheems.Color.GlowInput.Text">#000000</Color>
     <Color x:Key="Cheems.Color.GlowInput.Placeholder">#757575</Color>
+
+    <!-- CheemsCheckToggle：Uiverse mobinkakei 原始色值 -->
+    <Color x:Key="Cheems.Color.CheckToggle.Border">#D6D6D6</Color>
+    <Color x:Key="Cheems.Color.CheckToggle.Track">#E4E8E8</Color>
+    <Color x:Key="Cheems.Color.CheckToggle.ThumbOff">#D7062A</Color>
+    <Color x:Key="Cheems.Color.CheckToggle.ThumbOn">#50AC5D</Color>
+    <Color x:Key="Cheems.Color.CheckToggle.Icon">#FEFEFE</Color>
+
+    <!-- CheemsScaleSwitch：Uiverse Praashoo7 原始色值 -->
+    <Color x:Key="Cheems.Color.ScaleSwitch.Off">#CCCCCC</Color>
+    <Color x:Key="Cheems.Color.ScaleSwitch.On">#32CD32</Color>
+    <Color x:Key="Cheems.Color.ScaleSwitch.Inner">#FFFFFF</Color>
+
+    <!-- CheemsMechanicalToggle：Uiverse tunminh_6850 原始色值 -->
+    <Color x:Key="Cheems.Color.MechanicalToggle.Background">#E0E5EC</Color>
+    <Color x:Key="Cheems.Color.MechanicalToggle.On">#2ECC71</Color>
+    <Color x:Key="Cheems.Color.MechanicalToggle.RailOn">#3498DB</Color>
+    <Color x:Key="Cheems.Color.MechanicalToggle.Off">#94A3B8</Color>
+    <Color x:Key="Cheems.Color.MechanicalToggle.ShadowDark">#B8BEC9</Color>
+    <Color x:Key="Cheems.Color.MechanicalToggle.ShadowLight">#FFFFFF</Color>
+    <Color x:Key="Cheems.Color.MechanicalToggle.TrackBorder">#80FFFFFF</Color>
+    <Color x:Key="Cheems.Color.MechanicalToggle.ThumbBorderOff">#CCFFFFFF</Color>
+    <Color x:Key="Cheems.Color.MechanicalToggle.InsetDark">#B8BEC9</Color>
+    <Color x:Key="Cheems.Color.MechanicalToggle.InsetLight">#FFFFFF</Color>
+    <Color x:Key="Cheems.Color.MechanicalToggle.RailOff">#0D000000</Color>
+    <Color x:Key="Cheems.Color.MechanicalToggle.Detail">#1A000000</Color>
+
+    <!-- CheemsIosStretchSwitch：Uiverse sayborduu 原始色值 -->
+    <Color x:Key="Cheems.Color.IosStretchSwitch.Off">#E9E9EB</Color>
+    <Color x:Key="Cheems.Color.IosStretchSwitch.On">#34C759</Color>
+    <Color x:Key="Cheems.Color.IosStretchSwitch.Thumb">#FFFFFF</Color>
+    <!-- DropShadowEffect 对 Color.Alpha 的处理不稳定，透明度由 Effect.Opacity 精确表达。 -->
+    <Color x:Key="Cheems.Color.IosStretchSwitch.ShadowFar">#000000</Color>
+    <Color x:Key="Cheems.Color.IosStretchSwitch.ShadowNear">#000000</Color>
+
+    <!-- CheemsGenderToggle：Uiverse anand_4957 原始色值 -->
+    <Color x:Key="Cheems.Color.GenderToggle.Track">#FFFFFF</Color>
+    <Color x:Key="Cheems.Color.GenderToggle.Inactive">#CCCCCC</Color>
+    <Color x:Key="Cheems.Color.GenderToggle.Female">#FF516E</Color>
+    <Color x:Key="Cheems.Color.GenderToggle.FemaleFill">#FBD3E1</Color>
+    <Color x:Key="Cheems.Color.GenderToggle.Male">#1CB7EA</Color>
+    <Color x:Key="Cheems.Color.GenderToggle.MaleFill">#D3F0FB</Color>
+
+    <!-- CheemsCosmicProgressBar：Uiverse rust_1966 原始色值 -->
+    <Color x:Key="Cheems.Color.CosmicProgress.TrackStart">#1B2735</Color>
+    <Color x:Key="Cheems.Color.CosmicProgress.TrackEnd">#090A0F</Color>
+    <Color x:Key="Cheems.Color.CosmicProgress.Border">#313131</Color>
+    <Color x:Key="Cheems.Color.CosmicProgress.Green">#00F260</Color>
+    <Color x:Key="Cheems.Color.CosmicProgress.Blue">#0575E6</Color>
+    <Color x:Key="Cheems.Color.CosmicProgress.Text">#FFFFFF</Color>
+    <Color x:Key="Cheems.Color.CosmicProgress.Particle">#FFFFFF</Color>
+    <Color x:Key="Cheems.Color.CosmicProgress.Ripple">#26FFFFFF</Color>
+    <Color x:Key="Cheems.Color.CosmicProgress.RippleTransparent">#00FFFFFF</Color>
+    <Color x:Key="Cheems.Color.CosmicProgress.Shadow">#000000</Color>
 
     <!-- 通用 -->
     <Color x:Key="Cheems.Color.Shadow">#80000000</Color>

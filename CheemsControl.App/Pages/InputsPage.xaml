@@ -64,6 +64,46 @@
                     </infra:CompactShowcaseControl.Demo>
                 </infra:CompactShowcaseControl>
 
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Inputs/CheckToggle.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsCheckToggleVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsCheckToggle />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Inputs/ScaleSwitch.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsScaleSwitchVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsScaleSwitch />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Inputs/MechanicalToggle.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsMechanicalToggleVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsMechanicalToggle />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Inputs/IosStretchSwitch.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsIosStretchSwitchVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsIosStretchSwitch IsChecked="True" />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Inputs/GenderToggle.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsGenderToggleVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsGenderToggle />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
                 <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Inputs/LedSwitch.xaml.txt"
                                               Margin="0,0,32,28"
                                               Visibility="{Binding IsLedVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">

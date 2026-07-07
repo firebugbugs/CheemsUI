@@ -33,6 +33,10 @@ public static class CheemsKeys
     public const string GlowInputAccentColor = "Cheems.Color.GlowInput.Accent";
     public const string GlowInputTransparentBorderColor = "Cheems.Color.GlowInput.TransparentBorder";
 
+    // ---- CheemsCheckToggle 画刷（Brushes.xaml） ----
+    public const string CheckToggleThumbOffBrush = "Cheems.Brush.CheckToggle.ThumbOff";
+    public const string CheckToggleThumbOnBrush = "Cheems.Brush.CheckToggle.ThumbOn";
+
     // ---- 字体（Fonts.xaml） ----
     public const string FontFamilyDefault = "Cheems.FontFamily.Default";
     public const string FontFamilyMono = "Cheems.FontFamily.Mono";

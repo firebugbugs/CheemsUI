@@ -13,6 +13,11 @@ public sealed class InputsViewModel : SearchablePageViewModel
     {
         ["DayNight"] = "CheemsDayNightSwitch day night switch toggle 日夜 昼夜 太阳 月亮 开关 Mohammad-Rahme-576 uiverse",
         ["AmPm"] = "CheemsAmPmToggle AM PM switch toggle 上午 下午 白天 夜晚 开关 mobinkakei uiverse",
+        ["CheckToggle"] = "CheemsCheckToggle check close toggle checkbox 勾选 关闭 对勾 叉号 开关 mobinkakei uiverse",
+        ["ScaleSwitch"] = "CheemsScaleSwitch circle scale rotate toggle checkbox 圆形 缩放 旋转 绿色 开关 Praashoo7 uiverse",
+        ["MechanicalToggle"] = "CheemsMechanicalToggle mechanical neumorphic toggle switch 机械 拟态 发光 导轨 开关 tunminh_6850 uiverse",
+        ["IosStretchSwitch"] = "CheemsIosStretchSwitch iOS active stretch bigger toggle switch 苹果 按压 延展 开关 sayborduu uiverse",
+        ["GenderToggle"] = "CheemsGenderToggle gender female male symbol toggle switch 性别 女性 男性 符号 开关 anand_4957 uiverse",
         ["Led"] = "CheemsLedSwitch LED switch toggle 灯 发光 开关 chase2k25 uiverse neumorphism 拟态",
         ["Pixel"] = "CheemsPixelSwitch pixel switch toggle 像素 开关 zl306 uiverse",
         ["Metal"] = "CheemsMetalSwitch metal metallic handle switch toggle 金属 手柄 开关 cssbuttons-io uiverse",
@@ -40,6 +45,11 @@ public sealed class InputsViewModel : SearchablePageViewModel
 
     public bool IsDayNightVisible => IsControlVisible("DayNight");
     public bool IsAmPmVisible => IsControlVisible("AmPm");
+    public bool IsCheckToggleVisible => IsControlVisible("CheckToggle");
+    public bool IsScaleSwitchVisible => IsControlVisible("ScaleSwitch");
+    public bool IsMechanicalToggleVisible => IsControlVisible("MechanicalToggle");
+    public bool IsIosStretchSwitchVisible => IsControlVisible("IosStretchSwitch");
+    public bool IsGenderToggleVisible => IsControlVisible("GenderToggle");
     public bool IsLedVisible => IsControlVisible("Led");
     public bool IsPixelVisible => IsControlVisible("Pixel");
     public bool IsMetalVisible => IsControlVisible("Metal");
@@ -50,7 +60,7 @@ public sealed class InputsViewModel : SearchablePageViewModel
     public bool IsTextBoxSectionVisible => IsGlowInputVisible || IsSearchBoxVisible;
     public int VisibleSwitchCount => new[]
     {
-        IsDayNightVisible, IsAmPmVisible, IsLedVisible,
+        IsDayNightVisible, IsAmPmVisible, IsCheckToggleVisible, IsScaleSwitchVisible, IsMechanicalToggleVisible, IsIosStretchSwitchVisible, IsGenderToggleVisible, IsLedVisible,
         IsPixelVisible, IsMetalVisible, IsPixelCoinVisible
     }.Count(value => value);
 
@@ -58,6 +68,11 @@ public sealed class InputsViewModel : SearchablePageViewModel
     {
         OnPropertyChanged(nameof(IsDayNightVisible));
         OnPropertyChanged(nameof(IsAmPmVisible));
+        OnPropertyChanged(nameof(IsCheckToggleVisible));
+        OnPropertyChanged(nameof(IsScaleSwitchVisible));
+        OnPropertyChanged(nameof(IsMechanicalToggleVisible));
+        OnPropertyChanged(nameof(IsIosStretchSwitchVisible));
+        OnPropertyChanged(nameof(IsGenderToggleVisible));
         OnPropertyChanged(nameof(IsLedVisible));
         OnPropertyChanged(nameof(IsPixelVisible));
         OnPropertyChanged(nameof(IsMetalVisible));

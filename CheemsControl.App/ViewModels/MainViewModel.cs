@@ -41,6 +41,7 @@ public class MainViewModel : ObservableObject
             new("Buttons 按钮", new ButtonsViewModel(), "button controls 按键"),
             new("Loaders 加载", new LoadersViewModel(), "loader loading animation 动画 等待"),
             new("Inputs 输入", new InputsViewModel(), "input controls 输入控件"),
+            new("Progress 进度", new ProgressViewModel(), "progress bar loading percentage 进度 进度条 百分比"),
         };
         GroupsView = CollectionViewSource.GetDefaultView(Groups);
         GroupsView.Filter = item => item is ControlGroupViewModel group && group.IsSearchMatch;

@@ -12,12 +12,8 @@ namespace CheemsControl.App.Infrastructure;
 /// </summary>
 public partial class ShowcaseControl : UserControl
 {
-    private const string CodeIcon = "</>";
-    private const string CopyingText = "复制中…";
-    private const string CopiedText = "已复制 ✓";
-    private const string CopyFailedText = "复制失败 ✗";
-
     private bool _sourceLoaded;
+    private bool _copyInProgress;
     private int _copyToken;
     private int _hoverToken;
 
@@ -82,21 +78,26 @@ public partial class ShowcaseControl : UserControl
 
     private async void CodeButton_Click(object sender, RoutedEventArgs e)
     {
+        if (_copyInProgress)
+        {
+            return;
+        }
+
         EnsureSourceLoaded();
         var token = ++_copyToken;
-        CodeButton.IsEnabled = false;
-        CodeButton.Content = CopyingText;
+        _copyInProgress = true;
+        CodeButton.Tag = "Copying";
 
         var window = Window.GetWindow(this);
         var ownerHandle = window is null ? IntPtr.Zero : new WindowInteropHelper(window).Handle;
         var succeeded = await SourceCodeService.TryCopyToClipboardAsync(CodeText.Text, ownerHandle);
 
-        CodeButton.IsEnabled = true;
-        CodeButton.Content = succeeded ? CopiedText : CopyFailedText;
+        _copyInProgress = false;
+        CodeButton.Tag = succeeded ? "Success" : "Failure";
         await Task.Delay(1200);
         if (token == _copyToken)
         {
-            CodeButton.Content = CodeIcon;
+            CodeButton.Tag = null;
         }
     }
 

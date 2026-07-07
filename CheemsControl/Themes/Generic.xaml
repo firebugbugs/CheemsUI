@@ -33,11 +33,17 @@
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsOrbitDotsLoader.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsDayNightSwitch.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsAmPmToggle.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsCheckToggle.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsScaleSwitch.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsMechanicalToggle.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsIosStretchSwitch.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsGenderToggle.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsLedSwitch.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsPixelSwitch.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsMetalSwitch.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsPixelCoinSwitch.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsSearchBox.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsGlowInput.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsCosmicProgressBar.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

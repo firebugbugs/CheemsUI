@@ -29,6 +29,7 @@
         <DataTemplate DataType="{x:Type vm:ButtonsViewModel}"><pages:ButtonsPage /></DataTemplate>
         <DataTemplate DataType="{x:Type vm:LoadersViewModel}"><pages:LoadersPage /></DataTemplate>
         <DataTemplate DataType="{x:Type vm:InputsViewModel}"><pages:InputsPage /></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ProgressViewModel}"><pages:ProgressPage /></DataTemplate>
 
         <SolidColorBrush x:Key="App.Sidebar.Background" Color="#F5F5F5" />
         <SolidColorBrush x:Key="App.Navigation.Hover" Color="#ECECEC" />

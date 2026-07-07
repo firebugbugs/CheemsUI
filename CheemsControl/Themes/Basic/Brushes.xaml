@@ -189,4 +189,51 @@
     <SolidColorBrush x:Key="Cheems.Brush.GlowInput.Text" Color="{StaticResource Cheems.Color.GlowInput.Text}" />
     <SolidColorBrush x:Key="Cheems.Brush.GlowInput.Placeholder" Color="{StaticResource Cheems.Color.GlowInput.Placeholder}" />
 
+    <!-- 控件级：CheemsCheckToggle -->
+    <SolidColorBrush x:Key="Cheems.Brush.CheckToggle.Border" Color="{StaticResource Cheems.Color.CheckToggle.Border}" />
+    <SolidColorBrush x:Key="Cheems.Brush.CheckToggle.Track" Color="{StaticResource Cheems.Color.CheckToggle.Track}" />
+    <SolidColorBrush x:Key="Cheems.Brush.CheckToggle.ThumbOff" Color="{StaticResource Cheems.Color.CheckToggle.ThumbOff}" />
+    <SolidColorBrush x:Key="Cheems.Brush.CheckToggle.ThumbOn" Color="{StaticResource Cheems.Color.CheckToggle.ThumbOn}" />
+    <SolidColorBrush x:Key="Cheems.Brush.CheckToggle.Icon" Color="{StaticResource Cheems.Color.CheckToggle.Icon}" />
+
+    <!-- 控件级：CheemsScaleSwitch -->
+    <SolidColorBrush x:Key="Cheems.Brush.ScaleSwitch.Inner" Color="{StaticResource Cheems.Color.ScaleSwitch.Inner}" />
+
+    <!-- 控件级：CheemsMechanicalToggle -->
+    <SolidColorBrush x:Key="Cheems.Brush.MechanicalToggle.Background" Color="{StaticResource Cheems.Color.MechanicalToggle.Background}" />
+    <SolidColorBrush x:Key="Cheems.Brush.MechanicalToggle.On" Color="{StaticResource Cheems.Color.MechanicalToggle.On}" />
+    <SolidColorBrush x:Key="Cheems.Brush.MechanicalToggle.TrackBorder" Color="{StaticResource Cheems.Color.MechanicalToggle.TrackBorder}" />
+    <SolidColorBrush x:Key="Cheems.Brush.MechanicalToggle.ThumbBorderOff" Color="{StaticResource Cheems.Color.MechanicalToggle.ThumbBorderOff}" />
+    <SolidColorBrush x:Key="Cheems.Brush.MechanicalToggle.InsetDark" Color="{StaticResource Cheems.Color.MechanicalToggle.InsetDark}" />
+    <SolidColorBrush x:Key="Cheems.Brush.MechanicalToggle.InsetLight" Color="{StaticResource Cheems.Color.MechanicalToggle.InsetLight}" />
+    <SolidColorBrush x:Key="Cheems.Brush.MechanicalToggle.Detail" Color="{StaticResource Cheems.Color.MechanicalToggle.Detail}" />
+
+    <!-- 控件级：CheemsIosStretchSwitch -->
+    <SolidColorBrush x:Key="Cheems.Brush.IosStretchSwitch.Off" Color="{StaticResource Cheems.Color.IosStretchSwitch.Off}" />
+    <SolidColorBrush x:Key="Cheems.Brush.IosStretchSwitch.Thumb" Color="{StaticResource Cheems.Color.IosStretchSwitch.Thumb}" />
+
+    <!-- 控件级：CheemsGenderToggle -->
+    <SolidColorBrush x:Key="Cheems.Brush.GenderToggle.Track" Color="{StaticResource Cheems.Color.GenderToggle.Track}" />
+    <SolidColorBrush x:Key="Cheems.Brush.GenderToggle.Inactive" Color="{StaticResource Cheems.Color.GenderToggle.Inactive}" />
+    <SolidColorBrush x:Key="Cheems.Brush.GenderToggle.Female" Color="{StaticResource Cheems.Color.GenderToggle.Female}" />
+    <SolidColorBrush x:Key="Cheems.Brush.GenderToggle.FemaleFill" Color="{StaticResource Cheems.Color.GenderToggle.FemaleFill}" />
+    <SolidColorBrush x:Key="Cheems.Brush.GenderToggle.Male" Color="{StaticResource Cheems.Color.GenderToggle.Male}" />
+
+    <!-- 控件级：CheemsCosmicProgressBar -->
+    <RadialGradientBrush x:Key="Cheems.Brush.CosmicProgress.Track">
+        <GradientStop Offset="0" Color="{StaticResource Cheems.Color.CosmicProgress.TrackStart}" />
+        <GradientStop Offset="1" Color="{StaticResource Cheems.Color.CosmicProgress.TrackEnd}" />
+    </RadialGradientBrush>
+    <LinearGradientBrush x:Key="Cheems.Brush.CosmicProgress.Bar" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Offset="0" Color="{StaticResource Cheems.Color.CosmicProgress.Green}" />
+        <GradientStop Offset="1" Color="{StaticResource Cheems.Color.CosmicProgress.Blue}" />
+    </LinearGradientBrush>
+    <RadialGradientBrush x:Key="Cheems.Brush.CosmicProgress.Ripple">
+        <GradientStop Offset="0" Color="{StaticResource Cheems.Color.CosmicProgress.Ripple}" />
+        <GradientStop Offset="1" Color="{StaticResource Cheems.Color.CosmicProgress.RippleTransparent}" />
+    </RadialGradientBrush>
+    <SolidColorBrush x:Key="Cheems.Brush.CosmicProgress.Border" Color="{StaticResource Cheems.Color.CosmicProgress.Border}" />
+    <SolidColorBrush x:Key="Cheems.Brush.CosmicProgress.Text" Color="{StaticResource Cheems.Color.CosmicProgress.Text}" />
+    <SolidColorBrush x:Key="Cheems.Brush.CosmicProgress.Particle" Color="{StaticResource Cheems.Color.CosmicProgress.Particle}" />
+
 </ResourceDictionary>
