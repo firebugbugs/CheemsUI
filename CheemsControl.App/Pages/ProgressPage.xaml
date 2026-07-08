@@ -36,6 +36,33 @@
                                                         Value="{Binding ProgressValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </infra:CompactShowcaseControl.Demo>
                 </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Progress/WaveProgressBall.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsWaveProgressBallVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsWaveProgressBall Value="{Binding ProgressValue, Mode=OneWay}" />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Progress/MonoProgressBar.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsMonoProgressVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsMonoProgressBar Step="0.1"
+                                                      Value="{Binding ProgressValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsControl.App;component/Sources/Progress/CircuitProgressBar.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsCircuitProgressVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsCircuitProgressBar Step="0.1"
+                                                         Text="LOADING..."
+                                                         Value="{Binding ProgressValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
             </WrapPanel>
         </StackPanel>
     </ScrollViewer>

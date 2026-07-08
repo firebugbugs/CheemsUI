@@ -35,7 +35,7 @@
                                     BorderBrush="{DynamicResource Cheems.Brush.CosmicProgress.Border}"
                                     BorderThickness="1" />
 
-                            <Canvas x:Name="PartViewport" Height="20">
+                            <Canvas x:Name="PartDragSurface" Height="20">
                                 <!-- 两个 CSS progress-bar 外发光层，实体部分由最上层进度主体覆盖。 -->
                                 <Grid x:Name="PartProgressGroup" Canvas.Left="0" Canvas.Top="0" Height="20">
                                     <Border CornerRadius="10" Background="{DynamicResource Cheems.Brush.CosmicProgress.Bar}">
@@ -63,7 +63,7 @@
                                     </Grid>
                                 </Grid>
 
-                                <Canvas Width="{Binding ActualWidth, ElementName=PartViewport}"
+                                <Canvas Width="{Binding ActualWidth, ElementName=PartDragSurface}"
                                         Height="20" IsHitTestVisible="False">
                                     <Ellipse x:Name="PartParticleOne" Width="4" Height="4" Fill="{DynamicResource Cheems.Brush.CosmicProgress.Particle}" Opacity="0.6"><Ellipse.RenderTransform><TranslateTransform x:Name="PartParticleOneTranslate" /></Ellipse.RenderTransform></Ellipse>
                                     <Ellipse x:Name="PartParticleTwo" Width="4" Height="4" Fill="{DynamicResource Cheems.Brush.CosmicProgress.Particle}" Opacity="0.6"><Ellipse.RenderTransform><TranslateTransform x:Name="PartParticleTwoTranslate" /></Ellipse.RenderTransform></Ellipse>
@@ -74,7 +74,7 @@
 
                                 <TextBlock x:Name="PartProgressText"
                                            Canvas.Left="0" Canvas.Top="2"
-                                           Width="{Binding ActualWidth, ElementName=PartViewport}"
+                                           Width="{Binding ActualWidth, ElementName=PartDragSurface}"
                                            Height="16" TextAlignment="Center"
                                            FontSize="10" FontWeight="Bold"
                                            FontFamily="{DynamicResource Cheems.FontFamily.Default}"

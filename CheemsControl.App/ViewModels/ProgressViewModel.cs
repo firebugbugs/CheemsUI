@@ -10,12 +10,21 @@ public sealed class ProgressViewModel : SearchablePageViewModel
 
     public ProgressViewModel() : base(new Dictionary<string, string>
     {
-        ["CosmicProgress"] = "CheemsCosmicProgressBar progress bar cosmic particles ripple neon 星空 粒子 波纹 霓虹 进度条 rust_1966 uiverse"
+        ["CosmicProgress"] = "CheemsCosmicProgressBar progress bar cosmic particles ripple neon 星空 粒子 波纹 霓虹 进度条 rust_1966 uiverse",
+        ["WaveProgressBall"] = "CheemsWaveProgressBall progress ball wave liquid readonly 波浪 液体 进度球 只读 mrhyddenn uiverse",
+        ["MonoProgress"] = "CheemsMonoProgressBar progress bar black white draggable percentage 黑白 可拖动 百分比 thekuntal49 uiverse",
+        ["CircuitProgress"] = "CheemsCircuitProgressBar progress bar 3d groove circuit hover tilt 分段 三维 沟槽 悬停 变形 AshtonLiou uiverse"
     })
     {
     }
 
     public bool IsCosmicProgressVisible => IsControlVisible("CosmicProgress");
+
+    public bool IsWaveProgressBallVisible => IsControlVisible("WaveProgressBall");
+
+    public bool IsMonoProgressVisible => IsControlVisible("MonoProgress");
+
+    public bool IsCircuitProgressVisible => IsControlVisible("CircuitProgress");
 
     /// <summary>
     /// Progress 页面中所有进度条共享的演示值。
@@ -61,6 +70,9 @@ public sealed class ProgressViewModel : SearchablePageViewModel
     protected override void OnSearchFilterChanged()
     {
         OnPropertyChanged(nameof(IsCosmicProgressVisible));
+        OnPropertyChanged(nameof(IsWaveProgressBallVisible));
+        OnPropertyChanged(nameof(IsMonoProgressVisible));
+        OnPropertyChanged(nameof(IsCircuitProgressVisible));
     }
 
     private static double NormalizeProgress(double value) =>

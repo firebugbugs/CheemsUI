@@ -12,6 +12,19 @@
 
             <BooleanToVisibilityConverter x:Key="Cheems.App.Converter.BooleanToVisibility" />
 
+            <!--
+                统一移除 WPF 默认的虚线焦点装饰器。
+                这里仅替换系统 FocusVisualStyle，不禁用键盘焦点、Tab 导航，
+                也不会覆盖控件模板内自行设计的聚焦颜色或动画。
+            -->
+            <Style x:Key="{x:Static SystemParameters.FocusVisualStyleKey}">
+                <Setter Property="Control.Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Control}" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
             <!-- 大、小展示器共用的极简源码按钮：只呈现文字，不绘制背景、边框或状态框。 -->
             <Style x:Key="Cheems.App.Style.CodeButton" TargetType="{x:Type Button}">
                 <Setter Property="Foreground" Value="{DynamicResource Cheems.Brush.Text.Primary}" />

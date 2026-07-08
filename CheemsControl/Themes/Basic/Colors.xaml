@@ -271,6 +271,22 @@
     <Color x:Key="Cheems.Color.CosmicProgress.RippleTransparent">#00FFFFFF</Color>
     <Color x:Key="Cheems.Color.CosmicProgress.Shadow">#000000</Color>
 
+    <!-- CheemsWaveProgressBall：Uiverse mrhyddenn 原始色值 -->
+    <Color x:Key="Cheems.Color.WaveProgressBall.Ring">#1974FD</Color>
+    <Color x:Key="Cheems.Color.WaveProgressBall.Water">#1E92FF</Color>
+    <Color x:Key="Cheems.Color.WaveProgressBall.WavePrimary">#F8F8F8</Color>
+    <Color x:Key="Cheems.Color.WaveProgressBall.WaveOverlay">#80FFFFFF</Color>
+    <Color x:Key="Cheems.Color.WaveProgressBall.Shadow">#4D000000</Color>
+    <Color x:Key="Cheems.Color.WaveProgressBall.ShadowTransparent">#00000000</Color>
+
+    <!-- CheemsMonoProgressBar：Uiverse thekuntal49 原始色值 -->
+    <Color x:Key="Cheems.Color.MonoProgress.Background">#000000</Color>
+    <Color x:Key="Cheems.Color.MonoProgress.Foreground">#FFFFFF</Color>
+
+    <!-- CheemsCircuitProgressBar：Uiverse AshtonLiou 原始色值 -->
+    <Color x:Key="Cheems.Color.CircuitProgress.Primary">#2E8B57</Color>
+    <Color x:Key="Cheems.Color.CircuitProgress.Neutral">#FFFFFF</Color>
+
     <!-- 通用 -->
     <Color x:Key="Cheems.Color.Shadow">#80000000</Color>
 

@@ -45,5 +45,8 @@
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsSearchBox.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsGlowInput.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsCosmicProgressBar.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsWaveProgressBall.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsMonoProgressBar.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsCircuitProgressBar.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

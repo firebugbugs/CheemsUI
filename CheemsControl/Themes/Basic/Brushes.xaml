@@ -236,4 +236,18 @@
     <SolidColorBrush x:Key="Cheems.Brush.CosmicProgress.Text" Color="{StaticResource Cheems.Color.CosmicProgress.Text}" />
     <SolidColorBrush x:Key="Cheems.Brush.CosmicProgress.Particle" Color="{StaticResource Cheems.Color.CosmicProgress.Particle}" />
 
+    <!-- 控件级：CheemsWaveProgressBall -->
+    <SolidColorBrush x:Key="Cheems.Brush.WaveProgressBall.Ring" Color="{StaticResource Cheems.Color.WaveProgressBall.Ring}" />
+    <SolidColorBrush x:Key="Cheems.Brush.WaveProgressBall.Water" Color="{StaticResource Cheems.Color.WaveProgressBall.Water}" />
+    <SolidColorBrush x:Key="Cheems.Brush.WaveProgressBall.WavePrimary" Color="{StaticResource Cheems.Color.WaveProgressBall.WavePrimary}" />
+    <SolidColorBrush x:Key="Cheems.Brush.WaveProgressBall.WaveOverlay" Color="{StaticResource Cheems.Color.WaveProgressBall.WaveOverlay}" />
+
+    <!-- 控件级：CheemsMonoProgressBar -->
+    <SolidColorBrush x:Key="Cheems.Brush.MonoProgress.Background" Color="{StaticResource Cheems.Color.MonoProgress.Background}" />
+    <SolidColorBrush x:Key="Cheems.Brush.MonoProgress.Foreground" Color="{StaticResource Cheems.Color.MonoProgress.Foreground}" />
+
+    <!-- 控件级：CheemsCircuitProgressBar -->
+    <SolidColorBrush x:Key="Cheems.Brush.CircuitProgress.Primary" Color="{StaticResource Cheems.Color.CircuitProgress.Primary}" />
+    <SolidColorBrush x:Key="Cheems.Brush.CircuitProgress.Neutral" Color="{StaticResource Cheems.Color.CircuitProgress.Neutral}" />
+
 </ResourceDictionary>
