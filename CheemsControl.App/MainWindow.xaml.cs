@@ -34,4 +34,14 @@ public partial class MainWindow : Window
     {
         SystemCommands.CloseWindow(this);
     }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        if (DataContext is MainViewModel viewModel)
+        {
+            viewModel.CancelGifExport();
+        }
+
+        base.OnClosed(e);
+    }
 }
