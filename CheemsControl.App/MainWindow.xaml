@@ -279,7 +279,7 @@
                         </Grid>
 
                         <Border Height="4" Margin="2,0,2,8" Background="#D8D8D8" CornerRadius="2">
-                            <ProgressBar Value="{Binding GifExportProgress}"
+                            <ProgressBar Value="{Binding GifExportProgress, Mode=OneWay}"
                                          Minimum="0" Maximum="100"
                                          BorderThickness="0"
                                          Background="Transparent"
