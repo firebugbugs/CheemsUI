@@ -17,6 +17,7 @@ internal sealed class GifRecordingProfile
         string category,
         TimeSpan duration,
         TimeSpan warmup,
+        bool isAnimated,
         Action<Control> configure,
         Func<Control, ControlRecordingScript> scriptFactory)
     {
@@ -24,6 +25,7 @@ internal sealed class GifRecordingProfile
         Category = category;
         Duration = duration;
         Warmup = warmup;
+        IsAnimated = isAnimated;
         _configure = configure;
         _scriptFactory = scriptFactory;
     }
@@ -35,6 +37,8 @@ internal sealed class GifRecordingProfile
     public TimeSpan Duration { get; }
 
     public TimeSpan Warmup { get; }
+
+    public bool IsAnimated { get; }
 
     public Control CreateControl()
     {
@@ -90,12 +94,18 @@ internal static class GifRecordingProfileCatalog
             [nameof(CheemsSaharaButton)] = "WELCOME"
         };
 
+    private static readonly HashSet<string> ExcludedControls = new(StringComparer.Ordinal)
+    {
+        nameof(CheemsSaharaButton)
+    };
+
     public static IReadOnlyList<GifRecordingProfile> CreateAll()
     {
         return typeof(CheemsDashedButton).Assembly
             .GetTypes()
             .Where(type => type.IsPublic && !type.IsAbstract && typeof(Control).IsAssignableFrom(type))
             .Where(type => string.Equals(type.Namespace, "CheemsControl", StringComparison.Ordinal))
+            .Where(type => !ExcludedControls.Contains(type.Name))
             .Select(CreateProfile)
             .OrderBy(profile => CategoryOrder(profile.Category))
             .ThenBy(profile => profile.ControlType.Name, StringComparer.Ordinal)
@@ -108,10 +118,10 @@ internal static class GifRecordingProfileCatalog
         {
             var timing = ResolveLoaderTiming(type);
             return new GifRecordingProfile(
-                type,
-                "Loaders",
+                type, "Loaders",
                 TimeSpan.FromSeconds(timing.Duration),
                 TimeSpan.FromSeconds(timing.Warmup),
+                isAnimated: true,
                 ConfigureCommon,
                 control => new PassiveRecordingScript(control));
         }
@@ -119,10 +129,9 @@ internal static class GifRecordingProfileCatalog
         if (typeof(ProgressBar).IsAssignableFrom(type))
         {
             return new GifRecordingProfile(
-                type,
-                "Progress",
-                TimeSpan.FromSeconds(2.6),
-                TimeSpan.Zero,
+                type, "Progress",
+                TimeSpan.FromSeconds(2.6), TimeSpan.Zero,
+                isAnimated: false,
                 ConfigureProgress,
                 control => new ProgressRecordingScript((ProgressBar)control));
         }
@@ -130,10 +139,9 @@ internal static class GifRecordingProfileCatalog
         if (typeof(ToggleButton).IsAssignableFrom(type))
         {
             return new GifRecordingProfile(
-                type,
-                "Inputs",
-                TimeSpan.FromSeconds(2.5),
-                TimeSpan.Zero,
+                type, "Inputs",
+                TimeSpan.FromSeconds(2.5), TimeSpan.Zero,
+                isAnimated: false,
                 ConfigureToggle,
                 control => new ToggleRecordingScript((ToggleButton)control));
         }
@@ -141,10 +149,9 @@ internal static class GifRecordingProfileCatalog
         if (typeof(ButtonBase).IsAssignableFrom(type))
         {
             return new GifRecordingProfile(
-                type,
-                "Buttons",
-                TimeSpan.FromSeconds(1.6),
-                TimeSpan.Zero,
+                type, "Buttons",
+                TimeSpan.FromSeconds(1.6), TimeSpan.Zero,
+                isAnimated: false,
                 ConfigureButton,
                 control => new ButtonRecordingScript((ButtonBase)control));
         }
@@ -152,10 +159,9 @@ internal static class GifRecordingProfileCatalog
         if (type == typeof(CheemsSearchBox))
         {
             return new GifRecordingProfile(
-                type,
-                "Inputs",
-                TimeSpan.FromSeconds(2.9),
-                TimeSpan.Zero,
+                type, "Inputs",
+                TimeSpan.FromSeconds(2.9), TimeSpan.Zero,
+                isAnimated: false,
                 ConfigureSearchBox,
                 control => new SearchBoxRecordingScript((CheemsSearchBox)control));
         }
@@ -163,19 +169,17 @@ internal static class GifRecordingProfileCatalog
         if (typeof(TextBoxBase).IsAssignableFrom(type))
         {
             return new GifRecordingProfile(
-                type,
-                "Inputs",
-                TimeSpan.FromSeconds(2.5),
-                TimeSpan.Zero,
+                type, "Inputs",
+                TimeSpan.FromSeconds(2.5), TimeSpan.Zero,
+                isAnimated: false,
                 ConfigureTextInput,
                 control => new TextInputRecordingScript((TextBoxBase)control));
         }
 
         return new GifRecordingProfile(
-            type,
-            "Other",
-            TimeSpan.FromSeconds(1),
-            TimeSpan.Zero,
+            type, "Other",
+            TimeSpan.FromSeconds(1), TimeSpan.Zero,
+            isAnimated: false,
             ConfigureCommon,
             control => new PassiveRecordingScript(control));
     }
@@ -227,7 +231,8 @@ internal static class GifRecordingProfileCatalog
         var progress = (ProgressBar)control;
         progress.Minimum = 0;
         progress.Maximum = 100;
-        progress.Value = 0;
+        // 40% 处于行程中间偏左，轨道填充与进度球都处于可辨识状态
+        progress.Value = 40;
     }
 
     private static void ConfigureTextInput(Control control)

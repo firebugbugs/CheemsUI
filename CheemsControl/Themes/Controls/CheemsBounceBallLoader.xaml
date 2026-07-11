@@ -78,11 +78,25 @@
                                                          Storyboard.TargetProperty="Height"
                                                          From="5" To="20" Duration="0:0:0.5"
                                                          EasingFunction="{StaticResource Cheems.BounceBall.Ease}" />
+                                        <!-- DiscreteObjectKeyFrame.Value 是 object，必须显式给出 CornerRadius，
+                                             否则值保持字符串、每个渲染 tick 抛 AnimationException -->
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PartBall1"
                                                                        Storyboard.TargetProperty="CornerRadius">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="25,25,12.5,12.5" />
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="10,10,10,10" />
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="10,10,10,10" />
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <CornerRadius>25,25,12.5,12.5</CornerRadius>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <CornerRadius>10,10,10,10</CornerRadius>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.5">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <CornerRadius>10,10,10,10</CornerRadius>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
                                         </ObjectAnimationUsingKeyFrames>
                                         <DoubleAnimation Storyboard.TargetName="PartBall1"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
@@ -103,9 +117,21 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PartBall2"
                                                                        Storyboard.TargetProperty="CornerRadius"
                                                                        BeginTime="0:0:0.2">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="25,25,12.5,12.5" />
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="10,10,10,10" />
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="10,10,10,10" />
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <CornerRadius>25,25,12.5,12.5</CornerRadius>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <CornerRadius>10,10,10,10</CornerRadius>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.5">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <CornerRadius>10,10,10,10</CornerRadius>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
                                         </ObjectAnimationUsingKeyFrames>
                                         <DoubleAnimation Storyboard.TargetName="PartBall2"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
@@ -127,9 +153,21 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PartBall3"
                                                                        Storyboard.TargetProperty="CornerRadius"
                                                                        BeginTime="0:0:0.3">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="25,25,12.5,12.5" />
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2" Value="10,10,10,10" />
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="10,10,10,10" />
+                                            <DiscreteObjectKeyFrame KeyTime="0">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <CornerRadius>25,25,12.5,12.5</CornerRadius>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.2">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <CornerRadius>10,10,10,10</CornerRadius>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.5">
+                                                <DiscreteObjectKeyFrame.Value>
+                                                    <CornerRadius>10,10,10,10</CornerRadius>
+                                                </DiscreteObjectKeyFrame.Value>
+                                            </DiscreteObjectKeyFrame>
                                         </ObjectAnimationUsingKeyFrames>
                                         <DoubleAnimation Storyboard.TargetName="PartBall3"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"

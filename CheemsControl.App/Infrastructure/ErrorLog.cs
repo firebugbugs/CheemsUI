@@ -8,6 +8,8 @@ namespace CheemsControl.App.Infrastructure;
 /// </summary>
 internal static class ErrorLog
 {
+    private static readonly object Gate = new();
+
     public static string LogFilePath { get; } = Path.Combine(
         AppDomain.CurrentDomain.BaseDirectory, "logs", "error.log");
 
@@ -16,9 +18,12 @@ internal static class ErrorLog
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(LogFilePath)!);
-            File.AppendAllText(
-                LogFilePath,
-                $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}]{Environment.NewLine}{exception}{Environment.NewLine}{new string('=', 80)}{Environment.NewLine}");
+            lock (Gate)
+            {
+                File.AppendAllText(
+                    LogFilePath,
+                    $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}]{Environment.NewLine}{exception}{Environment.NewLine}{new string('=', 80)}{Environment.NewLine}");
+            }
         }
         catch
         {

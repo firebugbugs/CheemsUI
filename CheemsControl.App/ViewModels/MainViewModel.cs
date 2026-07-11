@@ -156,7 +156,7 @@ public class MainViewModel : ObservableObject
         _gifExportCancellation?.Dispose();
         _gifExportCancellation = new CancellationTokenSource();
         var cancellationToken = _gifExportCancellation.Token;
-        var outputDirectory = ControlGifExporter.CreateOutputDirectory();
+        var outputDirectory = ControlGifExporter.GetDefaultOutputDirectory();
 
         IsGifExporting = true;
         GifExportProgress = 0;
@@ -171,7 +171,8 @@ public class MainViewModel : ObservableObject
                 GifExportProgress = update.Percent;
                 GifExportStatus = update.Message;
             });
-            var result = await exporter.ExportAllAsync(outputDirectory, progress, cancellationToken);
+            var result = await exporter.ExportAllAsync(outputDirectory, progress, cancellationToken,
+                cleanExisting: true);
 
             if (result.IsCancelled)
             {

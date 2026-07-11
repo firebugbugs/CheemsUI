@@ -26,6 +26,7 @@
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsDominoLoader.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsWaveBarsLoader.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsBlobLoader.xaml" />
+        <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsBounceBallLoader.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsRainbowBarsLoader.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsGlitchLoader.xaml" />
         <ResourceDictionary Source="/CheemsControl;component/Themes/Controls/CheemsPolylineLoader.xaml" />
