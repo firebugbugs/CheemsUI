@@ -1,0 +1,9 @@
+CheemsControl Export
+Generated: 2026-08-28 00:17:31
+Frame rate: 24 FPS
+Loaders: GIF (animated, +10% padding)
+Others: JPEG (normal + hover)
+Toggles: JPEG extra "-on" state
+Buttons: JPEG extra "-press" state
+Result: 42/42 succeeded
+Cancelled: False
