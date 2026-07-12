@@ -90,7 +90,7 @@
 
 ```xml
 <ItemGroup>
-  <ProjectReference Include="..\CheemsControl\CheemsControl.csproj" />
+  <ProjectReference Include="..\src\CheemsControl\CheemsControl.csproj" />
 </ItemGroup>
 ```
 
@@ -130,7 +130,7 @@ xmlns:cheems="https://cheemscontrol.com/wpf"
 </Application.Resources>
 ```
 
-常用键（完整清单见 `CheemsControl/CheemsKeys.cs` 与 `Themes/Basic/*.xaml`）：
+常用键（完整清单见 `src/CheemsControl/CheemsKeys.cs` 与 `src/CheemsControl/Themes/Basic/*.xaml`）：
 
 | 类别 | 键 |
 |---|---|
@@ -158,5 +158,5 @@ CheemsControl.App.exe --export
 也可以直接运行 Demo 浏览器交互查看全部控件：
 
 ```
-dotnet run --project CheemsControl.App
+dotnet run --project src/CheemsControl.App
 ```
