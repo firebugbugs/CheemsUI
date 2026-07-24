@@ -1,0 +1,147 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CheemsUI">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Colors.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Brushes.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Uiverse ke1221：18px、0.7em/1.7em、0.5em，换算为 18px 基准下的固定像素值。 -->
+    <Style TargetType="{x:Type local:CheemsSoftButton}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Foreground" Value="{DynamicResource Cheems.Brush.SoftButton.Foreground}" />
+        <Setter Property="Background" Value="{DynamicResource Cheems.Brush.SoftButton.Background}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Cheems.Brush.SoftButton.Border}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Padding" Value="30.6,12.6" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CheemsSoftButton}">
+                    <Grid>
+                        <!-- CSS 第二个阴影在下层：-6px -6px 12px #fff。 -->
+                        <Border x:Name="PartLightOuterShadow"
+                                CornerRadius="9"
+                                Background="{TemplateBinding Background}">
+                            <Border.Effect>
+                                <DropShadowEffect Color="{StaticResource Cheems.Color.SoftButton.ShadowLight}"
+                                                  BlurRadius="12"
+                                                  ShadowDepth="8.485281374"
+                                                  Direction="135"
+                                                  Opacity="1" />
+                            </Border.Effect>
+                        </Border>
+
+                        <!-- CSS 第一个阴影在上层：6px 6px 12px #c5c5c5。 -->
+                        <Border x:Name="PartDarkOuterShadow"
+                                CornerRadius="9"
+                                Background="{TemplateBinding Background}">
+                            <Border.Effect>
+                                <DropShadowEffect Color="{StaticResource Cheems.Color.SoftButton.ShadowDark}"
+                                                  BlurRadius="12"
+                                                  ShadowDepth="8.485281374"
+                                                  Direction="315"
+                                                  Opacity="1" />
+                            </Border.Effect>
+                        </Border>
+
+                        <Border CornerRadius="9"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <!-- 颜色载体确保每个模板实例拥有独立、可动画的前景画刷。 -->
+                                <Rectangle x:Name="PartForegroundCarrier"
+                                           Width="0" Height="0"
+                                           IsHitTestVisible="False">
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush Color="{StaticResource Cheems.Color.SoftButton.Foreground}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+
+                                <!-- CSS :active 的两组 inset shadow；仅在按下态渐显。 -->
+                                <Grid x:Name="PartInsetShadows" Opacity="0" IsHitTestVisible="False">
+                                    <Border Height="16" VerticalAlignment="Top" CornerRadius="9"
+                                            Background="{DynamicResource Cheems.Brush.SoftButton.InsetDarkTop}" />
+                                    <Border Width="16" HorizontalAlignment="Left" CornerRadius="9"
+                                            Background="{DynamicResource Cheems.Brush.SoftButton.InsetDarkLeft}" />
+                                    <Border Height="16" VerticalAlignment="Bottom" CornerRadius="9"
+                                            Background="{DynamicResource Cheems.Brush.SoftButton.InsetLightBottom}" />
+                                    <Border Width="16" HorizontalAlignment="Right" CornerRadius="9"
+                                            Background="{DynamicResource Cheems.Brush.SoftButton.InsetLightRight}" />
+                                </Grid>
+
+                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  RecognizesAccessKey="True"
+                                                  TextElement.Foreground="{Binding Fill, ElementName=PartForegroundCarrier}" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartLightOuterShadow"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"
+                                                                  KeySpline="0.25,0.1 0.25,1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartDarkOuterShadow"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"
+                                                                  KeySpline="0.25,0.1 0.25,1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartInsetShadows"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="1"
+                                                                  KeySpline="0.25,0.1 0.25,1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="PartForegroundCarrier"
+                                                                      Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
+                                            <SplineColorKeyFrame KeyTime="0:0:0.3"
+                                                                 Value="{StaticResource Cheems.Color.SoftButton.ForegroundPressed}"
+                                                                 KeySpline="0.25,0.1 0.25,1" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartLightOuterShadow"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="1"
+                                                                  KeySpline="0.25,0.1 0.25,1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartDarkOuterShadow"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="1"
+                                                                  KeySpline="0.25,0.1 0.25,1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartInsetShadows"
+                                                                       Storyboard.TargetProperty="Opacity">
+                                            <SplineDoubleKeyFrame KeyTime="0:0:0.3" Value="0"
+                                                                  KeySpline="0.25,0.1 0.25,1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="PartForegroundCarrier"
+                                                                      Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)">
+                                            <SplineColorKeyFrame KeyTime="0:0:0.3"
+                                                                 Value="{StaticResource Cheems.Color.SoftButton.Foreground}"
+                                                                 KeySpline="0.25,0.1 0.25,1" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,47 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CheemsUI">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Colors.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Brushes.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="Cheems.NewtonsCradle.DotColumn" TargetType="Grid">
+        <Setter Property="Width" Value="12.5" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+    </Style>
+
+    <Style TargetType="{x:Type local:CheemsNewtonsCradleLoader}">
+        <Setter Property="Width" Value="50" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsHitTestVisible" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CheemsNewtonsCradleLoader}">
+                    <Grid Width="50" Height="50">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="12.5" />
+                            <ColumnDefinition Width="12.5" />
+                            <ColumnDefinition Width="12.5" />
+                            <ColumnDefinition Width="12.5" />
+                        </Grid.ColumnDefinitions>
+                        <Grid x:Name="PartFirstDot" Grid.Column="0" Style="{StaticResource Cheems.NewtonsCradle.DotColumn}">
+                            <Ellipse Width="12.5" Height="12.5" VerticalAlignment="Center" Fill="{DynamicResource Cheems.Brush.NewtonsCradle.Dot}" />
+                        </Grid>
+                        <Grid Grid.Column="1" Style="{StaticResource Cheems.NewtonsCradle.DotColumn}">
+                            <Ellipse Width="12.5" Height="12.5" VerticalAlignment="Center" Fill="{DynamicResource Cheems.Brush.NewtonsCradle.Dot}" />
+                        </Grid>
+                        <Grid Grid.Column="2" Style="{StaticResource Cheems.NewtonsCradle.DotColumn}">
+                            <Ellipse Width="12.5" Height="12.5" VerticalAlignment="Center" Fill="{DynamicResource Cheems.Brush.NewtonsCradle.Dot}" />
+                        </Grid>
+                        <Grid x:Name="PartLastDot" Grid.Column="3" Style="{StaticResource Cheems.NewtonsCradle.DotColumn}">
+                            <Ellipse Width="12.5" Height="12.5" VerticalAlignment="Center" Fill="{DynamicResource Cheems.Brush.NewtonsCradle.Dot}" />
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

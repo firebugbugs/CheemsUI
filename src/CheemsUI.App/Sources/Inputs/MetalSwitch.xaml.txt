@@ -1,0 +1,4 @@
+<!-- CheemsMetalSwitch：Uiverse cssbuttons-io 金属手柄开关
+     IsChecked=False 为红色轨道，IsChecked=True 为绿色轨道 -->
+<!-- xmlns:cheems="https://cheemsui.com/wpf" -->
+<cheems:CheemsMetalSwitch />

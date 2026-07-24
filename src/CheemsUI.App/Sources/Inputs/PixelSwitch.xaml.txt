@@ -1,0 +1,4 @@
+<!-- CheemsPixelSwitch：Uiverse zl306 像素风开关
+     原始关闭/开启轨道与滑块 PNG 均从 CSS data URL 原样嵌入 -->
+<!-- xmlns:cheems="https://cheemsui.com/wpf" -->
+<cheems:CheemsPixelSwitch />

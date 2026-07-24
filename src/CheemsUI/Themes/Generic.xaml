@@ -1,0 +1,53 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- 只做合并入口，合并顺序固定：Colors → Brushes → Fonts →（Icons）→ Controls/*（CONVENTIONS R3.6）。
+         合并源一律用程序集绝对 pack URI：相对路径经 ThemeInfo 主题字典路径加载时按应用根解析而失败（CONVENTIONS R3.9） -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Colors.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Brushes.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Fonts.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsDashedButton.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsSoftButton.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsShineButton.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsSaharaButton.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsDeleteButton.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsSubscribeButton.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsLayered3DButton.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsPixelHandButton.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsLeafButton.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsTypewriterLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsWashingMachineLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsAiMatrixLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsHamsterWheelLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsCubeLoadingLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsJumpingSquareLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsEarthLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsNewtonsCradleLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsDominoLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsWaveBarsLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsBlobLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsBounceBallLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsRainbowBarsLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsGlitchLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsPolylineLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsPulseDotsLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsOrbitDotsLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsDayNightSwitch.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsAmPmToggle.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsCheckToggle.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsScaleSwitch.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsMechanicalToggle.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsIosStretchSwitch.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsGenderToggle.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsLedSwitch.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsPixelSwitch.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsMetalSwitch.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsPixelCoinSwitch.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsSearchBox.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsGlowInput.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsCosmicProgressBar.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsWaveProgressBall.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsMonoProgressBar.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsCircuitProgressBar.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

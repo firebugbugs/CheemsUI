@@ -1,0 +1,3 @@
+<!-- CheemsIosStretchSwitch：Uiverse sayborduu iOS 按压延展开关 -->
+<!-- xmlns:cheems="https://cheemsui.com/wpf" -->
+<cheems:CheemsIosStretchSwitch />

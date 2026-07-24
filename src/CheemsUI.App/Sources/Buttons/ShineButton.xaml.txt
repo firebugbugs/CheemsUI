@@ -1,0 +1,4 @@
+<!-- CheemsShineButton：Uiverse mobinkakei 光泽扫光按钮
+     悬停有绿色扫光；文字经 Content 设置 -->
+<!-- xmlns:cheems="https://cheemsui.com/wpf" -->
+<cheems:CheemsShineButton Content="SHINE" />

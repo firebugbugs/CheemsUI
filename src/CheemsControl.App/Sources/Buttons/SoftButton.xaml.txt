@@ -1,4 +1,0 @@
-<!-- CheemsSoftButton：Uiverse ke1221 软拟态按钮
-     按下时文字变为 #666，并由双外投影过渡为双内投影 -->
-<!-- xmlns:cheems="https://cheemscontrol.com/wpf" -->
-<cheems:CheemsSoftButton Content="Click me" />

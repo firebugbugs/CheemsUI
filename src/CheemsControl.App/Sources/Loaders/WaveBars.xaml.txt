@@ -1,4 +1,0 @@
-<!-- CheemsWaveBarsLoader：Uiverse Satwinder04 蓝色波形均衡器加载动画
-     默认 140×47，可设 Width/Height 缩放 -->
-<!-- xmlns:cheems="https://cheemscontrol.com/wpf" -->
-<cheems:CheemsWaveBarsLoader />

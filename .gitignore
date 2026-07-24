@@ -21,3 +21,6 @@ logs/
 # 除 README 外的内部文档不上远程仓库
 *.md
 !README.md
+
+# Inno Setup 打包目录（本地构建产物，不上远程）
+/installer/

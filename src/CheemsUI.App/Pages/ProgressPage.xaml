@@ -1,0 +1,69 @@
+<UserControl x:Class="CheemsUI.App.Pages.ProgressPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cheems="https://cheemsui.com/wpf"
+             xmlns:infra="clr-namespace:CheemsUI.App.Infrastructure">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,0,16,16">
+            <TextBlock Text="进度 Progress" FontSize="24" FontWeight="Bold"
+                       Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+            <TextBlock Text="拖动进度条可修改完成比例；页面内所有示例共享同一个演示进度值。"
+                       Margin="0,8,0,16" FontSize="13"
+                       Foreground="{DynamicResource Cheems.Brush.Text.Secondary}" />
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,24" VerticalAlignment="Center">
+                <TextBlock Text="演示进度" Margin="0,0,12,0" VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                <cheems:CheemsGlowInput Width="120" Height="40"
+                                        Placeholder="0.0 - 100.0"
+                                        Text="{Binding ProgressInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        LostKeyboardFocus="ProgressInput_OnLostKeyboardFocus"
+                                        PreviewKeyDown="ProgressInput_OnPreviewKeyDown" />
+                <TextBlock Text="%" Margin="8,0,16,0" VerticalAlignment="Center"
+                           Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                <TextBlock Text="范围 0–100 · 步进 0.1（↑ / ↓）" VerticalAlignment="Center"
+                           FontSize="12"
+                           Foreground="{DynamicResource Cheems.Brush.Text.Secondary}" />
+            </StackPanel>
+
+            <WrapPanel>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Progress/CosmicProgressBar.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsCosmicProgressVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsCosmicProgressBar Step="0.1"
+                                                        Value="{Binding ProgressValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Progress/WaveProgressBall.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsWaveProgressBallVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsWaveProgressBall Value="{Binding ProgressValue, Mode=OneWay}" />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Progress/MonoProgressBar.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsMonoProgressVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsMonoProgressBar Step="0.1"
+                                                      Value="{Binding ProgressValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Progress/CircuitProgressBar.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsCircuitProgressVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsCircuitProgressBar Step="0.1"
+                                                         Text="LOADING..."
+                                                         Value="{Binding ProgressValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+            </WrapPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

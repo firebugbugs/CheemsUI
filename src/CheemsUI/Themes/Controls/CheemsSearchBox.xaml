@@ -1,0 +1,201 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CheemsUI">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Colors.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Brushes.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type local:CheemsSearchBox}">
+        <!-- 200px content width + 16px left padding + 48px right padding + 3px border. -->
+        <Setter Property="Width" Value="267" />
+        <Setter Property="Height" Value="68" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CheemsSearchBox}">
+                    <Canvas Width="267" Height="68" Background="Transparent">
+                        <!-- input: y is shifted 14px only to reserve the source's negative top overflow. -->
+                        <Border Canvas.Top="14" Width="267" Height="54"
+                                Background="Transparent"
+                                BorderBrush="{DynamicResource Cheems.Brush.SearchBox.Default}"
+                                BorderThickness="1.5" CornerRadius="27" />
+                        <Border x:Name="PartActiveBorder"
+                                Canvas.Top="14" Width="267" Height="54" Opacity="0"
+                                Background="Transparent"
+                                BorderBrush="{DynamicResource Cheems.Brush.SearchBox.Active}"
+                                BorderThickness="1.5" CornerRadius="27" />
+
+                        <TextBox x:Name="PartInput"
+                                 Canvas.Top="14" Width="267" Height="54"
+                                 Padding="16,0,48,0"
+                                 VerticalContentAlignment="Center"
+                                 Background="Transparent" BorderThickness="0"
+                                 Foreground="{DynamicResource Cheems.Brush.SearchBox.ActiveInput}"
+                                 CaretBrush="{DynamicResource Cheems.Brush.SearchBox.ActiveInput}"
+                                 FontSize="16"
+                                 Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.Template>
+                                <ControlTemplate TargetType="{x:Type TextBox}">
+                                    <ScrollViewer x:Name="PART_ContentHost"
+                                                  Margin="{TemplateBinding Padding}"
+                                                  VerticalAlignment="Stretch"
+                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                </ControlTemplate>
+                            </TextBox.Template>
+                        </TextBox>
+
+                        <!-- enter-label: one motion layer with cross-faded normal and active rendering. -->
+                        <Grid x:Name="PartLabelMotion"
+                              Canvas.Left="15" Canvas.Top="14"
+                              Width="78" Height="27"
+                              IsHitTestVisible="False"
+                              RenderTransformOrigin="0,0">
+                            <TextBlock x:Name="PartNormalLabel"
+                                       VerticalAlignment="Top"
+                                       Text="{TemplateBinding Label}"
+                                       FontSize="16"
+                                       Foreground="{DynamicResource Cheems.Brush.SearchBox.Default}" />
+                            <Border x:Name="PartActiveLabel" Opacity="0"
+                                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                                    Padding="9.6,3.2"
+                                    Background="{DynamicResource Cheems.Brush.SearchBox.Active}"
+                                    CornerRadius="20">
+                                <TextBlock Text="{TemplateBinding Label}"
+                                           FontSize="16"
+                                           Foreground="{DynamicResource Cheems.Brush.SearchBox.Text}" />
+                            </Border>
+                        </Grid>
+
+                        <!-- btn-box starts at right:80%; code moves it to right:10%. -->
+                        <Grid x:Name="PartSearchMotion"
+                              Canvas.Left="21.4" Canvas.Top="0.5"
+                              Width="32" Height="32" Opacity="0"
+                              IsHitTestVisible="False">
+                            <Grid x:Name="PartSearchScaleHost" RenderTransformOrigin="0.5,0.5">
+                                <Grid.RenderTransform><ScaleTransform /></Grid.RenderTransform>
+                                <Ellipse Fill="{DynamicResource Cheems.Brush.SearchBox.Active}" />
+                                <Viewbox Width="12" Height="12">
+                                    <Canvas Width="512" Height="512">
+                                        <Path Fill="{DynamicResource Cheems.Brush.SearchBox.Text}"
+                                              Data="M416,208 C416,253.9 401.1,296.3 376,330.7 L502.6,457.4 C515.1,469.9 515.1,490.2 502.6,502.7 C490.1,515.2 469.8,515.2 457.3,502.7 L330.7,376 C296.3,401.2 253.9,416 208,416 C93.1,416 0,322.9 0,208 C0,93.1 93.1,0 208,0 C322.9,0 416,93.1 416,208 Z M208,352 A144,144 0 1 0 208,64 A144,144 0 1 0 208,352 Z" />
+                                        <Ellipse x:Name="PartSearchCircle"
+                                                 Canvas.Left="64" Canvas.Top="64"
+                                                 Width="288" Height="288"
+                                                 Fill="{DynamicResource Cheems.Brush.SearchBox.Text}" />
+                                    </Canvas>
+                                </Viewbox>
+                                <Button x:Name="PartSearchButton"
+                                        Width="32" Height="32"
+                                        Cursor="Hand" Background="Transparent"
+                                        BorderThickness="0" FocusVisualStyle="{x:Null}">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Background="Transparent" CornerRadius="16" />
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </Grid>
+                        </Grid>
+
+                        <!-- btn-box-x: right:7%, top:1em. -->
+                        <Grid x:Name="PartClearMotion"
+                              Canvas.Left="216.3" Canvas.Top="30"
+                              Width="32" Height="32" Opacity="0"
+                              IsHitTestVisible="False"
+                              RenderTransformOrigin="0.5,0.5">
+                            <Viewbox Width="15" Height="15">
+                                <Canvas Width="384" Height="512">
+                                    <Path x:Name="PartClearDefault"
+                                          Fill="{DynamicResource Cheems.Brush.SearchBox.Default}"
+                                          Data="M342.6,150.6 C355.1,138.1 355.1,117.8 342.6,105.3 C330.1,92.8 309.8,92.8 297.3,105.3 L192,210.7 L86.6,105.4 C74.1,92.9 53.8,92.9 41.3,105.4 C28.8,117.9 28.8,138.2 41.3,150.7 L146.7,256 L41.4,361.4 C28.9,373.9 28.9,394.2 41.4,406.7 C53.9,419.2 74.2,419.2 86.7,406.7 L192,301.3 L297.4,406.6 C309.9,419.1 330.2,419.1 342.7,406.6 C355.2,394.1 355.2,373.8 342.7,361.3 L237.3,256 Z" />
+                                    <Path x:Name="PartClearHover" Opacity="0"
+                                          Fill="{DynamicResource Cheems.Brush.SearchBox.Active}"
+                                          Data="M342.6,150.6 C355.1,138.1 355.1,117.8 342.6,105.3 C330.1,92.8 309.8,92.8 297.3,105.3 L192,210.7 L86.6,105.4 C74.1,92.9 53.8,92.9 41.3,105.4 C28.8,117.9 28.8,138.2 41.3,150.7 L146.7,256 L41.4,361.4 C28.9,373.9 28.9,394.2 41.4,406.7 C53.9,419.2 74.2,419.2 86.7,406.7 L192,301.3 L297.4,406.6 C309.9,419.1 330.2,419.1 342.7,406.6 C355.2,394.1 355.2,373.8 342.7,361.3 L237.3,256 Z" />
+                                </Canvas>
+                            </Viewbox>
+                            <Button x:Name="PartClearButton"
+                                    Width="32" Height="32"
+                                    Cursor="Hand" Background="Transparent"
+                                    BorderThickness="0" FocusVisualStyle="{x:Null}">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="Transparent" CornerRadius="16" />
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                    </Canvas>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger SourceName="PartSearchButton" Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PartSearchScaleHost"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                         To="1.2" Duration="0:0:0.15" />
+                                        <DoubleAnimation Storyboard.TargetName="PartSearchScaleHost"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                         To="1.2" Duration="0:0:0.15" />
+                                        <DoubleAnimation Storyboard.TargetName="PartSearchCircle"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0" Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PartSearchScaleHost"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                         To="1" Duration="0:0:0.15" />
+                                        <DoubleAnimation Storyboard.TargetName="PartSearchScaleHost"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                         To="1" Duration="0:0:0.15" />
+                                        <DoubleAnimation Storyboard.TargetName="PartSearchCircle"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="1" Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger SourceName="PartSearchButton" Property="IsPressed" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PartSearchScaleHost"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                         To="1" Duration="0:0:0.15" />
+                                        <DoubleAnimation Storyboard.TargetName="PartSearchScaleHost"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                         To="1" Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PartSearchScaleHost"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                         To="1.2" Duration="0:0:0.15" />
+                                        <DoubleAnimation Storyboard.TargetName="PartSearchScaleHost"
+                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                         To="1.2" Duration="0:0:0.15" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger SourceName="PartClearButton" Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PartClearDefault" Property="Opacity" Value="0" />
+                            <Setter TargetName="PartClearHover" Property="Opacity" Value="1" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.55" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

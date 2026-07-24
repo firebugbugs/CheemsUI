@@ -1,4 +1,0 @@
-<!-- CheemsMonoProgressBar：Uiverse thekuntal49 黑白进度条 -->
-<!-- xmlns:cheems="https://cheemscontrol.com/wpf" -->
-<cheems:CheemsMonoProgressBar Value="{Binding ProgressValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                               Step="0.1" />

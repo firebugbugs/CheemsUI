@@ -1,0 +1,121 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CheemsUI">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Colors.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Brushes.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Fonts.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type local:CheemsCosmicProgressBar}">
+        <Setter Property="Width" Value="340" />
+        <Setter Property="MaxWidth" Value="540" />
+        <Setter Property="Height" Value="60" />
+        <Setter Property="Minimum" Value="0" />
+        <Setter Property="Maximum" Value="100" />
+        <Setter Property="Value" Value="40" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CheemsCosmicProgressBar}">
+                    <!-- 300×20 本体；四周 Margin 为 0 8px 20px rgba(...,.5) 预留空间。 -->
+                    <Grid x:Name="PartRoot" Background="Transparent">
+                        <Grid Margin="20,8,20,32" Height="20" VerticalAlignment="Top">
+                            <Border CornerRadius="10"
+                                    Background="{DynamicResource Cheems.Brush.CosmicProgress.Track}">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="{StaticResource Cheems.Color.CosmicProgress.Shadow}"
+                                                      Opacity="0.5" BlurRadius="20"
+                                                      ShadowDepth="8" Direction="270" />
+                                </Border.Effect>
+                            </Border>
+
+                            <Border CornerRadius="10"
+                                    Background="{DynamicResource Cheems.Brush.CosmicProgress.Track}"
+                                    BorderBrush="{DynamicResource Cheems.Brush.CosmicProgress.Border}"
+                                    BorderThickness="1" />
+
+                            <Canvas x:Name="PartDragSurface" Height="20">
+                                <!-- 两个 CSS progress-bar 外发光层，实体部分由最上层进度主体覆盖。 -->
+                                <Grid x:Name="PartProgressGroup" Canvas.Left="0" Canvas.Top="0" Height="20">
+                                    <Border CornerRadius="10" Background="{DynamicResource Cheems.Brush.CosmicProgress.Bar}">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="{StaticResource Cheems.Color.CosmicProgress.Green}"
+                                                              BlurRadius="15" ShadowDepth="0" Opacity="1" />
+                                        </Border.Effect>
+                                    </Border>
+                                    <Border CornerRadius="10" Background="{DynamicResource Cheems.Brush.CosmicProgress.Bar}">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="{StaticResource Cheems.Color.CosmicProgress.Blue}"
+                                                              BlurRadius="30" ShadowDepth="0" Opacity="1" />
+                                        </Border.Effect>
+                                    </Border>
+                                    <Border CornerRadius="10" Background="{DynamicResource Cheems.Brush.CosmicProgress.Bar}" />
+
+                                    <!-- progress-bar::before：200%×200%，由外层 Host 做 ripple 缩放。 -->
+                                    <Grid x:Name="PartRippleScaleHost" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
+                                        <Grid.RenderTransform><ScaleTransform x:Name="PartRippleScale" ScaleX="0.5" ScaleY="0.5" /></Grid.RenderTransform>
+                                        <Ellipse Height="20" HorizontalAlignment="Stretch"
+                                                 Fill="{DynamicResource Cheems.Brush.CosmicProgress.Ripple}"
+                                                 Opacity="0.7" RenderTransformOrigin="0.5,0.5">
+                                            <Ellipse.RenderTransform><ScaleTransform ScaleX="2" ScaleY="2" /></Ellipse.RenderTransform>
+                                        </Ellipse>
+                                    </Grid>
+                                </Grid>
+
+                                <Canvas Width="{Binding ActualWidth, ElementName=PartDragSurface}"
+                                        Height="20" IsHitTestVisible="False">
+                                    <Ellipse x:Name="PartParticleOne" Width="4" Height="4" Fill="{DynamicResource Cheems.Brush.CosmicProgress.Particle}" Opacity="0.6"><Ellipse.RenderTransform><TranslateTransform x:Name="PartParticleOneTranslate" /></Ellipse.RenderTransform></Ellipse>
+                                    <Ellipse x:Name="PartParticleTwo" Width="4" Height="4" Fill="{DynamicResource Cheems.Brush.CosmicProgress.Particle}" Opacity="0.6"><Ellipse.RenderTransform><TranslateTransform x:Name="PartParticleTwoTranslate" /></Ellipse.RenderTransform></Ellipse>
+                                    <Ellipse x:Name="PartParticleThree" Width="4" Height="4" Fill="{DynamicResource Cheems.Brush.CosmicProgress.Particle}" Opacity="0.6"><Ellipse.RenderTransform><TranslateTransform x:Name="PartParticleThreeTranslate" /></Ellipse.RenderTransform></Ellipse>
+                                    <Ellipse x:Name="PartParticleFour" Width="4" Height="4" Fill="{DynamicResource Cheems.Brush.CosmicProgress.Particle}" Opacity="0.6"><Ellipse.RenderTransform><TranslateTransform x:Name="PartParticleFourTranslate" /></Ellipse.RenderTransform></Ellipse>
+                                    <Ellipse x:Name="PartParticleFive" Width="4" Height="4" Fill="{DynamicResource Cheems.Brush.CosmicProgress.Particle}" Opacity="0.6"><Ellipse.RenderTransform><TranslateTransform x:Name="PartParticleFiveTranslate" /></Ellipse.RenderTransform></Ellipse>
+                                </Canvas>
+
+                                <TextBlock x:Name="PartProgressText"
+                                           Canvas.Left="0" Canvas.Top="2"
+                                           Width="{Binding ActualWidth, ElementName=PartDragSurface}"
+                                           Height="16" TextAlignment="Center"
+                                           FontSize="10" FontWeight="Bold"
+                                           FontFamily="{DynamicResource Cheems.FontFamily.Default}"
+                                           Foreground="{DynamicResource Cheems.Brush.CosmicProgress.Text}"
+                                           IsHitTestVisible="False">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect Color="{StaticResource Cheems.Color.CosmicProgress.Shadow}"
+                                                          Opacity="0.7" BlurRadius="4" ShadowDepth="2" Direction="270" />
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                            </Canvas>
+                        </Grid>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetName="PartRippleScale" Storyboard.TargetProperty="ScaleX" From="0.5" To="1.5" Duration="0:0:3" RepeatBehavior="Forever" />
+                                    <DoubleAnimation Storyboard.TargetName="PartRippleScale" Storyboard.TargetProperty="ScaleY" From="0.5" To="1.5" Duration="0:0:3" RepeatBehavior="Forever" />
+                                    <DoubleAnimation Storyboard.TargetName="PartRippleScaleHost" Storyboard.TargetProperty="Opacity" From="0.7" To="0" Duration="0:0:3" RepeatBehavior="Forever" />
+
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleOneTranslate" Storyboard.TargetProperty="X" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="10" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleOneTranslate" Storyboard.TargetProperty="Y" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="-20" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleTwoTranslate" Storyboard.TargetProperty="X" BeginTime="0:0:1" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="10" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleTwoTranslate" Storyboard.TargetProperty="Y" BeginTime="0:0:1" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="-20" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleThreeTranslate" Storyboard.TargetProperty="X" BeginTime="0:0:2" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="10" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleThreeTranslate" Storyboard.TargetProperty="Y" BeginTime="0:0:2" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="-20" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleFourTranslate" Storyboard.TargetProperty="X" BeginTime="0:0:1.5" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="10" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleFourTranslate" Storyboard.TargetProperty="Y" BeginTime="0:0:1.5" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="-20" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleFiveTranslate" Storyboard.TargetProperty="X" BeginTime="0:0:2.5" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="10" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleFiveTranslate" Storyboard.TargetProperty="Y" BeginTime="0:0:2.5" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="-20" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PartRoot" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

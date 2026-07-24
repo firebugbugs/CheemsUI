@@ -1,0 +1,4 @@
+<!-- CheemsNewtonsCradleLoader：Uiverse dovatgabriel 牛顿摆加载动画
+     默认 50×50，可设 Width/Height 缩放 -->
+<!-- xmlns:cheems="https://cheemsui.com/wpf" -->
+<cheems:CheemsNewtonsCradleLoader />

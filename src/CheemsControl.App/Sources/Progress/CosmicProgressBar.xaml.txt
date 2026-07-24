@@ -1,4 +1,0 @@
-<!-- CheemsCosmicProgressBar：Uiverse rust_1966 星空粒子进度条 -->
-<!-- xmlns:cheems="https://cheemscontrol.com/wpf" -->
-<cheems:CheemsCosmicProgressBar Value="{Binding ProgressValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                  Step="0.1" />

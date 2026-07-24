@@ -1,0 +1,87 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CheemsUI"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Colors.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Brushes.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Fonts.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- data-glitch 与正文完全相同；逐字符排布用于精确实现 CSS letter-spacing: 5px。 -->
+    <x:Array x:Key="Cheems.Data.GlitchLoader.Characters" Type="{x:Type sys:String}">
+        <sys:String>L</sys:String>
+        <sys:String>o</sys:String>
+        <sys:String>a</sys:String>
+        <sys:String>d</sys:String>
+        <sys:String>i</sys:String>
+        <sys:String>n</sys:String>
+        <sys:String>g</sys:String>
+        <sys:String>.</sys:String>
+        <sys:String>.</sys:String>
+        <sys:String>.</sys:String>
+    </x:Array>
+
+    <DataTemplate x:Key="Cheems.Template.GlitchLoader.Character">
+        <TextBlock Text="{Binding}" Margin="0,0,5,0"
+                   LineHeight="30" LineStackingStrategy="BlockLineHeight" />
+    </DataTemplate>
+
+    <Style x:Key="Cheems.Style.GlitchLoader.TextLayer" TargetType="ItemsControl">
+        <Setter Property="ItemsSource" Value="{StaticResource Cheems.Data.GlitchLoader.Characters}" />
+        <Setter Property="ItemTemplate" Value="{StaticResource Cheems.Template.GlitchLoader.Character}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Cheems.FontFamily.Default}" />
+        <Setter Property="FontSize" Value="25" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsHitTestVisible" Value="False" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ItemsControl">
+                    <ItemsPresenter />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:CheemsGlitchLoader}">
+        <!-- 最大 skewY(-20deg) 会把约 170px 宽的文本向纵向扩展约 62px；保留透明安全区，不裁剪原动画。 -->
+        <Setter Property="Width" Value="225" />
+        <Setter Property="Height" Value="110" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsHitTestVisible" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CheemsGlitchLoader}">
+                    <Grid>
+                        <Grid x:Name="PartGlitch"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center">
+                            <!-- ::after：反向 0.4s glitch，z-index:-2。 -->
+                            <ItemsControl x:Name="PartAfter"
+                                          Style="{StaticResource Cheems.Style.GlitchLoader.TextLayer}"
+                                          Foreground="{DynamicResource Cheems.Brush.GlitchLoader.After}"
+                                          Opacity="0.8" Panel.ZIndex="-2" />
+                            <!-- ::before：正向 0.4s glitch，z-index:-1。 -->
+                            <ItemsControl x:Name="PartBefore"
+                                          Style="{StaticResource Cheems.Style.GlitchLoader.TextLayer}"
+                                          Foreground="{DynamicResource Cheems.Brush.GlitchLoader.Before}"
+                                          Opacity="0.8" Panel.ZIndex="-1" />
+                            <!-- .glitch 正文；1s ease-in-out infinite alternate 的 shift 作用于整个 PartGlitch。 -->
+                            <ItemsControl Style="{StaticResource Cheems.Style.GlitchLoader.TextLayer}"
+                                          Foreground="{DynamicResource Cheems.Brush.GlitchLoader.Text}"
+                                          Panel.ZIndex="1" />
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

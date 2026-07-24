@@ -1,0 +1,78 @@
+<UserControl x:Class="CheemsUI.App.Infrastructure.CompactShowcaseControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="90" d:DesignWidth="320">
+    <!-- 简单控件展示器：无标题、无边框、无背景；源码按钮固定在控件右下角。 -->
+    <Grid Background="{x:Null}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <ContentPresenter Grid.Column="0"
+                          Content="{Binding Demo, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                          VerticalAlignment="Center"
+                          Margin="0,0,16,0" />
+        <Button x:Name="CodeButton"
+                Grid.Column="1"
+                Content="&lt;/&gt;"
+                Style="{StaticResource Cheems.App.Style.CodeButton}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                MouseEnter="CodeButton_MouseEnter"
+                MouseLeave="CodeButton_MouseLeave"
+                Click="CodeButton_Click" />
+
+        <!-- 与大展示器一致：悬停预览源码，点击按钮复制。 -->
+        <Popup x:Name="CodePopup"
+               PlacementTarget="{Binding ElementName=CodeButton}"
+               Placement="Bottom"
+               HorizontalOffset="-350"
+               StaysOpen="True"
+               AllowsTransparency="True"
+               PopupAnimation="Fade">
+            <Border Width="420"
+                    MaxHeight="360"
+                    Margin="12"
+                    Background="{DynamicResource Cheems.Brush.Background.Default}"
+                    BorderBrush="{DynamicResource Cheems.Brush.Border.Default}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="2" BlurRadius="10" Opacity="0.18" />
+                </Border.Effect>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0"
+                            Background="{DynamicResource Cheems.Brush.Background.Elevated}"
+                            CornerRadius="7,7,0,0"
+                            Padding="12,8"
+                            BorderBrush="{DynamicResource Cheems.Brush.Border.Default}"
+                            BorderThickness="0,0,0,1">
+                        <TextBlock Text="点击 &lt;/&gt; 复制"
+                                   HorizontalAlignment="Right"
+                                   FontSize="11"
+                                   Foreground="{DynamicResource Cheems.Brush.Text.Secondary}" />
+                    </Border>
+
+                    <ScrollViewer Grid.Row="1"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Auto">
+                        <TextBlock x:Name="CodeText"
+                                   FontFamily="{DynamicResource Cheems.FontFamily.Mono}"
+                                   FontSize="12"
+                                   Padding="12"
+                                   Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+        </Popup>
+    </Grid>
+</UserControl>

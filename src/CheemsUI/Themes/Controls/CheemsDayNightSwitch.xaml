@@ -1,0 +1,192 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CheemsUI">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Colors.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--
+      HTML 逐层对应：CheemsDayNightSwitch=.switch，PartViewport=.slider，PartThumbFace=.slider-inner，
+      PartPseudoBefore/After=.slider-inner::before/::after。状态插值由控件代码按原 CSS 曲线计算。
+      唯一省略项：按用户要求不显示 input:focus 的外框。
+    -->
+    <Style TargetType="{x:Type local:CheemsDayNightSwitch}">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CheemsDayNightSwitch}">
+                    <Viewbox Stretch="Uniform">
+                        <!-- .switch: 6em × 3em at 18px = 108 × 54。 -->
+                        <Grid Width="108" Height="54">
+                            <!-- .slider 的外投影。 -->
+                            <Border CornerRadius="27">
+                                <Border.Background>
+                                    <SolidColorBrush Color="{StaticResource Cheems.Color.DayNight.Sky.Start}" />
+                                </Border.Background>
+                                <Border.Effect>
+                                    <DropShadowEffect Color="{StaticResource Cheems.Color.Shadow}"
+                                                      BlurRadius="8" ShadowDepth="4" Direction="270" Opacity="0.2" />
+                                </Border.Effect>
+                            </Border>
+
+                            <!-- .slider: absolute fill、50px radius、overflow:hidden。 -->
+                            <Grid x:Name="PartViewport">
+                                <Grid.Clip>
+                                    <RectangleGeometry Rect="0,0,108,54" RadiusX="27" RadiusY="27" />
+                                </Grid.Clip>
+
+                                <Border x:Name="PartDayTrack" CornerRadius="27">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Offset="0" Color="{StaticResource Cheems.Color.DayNight.Sky.Start}" />
+                                            <GradientStop Offset="1" Color="{StaticResource Cheems.Color.DayNight.Sky.End}" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                                <Border x:Name="PartNightTrack" CornerRadius="27" Opacity="0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Offset="0" Color="{StaticResource Cheems.Color.DayNight.Night.Start}" />
+                                            <GradientStop Offset="1" Color="{StaticResource Cheems.Color.DayNight.Night.End}" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+
+                                <!-- :hover 的两套源码渐变。 -->
+                                <Border x:Name="PartDayHover" CornerRadius="27" Opacity="0" IsHitTestVisible="False">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Offset="0" Color="{StaticResource Cheems.Color.DayNight.Sky.Hover.Start}" />
+                                            <GradientStop Offset="1" Color="{StaticResource Cheems.Color.DayNight.Sky.Hover.End}" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+                                <Border x:Name="PartNightHover" CornerRadius="27" Opacity="0" IsHitTestVisible="False">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Offset="0" Color="{StaticResource Cheems.Color.DayNight.Night.Hover.Start}" />
+                                            <GradientStop Offset="1" Color="{StaticResource Cheems.Color.DayNight.Night.Hover.End}" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+
+                                <!-- .slider::before / ::after。 -->
+                                <Grid x:Name="PartStars" Opacity="0" IsHitTestVisible="False">
+                                    <Ellipse x:Name="PartStarOne" Width="4" Height="4" Opacity="0.2"
+                                             HorizontalAlignment="Left" VerticalAlignment="Top" Margin="32,11,0,0">
+                                        <Ellipse.Fill><SolidColorBrush Color="{StaticResource Cheems.Color.DayNight.Star}" /></Ellipse.Fill>
+                                    </Ellipse>
+                                    <Ellipse x:Name="PartStarTwo" Width="4" Height="4" Opacity="0.2"
+                                             HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,27,14">
+                                        <Ellipse.Fill><SolidColorBrush Color="{StaticResource Cheems.Color.DayNight.Star}" /></Ellipse.Fill>
+                                    </Ellipse>
+                                </Grid>
+
+                                <Canvas Width="108" Height="54">
+                                    <!-- .slider-inner: left/top .3em，width/height 2.4em。 -->
+                                    <Grid x:Name="PartThumb" Width="43.2" Height="43.2"
+                                          Canvas.Left="5.4" Canvas.Top="5.4">
+                                        <Canvas x:Name="PartThumbFace" Width="43.2" Height="43.2"
+                                                RenderTransformOrigin="0.5,0.5">
+                                            <Canvas.RenderTransform><ScaleTransform ScaleX="1.0101" ScaleY="1.0101" /></Canvas.RenderTransform>
+
+                                            <!-- sunPulse 两层 box-shadow 的 WPF 对应层。 -->
+                                            <Ellipse x:Name="PartSunPulseWide" Width="43.2" Height="43.2"
+                                                     Canvas.Left="0" Canvas.Top="0" Opacity="0"
+                                                     RenderTransformOrigin="0.5,0.5">
+                                                <Ellipse.RenderTransform><ScaleTransform /></Ellipse.RenderTransform>
+                                                <Ellipse.Fill>
+                                                    <RadialGradientBrush>
+                                                        <GradientStop Offset="0" Color="{StaticResource Cheems.Color.DayNight.Sun.Halo.Faint}" />
+                                                        <GradientStop Offset="0.51" Color="{StaticResource Cheems.Color.DayNight.Sun.Halo.Faint}" />
+                                                        <GradientStop Offset="1" Color="{StaticResource Cheems.Color.DayNight.Sun.Transparent}" />
+                                                    </RadialGradientBrush>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                            <Ellipse x:Name="PartSunPulseNear" Width="43.2" Height="43.2"
+                                                     Canvas.Left="0" Canvas.Top="0" Opacity="0"
+                                                     RenderTransformOrigin="0.5,0.5">
+                                                <Ellipse.RenderTransform><ScaleTransform /></Ellipse.RenderTransform>
+                                                <Ellipse.Fill>
+                                                    <RadialGradientBrush>
+                                                        <GradientStop Offset="0" Color="{StaticResource Cheems.Color.DayNight.Sun.Halo.Strong}" />
+                                                        <GradientStop Offset="0.61" Color="{StaticResource Cheems.Color.DayNight.Sun.Halo.Strong}" />
+                                                        <GradientStop Offset="1" Color="{StaticResource Cheems.Color.DayNight.Sun.Transparent}" />
+                                                    </RadialGradientBrush>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+
+                                            <!-- moonPhase 的 20px 白色外发光，置于球体背后。 -->
+                                            <Ellipse x:Name="PartMoonGlow" Width="83.2" Height="83.2"
+                                                     Canvas.Left="-20" Canvas.Top="-20" Opacity="0" IsHitTestVisible="False">
+                                                <Ellipse.Fill>
+                                                    <RadialGradientBrush>
+                                                        <GradientStop Offset="0.51" Color="{StaticResource Cheems.Color.DayNight.Moon.Glow}" />
+                                                        <GradientStop Offset="1" Color="#00FFFFFF" />
+                                                    </RadialGradientBrush>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+
+                                            <!-- slider-inner 的唯一背景圆；代码只在 #ffd700 与 #fff 之间插值。 -->
+                                            <Ellipse x:Name="PartDisc" Width="43.2" Height="43.2" Canvas.Left="0" Canvas.Top="0">
+                                                <Ellipse.Fill><SolidColorBrush Color="{StaticResource Cheems.Color.DayNight.Sun}" /></Ellipse.Fill>
+                                            </Ellipse>
+
+                                            <!-- moonPhase：灰色内层上移动白色亮面，整体严格裁在球体内。 -->
+                                            <Grid x:Name="PartMoonEffect" Width="43.2" Height="43.2"
+                                                  Canvas.Left="0" Canvas.Top="0" Opacity="0">
+                                                <Grid.Clip><EllipseGeometry Center="21.6,21.6" RadiusX="21.6" RadiusY="21.6" /></Grid.Clip>
+                                                <Ellipse Width="43.2" Height="43.2">
+                                                    <Ellipse.Fill><SolidColorBrush Color="{StaticResource Cheems.Color.DayNight.Moon.Shade}" /></Ellipse.Fill>
+                                                </Ellipse>
+                                                <Ellipse x:Name="PartMoonLight" Width="43.2" Height="43.2">
+                                                    <Ellipse.Fill><SolidColorBrush Color="{StaticResource Cheems.Color.DayNight.Moon}" /></Ellipse.Fill>
+                                                    <Ellipse.RenderTransform><TranslateTransform X="10" Y="-5" /></Ellipse.RenderTransform>
+                                                </Ellipse>
+                                            </Grid>
+
+                                            <!-- slider-inner::before / ::after；尺寸、位置和颜色由代码连续变形。 -->
+                                            <Ellipse x:Name="PartPseudoBefore" Width="18" Height="18"
+                                                     Canvas.Left="-3.6" Canvas.Top="-9">
+                                                <Ellipse.Fill><SolidColorBrush Color="{StaticResource Cheems.Color.DayNight.Cloud}" /></Ellipse.Fill>
+                                            </Ellipse>
+                                            <Ellipse x:Name="PartPseudoAfter" Width="21.6" Height="21.6"
+                                                     Canvas.Left="27" Canvas.Top="32.4">
+                                                <Ellipse.Fill><SolidColorBrush Color="{StaticResource Cheems.Color.DayNight.Cloud}" /></Ellipse.Fill>
+                                            </Ellipse>
+
+                                        </Canvas>
+                                    </Grid>
+                                </Canvas>
+
+                                <!-- inset 0 -5px 10px rgba(0,0,0,.1)。 -->
+                                <Border CornerRadius="27" IsHitTestVisible="False">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Offset="0.58" Color="#00000000" />
+                                            <GradientStop Offset="1" Color="#1A000000" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
+
+                                <!-- forced-colors 对应边框，普通模式隐藏。 -->
+                                <Border x:Name="PartHighContrastBorder" CornerRadius="27"
+                                        BorderThickness="2" Opacity="0" IsHitTestVisible="False" />
+                            </Grid>
+                        </Grid>
+                    </Viewbox>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45" />
+                            <Setter Property="Cursor" Value="Arrow" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

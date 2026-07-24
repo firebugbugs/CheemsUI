@@ -1,4 +1,0 @@
-<!-- CheemsSubscribeButton：Uiverse gharsh11032000 金色描边订阅按钮
-     悬停金色填充扩散；文字经 Content 设置 -->
-<!-- xmlns:cheems="https://cheemscontrol.com/wpf" -->
-<cheems:CheemsSubscribeButton Content="Subscribe" />

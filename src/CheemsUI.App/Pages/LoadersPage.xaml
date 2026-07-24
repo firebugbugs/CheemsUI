@@ -1,0 +1,69 @@
+<UserControl x:Class="CheemsUI.App.Pages.LoadersPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cheems="https://cheemsui.com/wpf"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:infra="clr-namespace:CheemsUI.App.Infrastructure"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,0,16,16">
+            <TextBlock Text="加载 Loader" FontSize="24" FontWeight="Bold"
+                       Foreground="{DynamicResource Cheems.Brush.Text.Primary}"/>
+            <TextBlock Text="每个加载动画只展示一个原始形态，并使用透明横向小容器；页面空间允许时自动并排。"
+                       Margin="0,8,0,24" FontSize="13"
+                       Foreground="{DynamicResource Cheems.Brush.Text.Secondary}" TextWrapping="Wrap"/>
+
+            <WrapPanel>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/Typewriter.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsTypewriterVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsTypewriterLoader Width="136" Height="94"/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/WashingMachine.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsWashingMachineVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsWashingMachineLoader Width="124" Height="158"/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/AiMatrix.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsAiMatrixVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsAiMatrixLoader/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/HamsterWheel.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsHamsterWheelVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsHamsterWheelLoader/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/CubeLoading.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsCubeLoadingVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsCubeLoadingLoader/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/JumpingSquare.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsJumpingSquareVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsJumpingSquareLoader/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/Earth.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsEarthVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsEarthLoader/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/NewtonsCradle.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsNewtonsCradleVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsNewtonsCradleLoader/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/Domino.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsDominoVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsDominoLoader/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/WaveBars.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsWaveBarsVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsWaveBarsLoader/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/Blob.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsBlobVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsBlobLoader/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/RainbowBars.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsRainbowBarsVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsRainbowBarsLoader/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/Glitch.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsGlitchVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsGlitchLoader/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/Polyline.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsPolylineVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsPolylineLoader Width="64" Height="48"/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/PulseDots.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsPulseDotsVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsPulseDotsLoader/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/OrbitDots.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsOrbitDotsVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsOrbitDotsLoader/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+            </WrapPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

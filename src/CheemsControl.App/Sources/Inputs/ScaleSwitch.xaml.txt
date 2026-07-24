@@ -1,3 +1,0 @@
-<!-- CheemsScaleSwitch：Uiverse Praashoo7 圆形缩放旋转开关 -->
-<!-- xmlns:cheems="https://cheemscontrol.com/wpf" -->
-<cheems:CheemsScaleSwitch />

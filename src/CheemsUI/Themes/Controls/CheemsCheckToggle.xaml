@@ -1,0 +1,91 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CheemsUI">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Colors.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Brushes.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Uiverse mobinkakei：.toggler 的 margin 属于页面布局，控件仅保留 72×36 的 label。 -->
+    <Style TargetType="{x:Type local:CheemsCheckToggle}">
+        <Setter Property="Width" Value="72" />
+        <Setter Property="Height" Value="36" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CheemsCheckToggle}">
+                    <Viewbox Stretch="Uniform">
+                        <!-- 透明根命中层保留原 label 的完整 72×36 点击区域。 -->
+                        <Canvas x:Name="PartRoot" Width="72" Height="36" Background="Transparent">
+                            <!-- label：72×36，CSS border-radius:36px 按规范归一化为 18px。 -->
+                            <Border x:Name="PartTrack"
+                                    Width="72" Height="36"
+                                    Background="{DynamicResource Cheems.Brush.CheckToggle.Track}"
+                                    BorderBrush="{DynamicResource Cheems.Brush.CheckToggle.Border}"
+                                    BorderThickness="1"
+                                    CornerRadius="18"
+                                    IsHitTestVisible="False" />
+
+                            <!-- ::after、.toggler-on、.toggler-off 共用 left:25%→75% 的定位层。 -->
+                            <Canvas x:Name="PartIndicator"
+                                    Canvas.Left="5" Canvas.Top="5"
+                                    Width="26" Height="26"
+                                    RenderTransformOrigin="0.5,0.5"
+                                    IsHitTestVisible="False">
+                                <!-- label::after：26×26、初始红色，动画由控件统一驱动。 -->
+                                <Border x:Name="PartThumb"
+                                        Width="26" Height="26"
+                                        CornerRadius="13"
+                                        Background="{DynamicResource Cheems.Brush.CheckToggle.ThumbOff}"
+                                        RenderTransformOrigin="0.5,0.5" />
+
+                                <!-- .toggler-off SVG，viewBox 与原版保持为 130.2×130.2。 -->
+                                <Viewbox x:Name="PartOffIcon"
+                                         Width="26" Height="26"
+                                         Panel.ZIndex="2"
+                                         RenderTransformOrigin="0.5,0.5">
+                                    <Canvas Width="130.2" Height="130.2">
+                                        <Path Data="M34.4,34.4 L95.8,95.8"
+                                              Stroke="{DynamicResource Cheems.Brush.CheckToggle.Icon}"
+                                              StrokeThickness="7"
+                                              StrokeStartLineCap="Round"
+                                              StrokeEndLineCap="Round"
+                                              StrokeMiterLimit="10" />
+                                        <Path Data="M95.8,34.4 L34.4,95.8"
+                                              Stroke="{DynamicResource Cheems.Brush.CheckToggle.Icon}"
+                                              StrokeThickness="7"
+                                              StrokeStartLineCap="Round"
+                                              StrokeEndLineCap="Round"
+                                              StrokeMiterLimit="10" />
+                                    </Canvas>
+                                </Viewbox>
+
+                                <!-- .toggler-on SVG，初始宽高/透明度均为零。 -->
+                                <Viewbox x:Name="PartOnIcon"
+                                         Width="26" Height="26"
+                                         Panel.ZIndex="2"
+                                         RenderTransformOrigin="0.5,0.5">
+                                    <Canvas Width="130.2" Height="130.2">
+                                        <Path Data="M100.2,40.2 L51.5,88.8 L29.8,67.5"
+                                              Stroke="{DynamicResource Cheems.Brush.CheckToggle.Icon}"
+                                              StrokeThickness="7"
+                                              StrokeStartLineCap="Round"
+                                              StrokeEndLineCap="Round"
+                                              StrokeMiterLimit="10" />
+                                    </Canvas>
+                                </Viewbox>
+                            </Canvas>
+                        </Canvas>
+                    </Viewbox>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.55" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

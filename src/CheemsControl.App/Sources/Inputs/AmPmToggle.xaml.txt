@@ -1,4 +1,0 @@
-<!-- CheemsAmPmToggle：Uiverse mobinkakei AM/PM 开关
-     IsChecked=False 为 AM，IsChecked=True 为 PM；包含原版轨道、球体、月坑与六颗星的过渡 -->
-<!-- xmlns:cheems="https://cheemscontrol.com/wpf" -->
-<cheems:CheemsAmPmToggle />

@@ -1,4 +1,4 @@
-# CheemsControl
+# CheemsUI
 
 一套注重动效与质感的 WPF 自绘控件库。所有控件均以 ControlTemplate + Storyboard 纯 WPF 实现，不依赖任何第三方库；配色、字体走语义化资源键，换主题只改资源不动模板。
 
@@ -90,14 +90,14 @@
 
 ```xml
 <ItemGroup>
-  <ProjectReference Include="..\src\CheemsControl\CheemsControl.csproj" />
+  <ProjectReference Include="..\src\CheemsUI\CheemsUI.csproj" />
 </ItemGroup>
 ```
 
 XAML 中统一使用语义命名空间（无需记程序集名）：
 
 ```xml
-xmlns:cheems="https://cheemscontrol.com/wpf"
+xmlns:cheems="https://cheemsui.com/wpf"
 ```
 
 ```xml
@@ -120,7 +120,7 @@ xmlns:cheems="https://cheemscontrol.com/wpf"
 <Application.Resources>
     <ResourceDictionary>
         <ResourceDictionary.MergedDictionaries>
-            <ResourceDictionary Source="/CheemsControl;component/Themes/Generic.xaml" />
+            <ResourceDictionary Source="/CheemsUI;component/Themes/Generic.xaml" />
         </ResourceDictionary.MergedDictionaries>
 
         <!-- 全局语义键：覆盖后所有控件即时生效（DynamicResource） -->
@@ -130,7 +130,7 @@ xmlns:cheems="https://cheemscontrol.com/wpf"
 </Application.Resources>
 ```
 
-常用键（完整清单见 `src/CheemsControl/CheemsKeys.cs` 与 `src/CheemsControl/Themes/Basic/*.xaml`）：
+常用键（完整清单见 `src/CheemsUI/CheemsKeys.cs` 与 `src/CheemsUI/Themes/Basic/*.xaml`）：
 
 | 类别 | 键 |
 |---|---|
@@ -145,7 +145,7 @@ xmlns:cheems="https://cheemscontrol.com/wpf"
 
 ```
 # 全量导出到 docs/gallery（固定路径，重复执行会先清理旧图）
-CheemsControl.App.exe --export
+CheemsUI.App.exe --export
 
 # 可选参数
 --limit=8              只导出前 8 个控件
@@ -158,5 +158,5 @@ CheemsControl.App.exe --export
 也可以直接运行 Demo 浏览器交互查看全部控件：
 
 ```
-dotnet run --project src/CheemsControl.App
+dotnet run --project src/CheemsUI.App
 ```

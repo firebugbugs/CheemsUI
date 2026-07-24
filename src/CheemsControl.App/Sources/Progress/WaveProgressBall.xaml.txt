@@ -1,3 +1,0 @@
-<!-- CheemsWaveProgressBall：Uiverse mrhyddenn 波浪进度球（只读） -->
-<!-- xmlns:cheems="https://cheemscontrol.com/wpf" -->
-<cheems:CheemsWaveProgressBall Value="{Binding ProgressValue, Mode=OneWay}" />

@@ -1,0 +1,4 @@
+<!-- CheemsDominoLoader：Uiverse Zadrus 多米诺骨牌加载动画
+     默认 200×200，可设 Width/Height 缩放 -->
+<!-- xmlns:cheems="https://cheemsui.com/wpf" -->
+<cheems:CheemsDominoLoader />

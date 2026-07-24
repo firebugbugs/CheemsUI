@@ -1,0 +1,4 @@
+<!-- CheemsLedSwitch：Uiverse chase2k25 LED 软拟态开关
+     IsChecked=False 为灰色 LED，IsChecked=True 为黄色发光 LED -->
+<!-- xmlns:cheems="https://cheemsui.com/wpf" -->
+<cheems:CheemsLedSwitch />

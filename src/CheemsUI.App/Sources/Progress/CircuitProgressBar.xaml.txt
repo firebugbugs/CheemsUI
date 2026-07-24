@@ -1,0 +1,5 @@
+<!-- CheemsCircuitProgressBar：Uiverse AshtonLiou 3D 沟槽进度条 -->
+<!-- xmlns:cheems="https://cheemsui.com/wpf" -->
+<cheems:CheemsCircuitProgressBar Value="{Binding ProgressValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  Step="0.1"
+                                  Text="LOADING..." />

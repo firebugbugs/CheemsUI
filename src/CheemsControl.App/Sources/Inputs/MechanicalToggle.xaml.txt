@@ -1,3 +1,0 @@
-<!-- CheemsMechanicalToggle：Uiverse tunminh_6850 机械拟态开关 -->
-<!-- xmlns:cheems="https://cheemscontrol.com/wpf" -->
-<cheems:CheemsMechanicalToggle />
