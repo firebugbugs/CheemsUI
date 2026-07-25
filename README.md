@@ -2,6 +2,8 @@
 
 一套注重动效与质感的 WPF 自绘控件库。所有控件均以 ControlTemplate + Storyboard 纯 WPF 实现，不依赖任何第三方库；配色、字体走语义化资源键，换主题只改资源不动模板。
 
+[![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-1094431427-12B7F5?logo=tencentqq&logoColor=white)](CONTACT.md)
+
 ![](docs/gallery/Loaders/CheemsBounceBallLoader.gif)
 ![](docs/gallery/Loaders/CheemsEarthLoader.gif)
 ![](docs/gallery/Loaders/CheemsHamsterWheelLoader.gif)
@@ -111,3 +113,9 @@ CheemsUI.App.exe --export --only=CheemsShineButton,CheemsCheckToggle
 ```
 
 命名约定：`控件名.jpg` 常态、`-hover.jpg` 悬停、`-on.jpg` 开启态（开关类）、`-press.jpg` 按下态（按钮类）；Loader 为实录 GIF（24fps，自动按运动最大边界取景）。
+
+## 交流
+
+QQ 交流群：**1094431427** —— 问题反馈、控件需求、动效讨论都可以进来聊，也欢迎直接提 PR。
+
+[![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-1094431427-12B7F5?logo=tencentqq&logoColor=white)](CONTACT.md)
