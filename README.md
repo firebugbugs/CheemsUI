@@ -8,6 +8,12 @@
 ![](docs/gallery/Loaders/CheemsEarthLoader.gif)
 ![](docs/gallery/Loaders/CheemsHamsterWheelLoader.gif)
 
+<p align="center">
+  <a href="CONTROLS.md">
+    <img src="https://img.shields.io/badge/%E6%8E%A7%E4%BB%B6%E6%80%BB%E8%A7%88-42_%E4%B8%AA%E6%8E%A7%E4%BB%B6_%C2%B7_%E5%AE%8C%E6%95%B4%E5%8A%A8%E6%95%88%E6%BC%94%E7%A4%BA-7C5CFF?style=for-the-badge" alt="控件总览 - 42 个控件 · 完整动效演示">
+  </a>
+</p>
+
 ## 快速开始
 
 库目标框架 `net6.0-windows`（Demo 为 net8.0）。项目引用：
@@ -42,11 +48,11 @@ dotnet run --project src/CheemsUI.App
 
 ## 特性
 
-- **40+ 控件**：按钮、加载动画（Loader）、开关、输入框、进度条五大类
+- **42 个控件**：按钮、加载动画（Loader）、开关、输入框、进度条五大类
 - **纯 WPF 实现**：无第三方依赖，模板即全部视觉，可随意拆改
 - **状态即动效**：悬停、按下、开启等状态都带过渡动画，不是贴图切换
 - **语义化主题**：`Cheems.Brush.*` / `Cheems.FontFamily.*` 等资源键全局覆盖，一处改色处处生效
-- **自带工具链**：Demo 浏览器 + 命令行截图导出（本页所有图都由它生成）
+- **自带工具链**：Demo 浏览器 + 命令行截图导出（文档所有图都由它生成）
 
 ## 效果预览
 
@@ -63,26 +69,7 @@ dotnet run --project src/CheemsUI.App
 |---|---|---|
 | <img src="docs/gallery/Buttons/CheemsLayered3DButton.jpg" width="150"> | <img src="docs/gallery/Buttons/CheemsLayered3DButton-hover.jpg" width="150"> | <img src="docs/gallery/Buttons/CheemsLayered3DButton-press.jpg" width="150"> |
 
-### 开关 · 关 / 开
-
-| 关 | 开 |
-|---|---|
-| <img src="docs/gallery/Inputs/CheemsDayNightSwitch.jpg" width="130"> | <img src="docs/gallery/Inputs/CheemsDayNightSwitch-on.jpg" width="130"> |
-
-昼夜开关（DayNightSwitch）自带完整的日月形态渐变：太阳脉冲、月相移动、星星闪烁，全程矢量动画。
-
-### 输入与进度
-
-<img src="docs/gallery/Inputs/CheemsSearchBox-hover.jpg" width="260"> <img src="docs/gallery/Progress/CheemsWaveProgressBall.jpg" width="110">
-
-## 控件总览
-
-- **Buttons（8）**：`CheemsShineButton`、`CheemsLayered3DButton`、`CheemsSoftButton`、`CheemsDashedButton`、`CheemsSubscribeButton`、`CheemsDeleteButton`、`CheemsPixelHandButton`、`CheemsLeafButton`
-- **Loaders（17）**：`CheemsAiMatrixLoader`、`CheemsBlobLoader`、`CheemsBounceBallLoader`、`CheemsCubeLoadingLoader`、`CheemsDominoLoader`、`CheemsEarthLoader`、`CheemsGlitchLoader`、`CheemsHamsterWheelLoader`、`CheemsJumpingSquareLoader`、`CheemsNewtonsCradleLoader`、`CheemsOrbitDotsLoader`、`CheemsPolylineLoader`、`CheemsPulseDotsLoader`、`CheemsRainbowBarsLoader`、`CheemsTypewriterLoader`、`CheemsWashingMachineLoader`、`CheemsWaveBarsLoader`
-- **Inputs（13）**：`CheemsDayNightSwitch`、`CheemsCheckToggle`、`CheemsAmPmToggle`、`CheemsGenderToggle`、`CheemsIosStretchSwitch`、`CheemsLedSwitch`、`CheemsMechanicalToggle`、`CheemsMetalSwitch`、`CheemsPixelSwitch`、`CheemsPixelCoinSwitch`、`CheemsScaleSwitch`、`CheemsGlowInput`、`CheemsSearchBox`
-- **Progress（4）**：`CheemsCosmicProgressBar`、`CheemsCircuitProgressBar`、`CheemsMonoProgressBar`、`CheemsWaveProgressBall`（均继承自 `ProgressBar`，直接绑定 `Value` 使用）
-
-Loader 全部为无限循环动画，放入界面即自动播放；每个控件在 `Themes/Controls/*.xaml` 里有对应的专属配色键可覆盖。
+> 📖 完整控件清单与全部动效实录：**[CONTROLS.md](CONTROLS.md)**
 
 ## 主题定制
 
@@ -105,7 +92,7 @@ Loader 全部为无限循环动画，放入界面即自动播放；每个控件�
 
 ## 截图与 GIF 导出
 
-本页所有图片由 Demo 程序的导出模式自动生成，可随时重跑刷新：
+文档所有图片由 Demo 程序的导出模式自动生成，可随时重跑刷新：
 
 ```
 CheemsUI.App.exe --export            # 全量导出到 docs/gallery
