@@ -1,23 +1,23 @@
 # 控件总览
 
-CheemsUI 全部 **42 个控件**的清单与动效演示。图片均由 Demo 程序自动实录生成（Loader 为 24fps GIF，其余为关键状态截图）。
+CheemsUI 全部 **42 个控件**的清单与动效演示。图片均由 Demo 程序自动实录生成（按钮为完整交互 GIF：常态 → 悬停 → 按下 0.2s → 离开；Loader 为循环 GIF；其余为关键状态截图）。
 
 [![返回 README](https://img.shields.io/badge/%E2%86%90_%E8%BF%94%E5%9B%9E_README-18181B?style=flat-square)](README.md)
 
 ## Buttons（8）
 
-每个按钮展示 常态 / 悬停 / 按下 三态：
+每个按钮为完整交互实录 GIF（常态 → 悬停 → 按下 0.2s → 离开）：
 
-| 控件 | 常态 | 悬停 | 按下 |
-|---|---|---|---|
-| `CheemsShineButton`<br>流光扫过式主按钮 | <img src="docs/gallery/Buttons/CheemsShineButton.jpg" width="140"> | <img src="docs/gallery/Buttons/CheemsShineButton-hover.jpg" width="140"> | <img src="docs/gallery/Buttons/CheemsShineButton-press.jpg" width="140"> |
-| `CheemsLayered3DButton`<br>层叠立体按压按钮 | <img src="docs/gallery/Buttons/CheemsLayered3DButton.jpg" width="140"> | <img src="docs/gallery/Buttons/CheemsLayered3DButton-hover.jpg" width="140"> | <img src="docs/gallery/Buttons/CheemsLayered3DButton-press.jpg" width="140"> |
-| `CheemsSoftButton`<br>柔和底色按钮，按下带形变 | <img src="docs/gallery/Buttons/CheemsSoftButton.jpg" width="140"> | <img src="docs/gallery/Buttons/CheemsSoftButton-hover.jpg" width="140"> | <img src="docs/gallery/Buttons/CheemsSoftButton-press.jpg" width="140"> |
-| `CheemsDashedButton`<br>虚线描边按钮 | <img src="docs/gallery/Buttons/CheemsDashedButton.jpg" width="140"> | <img src="docs/gallery/Buttons/CheemsDashedButton-hover.jpg" width="140"> | <img src="docs/gallery/Buttons/CheemsDashedButton-press.jpg" width="140"> |
-| `CheemsSubscribeButton`<br>订阅按钮，点击后勾选动效 | <img src="docs/gallery/Buttons/CheemsSubscribeButton.jpg" width="140"> | <img src="docs/gallery/Buttons/CheemsSubscribeButton-hover.jpg" width="140"> | <img src="docs/gallery/Buttons/CheemsSubscribeButton-press.jpg" width="140"> |
-| `CheemsDeleteButton`<br>删除按钮，悬停出确认叉 | <img src="docs/gallery/Buttons/CheemsDeleteButton.jpg" width="140"> | <img src="docs/gallery/Buttons/CheemsDeleteButton-hover.jpg" width="140"> | <img src="docs/gallery/Buttons/CheemsDeleteButton-press.jpg" width="140"> |
-| `CheemsPixelHandButton`<br>像素风手指按钮 | <img src="docs/gallery/Buttons/CheemsPixelHandButton.jpg" width="140"> | <img src="docs/gallery/Buttons/CheemsPixelHandButton-hover.jpg" width="140"> | <img src="docs/gallery/Buttons/CheemsPixelHandButton-press.jpg" width="140"> |
-| `CheemsLeafButton`<br>叶形按钮 | <img src="docs/gallery/Buttons/CheemsLeafButton.jpg" width="140"> | <img src="docs/gallery/Buttons/CheemsLeafButton-hover.jpg" width="140"> | <img src="docs/gallery/Buttons/CheemsLeafButton-press.jpg" width="140"> |
+| 控件 | 交互实录 |
+|---|---|
+| `CheemsShineButton`<br>流光扫过式主按钮 | <img src="docs/gallery/Buttons/CheemsShineButton.gif" width="200"> |
+| `CheemsLayered3DButton`<br>层叠立体按压按钮 | <img src="docs/gallery/Buttons/CheemsLayered3DButton.gif" width="200"> |
+| `CheemsSoftButton`<br>柔和底色按钮，按下带形变 | <img src="docs/gallery/Buttons/CheemsSoftButton.gif" width="200"> |
+| `CheemsDashedButton`<br>虚线描边按钮 | <img src="docs/gallery/Buttons/CheemsDashedButton.gif" width="200"> |
+| `CheemsSubscribeButton`<br>订阅按钮，点击后勾选动效 | <img src="docs/gallery/Buttons/CheemsSubscribeButton.gif" width="200"> |
+| `CheemsDeleteButton`<br>删除按钮，悬停出确认叉 | <img src="docs/gallery/Buttons/CheemsDeleteButton.gif" width="200"> |
+| `CheemsPixelHandButton`<br>像素风手指按钮 | <img src="docs/gallery/Buttons/CheemsPixelHandButton.gif" width="200"> |
+| `CheemsLeafButton`<br>叶形按钮 | <img src="docs/gallery/Buttons/CheemsLeafButton.gif" width="200"> |
 
 ## Loaders（17）
 

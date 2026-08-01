@@ -22,7 +22,8 @@ internal sealed record GifExportResult(
 
 /// <summary>
 /// 导出所有控件：Loader 录制 GIF（四周扩 10%），
-/// 其余截图 JPEG：常态 + 悬停态，开关类加开启态、按钮类加按下态。
+/// 按钮录制交互 GIF（常态 → 移入 → 按下 0.2s → 离开），
+/// 其余截图 JPEG：常态 + 悬停态，开关类加开启态。
 /// 录制在多个 STA 工作线程上并行：每个线程有独立 Dispatcher/宿主窗口（按屏幕网格铺开互不遮挡），
 /// GIF 编码只处理已 Freeze 的位图，放线程池执行，不占用录制线程。
 /// </summary>
@@ -243,17 +244,6 @@ internal sealed class ControlGifExporter
             await DelayAsync(StateSettleDelay, ct);
             SaveJpeg(Path.Combine(categoryDirectory, $"{profile.ControlType.Name}-on.jpg"), host.Capture(), 95);
         }
-        // 按钮类：补一张按下态（真实交互是悬停后按住，两态叠加）
-        else if (control is ButtonBase button)
-        {
-            progress?.Report(counters.Report(profile.ControlType.Name, $"{profile.ControlType.Name} · 按下态"));
-            RecordingInputState.Enter(control);
-            RecordingInputState.Press(button);
-            await DelayAsync(StateSettleDelay, ct);
-            SaveJpeg(Path.Combine(categoryDirectory, $"{profile.ControlType.Name}-press.jpg"), host.Capture(), 95);
-            RecordingInputState.Release(button, raiseClick: false);
-            RecordingInputState.Leave(control);
-        }
     }
 
     /// <summary>
@@ -281,9 +271,9 @@ internal sealed class ControlGifExporter
             .AppendLine($"Generated: {DateTime.Now:yyyy-MM-dd HH:mm:ss}")
             .AppendLine($"Frame rate: {DefaultFramesPerSecond} FPS")
             .AppendLine("Loaders: GIF (animated, +10% padding)")
+            .AppendLine("Buttons: GIF (normal -> hover -> press 0.2s -> leave)")
             .AppendLine("Others: JPEG (normal + hover)")
             .AppendLine("Toggles: JPEG extra \"-on\" state")
-            .AppendLine("Buttons: JPEG extra \"-press\" state")
             .AppendLine($"Result: {counters.Succeeded}/{counters.TotalControls} succeeded")
             .AppendLine($"Cancelled: {counters.Cancelled}");
 

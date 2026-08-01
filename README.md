@@ -63,11 +63,9 @@ dotnet run --project src/CheemsUI.App
 | ![](docs/gallery/Loaders/CheemsNewtonsCradleLoader.gif) | ![](docs/gallery/Loaders/CheemsWaveBarsLoader.gif) | ![](docs/gallery/Loaders/CheemsAiMatrixLoader.gif) |
 | ![](docs/gallery/Loaders/CheemsWashingMachineLoader.gif) | ![](docs/gallery/Loaders/CheemsOrbitDotsLoader.gif) | ![](docs/gallery/Loaders/CheemsRainbowBarsLoader.gif) |
 
-### 按钮 · 三态实录（常态 / 悬停 / 按下）
+### 按钮 · 交互实录（常态 → 悬停 → 按下 → 离开）
 
-| 常态 | 悬停 | 按下 |
-|---|---|---|
-| <img src="docs/gallery/Buttons/CheemsLayered3DButton.jpg" width="150"> | <img src="docs/gallery/Buttons/CheemsLayered3DButton-hover.jpg" width="150"> | <img src="docs/gallery/Buttons/CheemsLayered3DButton-press.jpg" width="150"> |
+<img src="docs/gallery/Buttons/CheemsLayered3DButton.gif" width="220">
 
 > 📖 完整控件清单与全部动效实录：**[CONTROLS.md](CONTROLS.md)**
 
@@ -99,7 +97,7 @@ CheemsUI.App.exe --export            # 全量导出到 docs/gallery
 CheemsUI.App.exe --export --only=CheemsShineButton,CheemsCheckToggle
 ```
 
-命名约定：`控件名.jpg` 常态、`-hover.jpg` 悬停、`-on.jpg` 开启态（开关类）、`-press.jpg` 按下态（按钮类）；Loader 为实录 GIF（24fps，自动按运动最大边界取景）。
+命名约定：`控件名.jpg` 常态、`-hover.jpg` 悬停、`-on.jpg` 开启态（开关类）；按钮与 Loader 为实录 GIF（24fps，按钮录制「常态 → 悬停 → 按下 0.2s → 离开」完整交互，自动按运动最大边界取景）。
 
 ## 交流
 

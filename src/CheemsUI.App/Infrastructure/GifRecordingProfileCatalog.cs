@@ -80,6 +80,24 @@ internal static class GifRecordingProfileCatalog
             [nameof(CheemsWaveBarsLoader)] = (3.0, 0.1)
         };
 
+    /// <summary>
+    /// 按钮交互 GIF 总时长（秒）：交互脚本在 1.05s 释放并移出，
+    /// 总时长须覆盖控件各自的离开过渡动画（Layered3DButton 1.1s、LeafButton 1s 等）再加余量，
+    /// 保证 GIF 循环回开头时已完全回到常态、无跳变。未登记的新按钮取 1.6s 默认值。
+    /// </summary>
+    private static readonly IReadOnlyDictionary<string, double> ButtonDurations =
+        new Dictionary<string, double>(StringComparer.Ordinal)
+        {
+            [nameof(CheemsDashedButton)] = 2.4,
+            [nameof(CheemsPixelHandButton)] = 1.7,
+            [nameof(CheemsDeleteButton)] = 1.6,
+            [nameof(CheemsSoftButton)] = 1.6,
+            [nameof(CheemsSubscribeButton)] = 1.9,
+            [nameof(CheemsShineButton)] = 2.0,
+            [nameof(CheemsLeafButton)] = 2.3,
+            [nameof(CheemsLayered3DButton)] = 2.4
+        };
+
     private static readonly IReadOnlyDictionary<string, object?> InitialContent =
         new Dictionary<string, object?>(StringComparer.Ordinal)
         {
@@ -148,10 +166,11 @@ internal static class GifRecordingProfileCatalog
 
         if (typeof(ButtonBase).IsAssignableFrom(type))
         {
+            var duration = ButtonDurations.TryGetValue(type.Name, out var configured) ? configured : 1.6;
             return new GifRecordingProfile(
                 type, "Buttons",
-                TimeSpan.FromSeconds(1.6), TimeSpan.Zero,
-                isAnimated: false,
+                TimeSpan.FromSeconds(duration), TimeSpan.Zero,
+                isAnimated: true,
                 ConfigureButton,
                 control => new ButtonRecordingScript((ButtonBase)control));
         }
@@ -314,13 +333,14 @@ internal abstract class StagedRecordingScript : ControlRecordingScript
 
 internal sealed class ButtonRecordingScript : StagedRecordingScript
 {
+    // 交互节奏：常态 0.4s → 移入悬停 0.45s → 按下保持 0.2s → 释放并移出，
+    // 收尾空档留给离开过渡动画播完，GIF 循环回到常态时无跳变（全程不触发 Click）
     private static readonly TimeSpan[] Times =
     {
         TimeSpan.Zero,
-        TimeSpan.FromSeconds(0.25),
-        TimeSpan.FromSeconds(0.65),
+        TimeSpan.FromSeconds(0.4),
         TimeSpan.FromSeconds(0.85),
-        TimeSpan.FromSeconds(1.2)
+        TimeSpan.FromSeconds(1.05)
     };
 
     private readonly ButtonBase _button;
@@ -343,9 +363,7 @@ internal sealed class ButtonRecordingScript : StagedRecordingScript
                 RecordingInputState.Press(_button);
                 break;
             case 3:
-                RecordingInputState.Release(_button, raiseClick: true);
-                break;
-            case 4:
+                RecordingInputState.Release(_button, raiseClick: false);
                 RecordingInputState.Leave(_button);
                 break;
         }
