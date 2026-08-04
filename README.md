@@ -97,7 +97,7 @@ CheemsUI.App.exe --export            # 全量导出到 docs/gallery
 CheemsUI.App.exe --export --only=CheemsShineButton,CheemsCheckToggle
 ```
 
-命名约定：`控件名.jpg` 常态、`-hover.jpg` 悬停、`-on.jpg` 开启态（开关类）；按钮与 Loader 为实录 GIF（24fps，按钮录制「常态 → 悬停 → 按下 0.2s → 离开」完整交互，自动按运动最大边界取景）。
+命名约定：`控件名.jpg` 常态、`-hover.jpg` 悬停、`-on.jpg` 开启态（开关类）；按钮与 Loader 为实录 GIF（24fps，自动按运动最大边界取景）。按钮 GIF 录制「常态 → 悬停 → 按下 0.2s → 释放停留 0.5s → 离开」完整交互，画面中的光标由 `src/CheemsUI.App/Assets/cursor.png` 合成，替换该文件后重新导出即可换光标。
 
 ## 交流
 

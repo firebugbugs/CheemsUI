@@ -22,7 +22,7 @@ internal sealed record GifExportResult(
 
 /// <summary>
 /// 导出所有控件：Loader 录制 GIF（四周扩 10%），
-/// 按钮录制交互 GIF（常态 → 移入 → 按下 0.2s → 离开），
+/// 按钮录制交互 GIF（常态 → 移入 → 按下 0.2s → 释放停留 0.5s → 离开，带可替换的虚拟光标），
 /// 其余截图 JPEG：常态 + 悬停态，开关类加开启态。
 /// 录制在多个 STA 工作线程上并行：每个线程有独立 Dispatcher/宿主窗口（按屏幕网格铺开互不遮挡），
 /// GIF 编码只处理已 Freeze 的位图，放线程池执行，不占用录制线程。
@@ -132,6 +132,7 @@ internal sealed class ControlGifExporter
         using var host = new GifCaptureHost(control, LoaderExpandPercent, position, motionBounds);
 
         await host.OpenAsync(ct);
+        script.Attach(host);
         script.Start();
         await DelayAsync(FirstFrameWarmup, ct);
 
@@ -166,8 +167,27 @@ internal sealed class ControlGifExporter
         }
 
         var filePath = Path.Combine(categoryDirectory, $"{profile.ControlType.Name}.gif");
-        counters.QueueEncode(profile.ControlType.Name,
-            Task.Run(() => AnimatedGifEncoder.Save(filePath, frames, DefaultFramesPerSecond)));
+
+        // 虚拟光标在编码线程上按帧时间合成，不参与 WPF 渲染（避免扰动效果光栅化导致循环跳变）
+        var usesCursor = profile.UsesCursorOverlay;
+        var stageScale = frames.Count > 0 && host.StageSize.Width > 0
+            ? frames[0].PixelWidth / host.StageSize.Width
+            : 1.0;
+
+        counters.QueueEncode(profile.ControlType.Name, Task.Run(() =>
+        {
+            if (usesCursor && RecordingCursor.IsAvailable)
+            {
+                for (var i = 0; i < frames.Count; i++)
+                {
+                    var time = TimeSpan.FromSeconds(i / (double)DefaultFramesPerSecond);
+                    if (script.GetCursorPosition(time) is { } tip)
+                        frames[i] = RecordingCursor.Composite(frames[i], tip, stageScale);
+                }
+            }
+
+            AnimatedGifEncoder.Save(filePath, frames, DefaultFramesPerSecond);
+        }));
     }
 
     /// <summary>
@@ -271,7 +291,7 @@ internal sealed class ControlGifExporter
             .AppendLine($"Generated: {DateTime.Now:yyyy-MM-dd HH:mm:ss}")
             .AppendLine($"Frame rate: {DefaultFramesPerSecond} FPS")
             .AppendLine("Loaders: GIF (animated, +10% padding)")
-            .AppendLine("Buttons: GIF (normal -> hover -> press 0.2s -> leave)")
+            .AppendLine("Buttons: GIF (normal -> hover -> press 0.2s -> dwell 0.5s -> leave, custom cursor)")
             .AppendLine("Others: JPEG (normal + hover)")
             .AppendLine("Toggles: JPEG extra \"-on\" state")
             .AppendLine($"Result: {counters.Succeeded}/{counters.TotalControls} succeeded")

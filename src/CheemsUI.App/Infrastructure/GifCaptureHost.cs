@@ -51,6 +51,12 @@ internal sealed class GifCaptureHost : IDisposable
         return new Point(work.Left + col * SlotWidth, work.Top + row * SlotHeight);
     }
 
+    /// <summary>控件在舞台画布中的位置（运动舞台布置后有效，供脚本换算光标路径坐标）。</summary>
+    public Rect ControlStageBounds { get; private set; }
+
+    /// <summary>舞台画布尺寸（运动舞台布置后有效）。</summary>
+    public Size StageSize { get; private set; }
+
     public GifCaptureHost(Control control, double expandPercent = 0, Point? position = null, Rect? motionBounds = null)
     {
         _control = control;
@@ -167,8 +173,13 @@ internal sealed class GifCaptureHost : IDisposable
         canvas.Children.Add(_control);
         _control.HorizontalAlignment = HorizontalAlignment.Left;
         _control.VerticalAlignment = VerticalAlignment.Top;
-        Canvas.SetLeft(_control, Math.Min(left, width - controlWidth));
-        Canvas.SetTop(_control, Math.Min(top, height - controlHeight));
+        var controlLeft = Math.Min(left, width - controlWidth);
+        var controlTop = Math.Min(top, height - controlHeight);
+        Canvas.SetLeft(_control, controlLeft);
+        Canvas.SetTop(_control, controlTop);
+        StageSize = new Size(width, height);
+        ControlStageBounds = new Rect(controlLeft, controlTop, controlWidth, controlHeight);
+
         _window.UpdateLayout();
     }
 

@@ -22,4 +22,9 @@
     <Resource Include="Sources\**\*.txt" />
   </ItemGroup>
 
+  <!-- 录制光标素材：随构建复制到输出目录，替换 Assets\cursor.png 后重新导出即可换光标 -->
+  <ItemGroup>
+    <Content Include="Assets\cursor.png" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>
