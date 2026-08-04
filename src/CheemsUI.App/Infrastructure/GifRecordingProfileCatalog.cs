@@ -86,21 +86,21 @@ internal static class GifRecordingProfileCatalog
         };
 
     /// <summary>
-    /// 按钮交互 GIF 总时长（秒）：交互脚本在 1.55s（释放后停留 0.5s）移出，
+    /// 按钮交互 GIF 总时长（秒）：交互脚本在 1.85s（释放后停留 0.5s）移出，
     /// 总时长须覆盖控件各自的离开过渡动画（Layered3DButton 1.1s、LeafButton 1s、DashedButton 实测 ~0.9s 等）再加余量，
-    /// 保证 GIF 循环回开头时已完全回到常态、无跳变。未登记的新按钮取 2.1s 默认值。
+    /// 保证 GIF 循环回开头时已完全回到常态、无跳变。未登记的新按钮取 2.4s 默认值。
     /// </summary>
     private static readonly IReadOnlyDictionary<string, double> ButtonDurations =
         new Dictionary<string, double>(StringComparer.Ordinal)
         {
-            [nameof(CheemsDashedButton)] = 2.9,
-            [nameof(CheemsPixelHandButton)] = 2.2,
-            [nameof(CheemsDeleteButton)] = 2.1,
-            [nameof(CheemsSoftButton)] = 2.1,
-            [nameof(CheemsSubscribeButton)] = 2.4,
-            [nameof(CheemsShineButton)] = 2.5,
-            [nameof(CheemsLeafButton)] = 2.8,
-            [nameof(CheemsLayered3DButton)] = 2.9
+            [nameof(CheemsDashedButton)] = 3.2,
+            [nameof(CheemsPixelHandButton)] = 2.5,
+            [nameof(CheemsDeleteButton)] = 2.4,
+            [nameof(CheemsSoftButton)] = 2.4,
+            [nameof(CheemsSubscribeButton)] = 2.7,
+            [nameof(CheemsShineButton)] = 2.8,
+            [nameof(CheemsLeafButton)] = 3.1,
+            [nameof(CheemsLayered3DButton)] = 3.2
         };
 
     private static readonly IReadOnlyDictionary<string, object?> InitialContent =
@@ -171,7 +171,7 @@ internal static class GifRecordingProfileCatalog
 
         if (typeof(ButtonBase).IsAssignableFrom(type))
         {
-            var duration = ButtonDurations.TryGetValue(type.Name, out var configured) ? configured : 2.1;
+            var duration = ButtonDurations.TryGetValue(type.Name, out var configured) ? configured : 2.4;
             return new GifRecordingProfile(
                 type, "Buttons",
                 TimeSpan.FromSeconds(duration), TimeSpan.Zero,
@@ -350,12 +350,12 @@ internal abstract class StagedRecordingScript : ControlRecordingScript
 
 internal sealed class ButtonRecordingScript : StagedRecordingScript
 {
-    // 交互节奏：常态 0.4s → 移入悬停 0.45s → 按下保持 0.2s → 释放后停留 0.5s → 移出，
+    // 交互节奏：常态 0.4s → 移入悬停 0.45s → 按下保持 0.5s → 释放后停留 0.5s → 移出，
     // 收尾空档留给离开过渡动画播完，GIF 循环回到常态时无跳变（全程不触发 Click）
     private static readonly TimeSpan EnterTime = TimeSpan.FromSeconds(0.4);
     private static readonly TimeSpan PressTime = TimeSpan.FromSeconds(0.85);
-    private static readonly TimeSpan ReleaseTime = TimeSpan.FromSeconds(1.05);
-    private static readonly TimeSpan LeaveTime = TimeSpan.FromSeconds(1.55);
+    private static readonly TimeSpan ReleaseTime = TimeSpan.FromSeconds(1.35);
+    private static readonly TimeSpan LeaveTime = TimeSpan.FromSeconds(1.85);
 
     // 光标自舞台右侧减速滑入（落到按钮上的时刻与悬停触发对齐）；
     // 出画斜向右下角匀速离开，路径大部分在画面内，移出动作清晰可读

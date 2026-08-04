@@ -22,7 +22,7 @@ internal sealed record GifExportResult(
 
 /// <summary>
 /// 导出所有控件：Loader 录制 GIF（四周扩 10%），
-/// 按钮录制交互 GIF（常态 → 移入 → 按下 0.2s → 释放停留 0.5s → 离开，带可替换的虚拟光标），
+/// 按钮录制交互 GIF（常态 → 移入 → 按下 0.5s → 释放停留 0.5s → 离开，带可替换的虚拟光标），
 /// 其余截图 JPEG：常态 + 悬停态，开关类加开启态。
 /// 录制在多个 STA 工作线程上并行：每个线程有独立 Dispatcher/宿主窗口（按屏幕网格铺开互不遮挡），
 /// GIF 编码只处理已 Freeze 的位图，放线程池执行，不占用录制线程。
@@ -291,7 +291,7 @@ internal sealed class ControlGifExporter
             .AppendLine($"Generated: {DateTime.Now:yyyy-MM-dd HH:mm:ss}")
             .AppendLine($"Frame rate: {DefaultFramesPerSecond} FPS")
             .AppendLine("Loaders: GIF (animated, +10% padding)")
-            .AppendLine("Buttons: GIF (normal -> hover -> press 0.2s -> dwell 0.5s -> leave, custom cursor)")
+            .AppendLine("Buttons: GIF (normal -> hover -> press 0.5s -> dwell 0.5s -> leave, custom cursor)")
             .AppendLine("Others: JPEG (normal + hover)")
             .AppendLine("Toggles: JPEG extra \"-on\" state")
             .AppendLine($"Result: {counters.Succeeded}/{counters.TotalControls} succeeded")

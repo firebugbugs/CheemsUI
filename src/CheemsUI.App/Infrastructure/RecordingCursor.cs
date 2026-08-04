@@ -57,11 +57,15 @@ internal static class RecordingCursor
             using var bitmap = new Bitmap(width, height, stride, PixelFormat.Format32bppArgb, handle.AddrOfPinnedObject());
             using var graphics = Graphics.FromImage(bitmap);
 
-            // 箭头尖端在素材左上角 (1,1) 处，绘制偏移一个热点位让尖端落在目标坐标上
+            // 箭头尖端在素材左上角 (1,1) 处，绘制偏移一个热点位让尖端落在目标坐标上。
+            // 光标位图被多个并行编码任务共享，GDI+ 对象非线程安全，绘制需串行（临界区仅微秒级）。
             var x = (float)(tipPositionDip.X * scale - scale);
             var y = (float)(tipPositionDip.Y * scale - scale);
             var size = (float)(32 * scale);
-            graphics.DrawImage(cursor, x, y, size, size);
+            lock (Gate)
+            {
+                graphics.DrawImage(cursor, x, y, size, size);
+            }
 
             var result = BitmapSource.Create(
                 width, height, 96, 96, System.Windows.Media.PixelFormats.Bgra32, null, pixels, stride);
