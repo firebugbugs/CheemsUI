@@ -1,6 +1,6 @@
 # 控件总览
 
-CheemsUI 全部 **42 个控件**的清单与动效演示。图片均由 Demo 程序自动实录生成（按钮为完整交互 GIF：常态 → 悬停 → 按下 0.5s → 释放停留 0.5s → 离开，带鼠标光标演示；Loader 为循环 GIF；其余为关键状态截图）。
+CheemsUI 全部 **42 个控件**的清单与动效演示。图片均由 Demo 程序自动实录生成（按钮 / 开关为带鼠标光标的完整交互 GIF；Loader 为循环 GIF；其余为关键状态截图）。
 
 [![返回 README](https://img.shields.io/badge/%E2%86%90_%E8%BF%94%E5%9B%9E_README-18181B?style=flat-square)](README.md)
 
@@ -40,21 +40,21 @@ CheemsUI 全部 **42 个控件**的清单与动效演示。图片均由 Demo 程
 
 ## Inputs（13）
 
-开关类展示 关 / 开 两态：
+开关为完整交互实录 GIF（光标移入 → 悬停 → 点击打开 → 移开）：
 
-| 控件 | 关 | 开 |
-|---|---|---|
-| `CheemsDayNightSwitch`<br>昼夜形态渐变开关 | <img src="docs/gallery/Inputs/CheemsDayNightSwitch.jpg" width="120"> | <img src="docs/gallery/Inputs/CheemsDayNightSwitch-on.jpg" width="120"> |
-| `CheemsCheckToggle`<br>经典勾选开关 | <img src="docs/gallery/Inputs/CheemsCheckToggle.jpg" width="120"> | <img src="docs/gallery/Inputs/CheemsCheckToggle-on.jpg" width="120"> |
-| `CheemsAmPmToggle`<br>上午 / 下午开关 | <img src="docs/gallery/Inputs/CheemsAmPmToggle.jpg" width="120"> | <img src="docs/gallery/Inputs/CheemsAmPmToggle-on.jpg" width="120"> |
-| `CheemsGenderToggle`<br>性别选择开关 | <img src="docs/gallery/Inputs/CheemsGenderToggle.jpg" width="120"> | <img src="docs/gallery/Inputs/CheemsGenderToggle-on.jpg" width="120"> |
-| `CheemsIosStretchSwitch`<br>iOS 风拉伸开关 | <img src="docs/gallery/Inputs/CheemsIosStretchSwitch.jpg" width="120"> | <img src="docs/gallery/Inputs/CheemsIosStretchSwitch-on.jpg" width="120"> |
-| `CheemsLedSwitch`<br>LED 指示开关 | <img src="docs/gallery/Inputs/CheemsLedSwitch.jpg" width="120"> | <img src="docs/gallery/Inputs/CheemsLedSwitch-on.jpg" width="120"> |
-| `CheemsMechanicalToggle`<br>机械拨杆开关 | <img src="docs/gallery/Inputs/CheemsMechanicalToggle.jpg" width="120"> | <img src="docs/gallery/Inputs/CheemsMechanicalToggle-on.jpg" width="120"> |
-| `CheemsMetalSwitch`<br>金属质感开关 | <img src="docs/gallery/Inputs/CheemsMetalSwitch.jpg" width="120"> | <img src="docs/gallery/Inputs/CheemsMetalSwitch-on.jpg" width="120"> |
-| `CheemsPixelSwitch`<br>像素风开关 | <img src="docs/gallery/Inputs/CheemsPixelSwitch.jpg" width="120"> | <img src="docs/gallery/Inputs/CheemsPixelSwitch-on.jpg" width="120"> |
-| `CheemsPixelCoinSwitch`<br>像素投币开关 | <img src="docs/gallery/Inputs/CheemsPixelCoinSwitch.jpg" width="120"> | <img src="docs/gallery/Inputs/CheemsPixelCoinSwitch-on.jpg" width="120"> |
-| `CheemsScaleSwitch`<br>天平式开关 | <img src="docs/gallery/Inputs/CheemsScaleSwitch.jpg" width="120"> | <img src="docs/gallery/Inputs/CheemsScaleSwitch-on.jpg" width="120"> |
+| 控件 | 交互实录 |
+|---|---|
+| `CheemsDayNightSwitch`<br>昼夜形态渐变开关 | <img src="docs/gallery/Inputs/CheemsDayNightSwitch.gif" width="150"> |
+| `CheemsCheckToggle`<br>经典勾选开关 | <img src="docs/gallery/Inputs/CheemsCheckToggle.gif" width="150"> |
+| `CheemsAmPmToggle`<br>上午 / 下午开关 | <img src="docs/gallery/Inputs/CheemsAmPmToggle.gif" width="150"> |
+| `CheemsGenderToggle`<br>性别选择开关 | <img src="docs/gallery/Inputs/CheemsGenderToggle.gif" width="150"> |
+| `CheemsIosStretchSwitch`<br>iOS 风拉伸开关 | <img src="docs/gallery/Inputs/CheemsIosStretchSwitch.gif" width="150"> |
+| `CheemsLedSwitch`<br>LED 指示开关 | <img src="docs/gallery/Inputs/CheemsLedSwitch.gif" width="150"> |
+| `CheemsMechanicalToggle`<br>机械拨杆开关 | <img src="docs/gallery/Inputs/CheemsMechanicalToggle.gif" width="150"> |
+| `CheemsMetalSwitch`<br>金属质感开关 | <img src="docs/gallery/Inputs/CheemsMetalSwitch.gif" width="150"> |
+| `CheemsPixelSwitch`<br>像素风开关 | <img src="docs/gallery/Inputs/CheemsPixelSwitch.gif" width="150"> |
+| `CheemsPixelCoinSwitch`<br>像素投币开关 | <img src="docs/gallery/Inputs/CheemsPixelCoinSwitch.gif" width="150"> |
+| `CheemsScaleSwitch`<br>天平式开关 | <img src="docs/gallery/Inputs/CheemsScaleSwitch.gif" width="150"> |
 
 输入框展示 常态 / 悬停（聚焦）两态：
 

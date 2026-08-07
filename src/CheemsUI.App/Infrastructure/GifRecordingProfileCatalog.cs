@@ -161,12 +161,14 @@ internal static class GifRecordingProfileCatalog
 
         if (typeof(ToggleButton).IsAssignableFrom(type))
         {
+            // 3.0s = 移出（2.35s）+ 悬停离开过渡（≤ ~0.5s）+ 余量
             return new GifRecordingProfile(
                 type, "Inputs",
-                TimeSpan.FromSeconds(2.5), TimeSpan.Zero,
-                isAnimated: false,
+                TimeSpan.FromSeconds(3.0), TimeSpan.Zero,
+                isAnimated: true,
                 ConfigureToggle,
-                control => new ToggleRecordingScript((ToggleButton)control));
+                control => new ToggleRecordingScript((ToggleButton)control),
+                usesCursorOverlay: true);
         }
 
         if (typeof(ButtonBase).IsAssignableFrom(type))
@@ -348,6 +350,55 @@ internal abstract class StagedRecordingScript : ControlRecordingScript
     }
 }
 
+/// <summary>
+/// 交互脚本共用的光标路径：舞台右缘减速滑入 → 控件中心停留 → 右下角匀速滑出。
+/// 位置是时间的确定函数，抓帧后按帧时间查询并合成。
+/// </summary>
+internal sealed class RecordingCursorPath
+{
+    public static readonly TimeSpan EnterGlide = TimeSpan.FromSeconds(0.35);
+    public static readonly TimeSpan ExitGlide = TimeSpan.FromSeconds(0.4);
+
+    private readonly Point _center;
+    private readonly Point _entryOrigin;
+    private readonly Point _exitTarget;
+    private readonly bool _valid;
+
+    public RecordingCursorPath(GifCaptureHost host)
+    {
+        if (host.StageSize.Width <= 0) return;
+
+        _valid = true;
+        var bounds = host.ControlStageBounds;
+        _center = new Point(bounds.X + bounds.Width / 2, bounds.Y + bounds.Height / 2);
+        _entryOrigin = new Point(host.StageSize.Width + 40, _center.Y);
+        _exitTarget = new Point(host.StageSize.Width + 16, host.StageSize.Height + 16);
+    }
+
+    public Point? GetPosition(TimeSpan elapsed, TimeSpan enterTime, TimeSpan leaveTime)
+    {
+        if (!_valid) return null;
+        if (elapsed < enterTime - EnterGlide || elapsed >= leaveTime + ExitGlide) return null;
+
+        if (elapsed < enterTime)
+        {
+            var p = EaseOut((elapsed - (enterTime - EnterGlide)).TotalSeconds / EnterGlide.TotalSeconds);
+            return _entryOrigin + (_center - _entryOrigin) * p;
+        }
+
+        if (elapsed < leaveTime)
+        {
+            return _center;
+        }
+
+        var q = Math.Clamp((elapsed - leaveTime).TotalSeconds / ExitGlide.TotalSeconds, 0, 1);
+        return _center + (_exitTarget - _center) * q;
+    }
+
+    private static double EaseOut(double fraction) =>
+        1 - Math.Pow(1 - Math.Clamp(fraction, 0, 1), 3);
+}
+
 internal sealed class ButtonRecordingScript : StagedRecordingScript
 {
     // 交互节奏：常态 0.4s → 移入悬停 0.45s → 按下保持 0.5s → 释放后停留 0.5s → 移出，
@@ -357,11 +408,7 @@ internal sealed class ButtonRecordingScript : StagedRecordingScript
     private static readonly TimeSpan ReleaseTime = TimeSpan.FromSeconds(1.35);
     private static readonly TimeSpan LeaveTime = TimeSpan.FromSeconds(1.85);
 
-    // 光标自舞台右侧减速滑入（落到按钮上的时刻与悬停触发对齐）；
-    // 出画斜向右下角匀速离开，路径大部分在画面内，移出动作清晰可读
-    private static readonly TimeSpan CursorEnterGlide = TimeSpan.FromSeconds(0.35);
-    private static readonly TimeSpan CursorExitGlide = TimeSpan.FromSeconds(0.4);
-
+    // 光标路径共用 RecordingCursorPath：入画对齐悬停触发，出画对齐移出触发
     private static readonly TimeSpan[] Times =
     {
         TimeSpan.Zero,
@@ -372,26 +419,13 @@ internal sealed class ButtonRecordingScript : StagedRecordingScript
     };
 
     private readonly ButtonBase _button;
-    private Point _center;
-    private Point _entryOrigin;
-    private Point _exitTarget;
-    private bool _hasStage;
+    private RecordingCursorPath? _cursorPath;
 
     public ButtonRecordingScript(ButtonBase button) : base(button) => _button = button;
 
     protected override IReadOnlyList<TimeSpan> StageTimes => Times;
 
-    public override void Attach(GifCaptureHost host)
-    {
-        if (host.StageSize.Width <= 0) return;
-
-        _hasStage = true;
-        _center = new Point(
-            host.ControlStageBounds.X + host.ControlStageBounds.Width / 2,
-            host.ControlStageBounds.Y + host.ControlStageBounds.Height / 2);
-        _entryOrigin = new Point(host.StageSize.Width + 40, _center.Y);
-        _exitTarget = new Point(host.StageSize.Width + 16, host.StageSize.Height + 16);
-    }
+    public override void Attach(GifCaptureHost host) => _cursorPath = new RecordingCursorPath(host);
 
     protected override void EnterStage(int stage)
     {
@@ -415,53 +449,38 @@ internal sealed class ButtonRecordingScript : StagedRecordingScript
         }
     }
 
-    /// <summary>光标尖端位置是时间的确定函数；入画对齐悬停触发，出画对齐移出触发。</summary>
-    public override Point? GetCursorPosition(TimeSpan elapsed)
-    {
-        if (!_hasStage) return null;
-        if (elapsed < EnterTime - CursorEnterGlide || elapsed >= LeaveTime + CursorExitGlide) return null;
-
-        if (elapsed < EnterTime)
-        {
-            // 滑入：舞台右侧 → 按钮中心（减速逼近）
-            var p = EaseOut((elapsed - (EnterTime - CursorEnterGlide)).TotalSeconds / CursorEnterGlide.TotalSeconds);
-            return _entryOrigin + (_center - _entryOrigin) * p;
-        }
-
-        if (elapsed < LeaveTime)
-        {
-            return _center;
-        }
-
-        // 滑出：按钮中心 → 舞台右下角外（匀速离开）
-        var q = Math.Clamp((elapsed - LeaveTime).TotalSeconds / CursorExitGlide.TotalSeconds, 0, 1);
-        return _center + (_exitTarget - _center) * q;
-    }
-
-    private static double EaseOut(double fraction) =>
-        1 - Math.Pow(1 - Math.Clamp(fraction, 0, 1), 3);
+    public override Point? GetCursorPosition(TimeSpan elapsed) =>
+        _cursorPath?.GetPosition(elapsed, EnterTime, LeaveTime);
 
     public override void Finish() => RecordingInputState.Reset(_button);
 }
 
 internal sealed class ToggleRecordingScript : StagedRecordingScript
 {
+    // 交互节奏：常态 0.4s → 移入悬停 0.45s → 按下 0.2s → 打开（各开关形态动画 ≤ ~0.9s，
+    // 留 1.3s 播完并展示开启态）→ 移出。全程不触发 Click，Checked 事件手动补发。
+    private static readonly TimeSpan EnterTime = TimeSpan.FromSeconds(0.4);
+    private static readonly TimeSpan PressTime = TimeSpan.FromSeconds(0.85);
+    private static readonly TimeSpan ReleaseTime = TimeSpan.FromSeconds(1.05);
+    private static readonly TimeSpan LeaveTime = TimeSpan.FromSeconds(2.35);
+
     private static readonly TimeSpan[] Times =
     {
         TimeSpan.Zero,
-        TimeSpan.FromSeconds(0.2),
-        TimeSpan.FromSeconds(0.5),
-        TimeSpan.FromSeconds(0.7),
-        TimeSpan.FromSeconds(1.4),
-        TimeSpan.FromSeconds(1.6),
-        TimeSpan.FromSeconds(2.15)
+        EnterTime,
+        PressTime,
+        ReleaseTime,
+        LeaveTime
     };
 
     private readonly ToggleButton _toggle;
+    private RecordingCursorPath? _cursorPath;
 
     public ToggleRecordingScript(ToggleButton toggle) : base(toggle) => _toggle = toggle;
 
     protected override IReadOnlyList<TimeSpan> StageTimes => Times;
+
+    public override void Attach(GifCaptureHost host) => _cursorPath = new RecordingCursorPath(host);
 
     protected override void EnterStage(int stage)
     {
@@ -483,24 +502,15 @@ internal sealed class ToggleRecordingScript : StagedRecordingScript
                 _toggle.RaiseEvent(new RoutedEventArgs(ToggleButton.CheckedEvent, _toggle));
                 break;
             case 4:
-                RecordingInputState.Press(_toggle);
-                break;
-            case 5:
-                RecordingInputState.Release(_toggle, raiseClick: false);
-                _toggle.IsChecked = false;
-                _toggle.RaiseEvent(new RoutedEventArgs(ToggleButton.UncheckedEvent, _toggle));
-                break;
-            case 6:
                 RecordingInputState.Leave(_toggle);
                 break;
         }
     }
 
-    public override void Finish()
-    {
-        _toggle.IsChecked = false;
-        RecordingInputState.Reset(_toggle);
-    }
+    public override Point? GetCursorPosition(TimeSpan elapsed) =>
+        _cursorPath?.GetPosition(elapsed, EnterTime, LeaveTime);
+
+    public override void Finish() => RecordingInputState.Reset(_toggle);
 }
 
 internal sealed class ProgressRecordingScript : ControlRecordingScript

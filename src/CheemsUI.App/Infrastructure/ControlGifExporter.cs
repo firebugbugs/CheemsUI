@@ -2,7 +2,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -23,7 +22,8 @@ internal sealed record GifExportResult(
 /// <summary>
 /// 导出所有控件：Loader 录制 GIF（四周扩 10%），
 /// 按钮录制交互 GIF（常态 → 移入 → 按下 0.5s → 释放停留 0.5s → 离开，带可替换的虚拟光标），
-/// 其余截图 JPEG：常态 + 悬停态，开关类加开启态。
+/// 开关录制交互 GIF（常态 → 移入 → 点击打开 → 移开，带光标），
+/// 其余截图 JPEG：常态 + 悬停态。
 /// 录制在多个 STA 工作线程上并行：每个线程有独立 Dispatcher/宿主窗口（按屏幕网格铺开互不遮挡），
 /// GIF 编码只处理已 Freeze 的位图，放线程池执行，不占用录制线程。
 /// </summary>
@@ -254,16 +254,6 @@ internal sealed class ControlGifExporter
         await DelayAsync(StateSettleDelay, ct);
         SaveJpeg(Path.Combine(categoryDirectory, $"{profile.ControlType.Name}-hover.jpg"), host.Capture(), 95);
         RecordingInputState.Leave(hoverTarget);
-
-        // 开关类：补一张开启态
-        if (control is ToggleButton toggle)
-        {
-            progress?.Report(counters.Report(profile.ControlType.Name, $"{profile.ControlType.Name} · 开启态"));
-            toggle.IsChecked = true;
-            toggle.RaiseEvent(new RoutedEventArgs(ToggleButton.CheckedEvent, toggle));
-            await DelayAsync(StateSettleDelay, ct);
-            SaveJpeg(Path.Combine(categoryDirectory, $"{profile.ControlType.Name}-on.jpg"), host.Capture(), 95);
-        }
     }
 
     /// <summary>
@@ -292,8 +282,8 @@ internal sealed class ControlGifExporter
             .AppendLine($"Frame rate: {DefaultFramesPerSecond} FPS")
             .AppendLine("Loaders: GIF (animated, +10% padding)")
             .AppendLine("Buttons: GIF (normal -> hover -> press 0.5s -> dwell 0.5s -> leave, custom cursor)")
-            .AppendLine("Others: JPEG (normal + hover)")
-            .AppendLine("Toggles: JPEG extra \"-on\" state")
+            .AppendLine("Toggles: GIF (normal -> hover -> click on -> leave, custom cursor)")
+            .AppendLine("Inputs: JPEG (normal + hover)")
             .AppendLine($"Result: {counters.Succeeded}/{counters.TotalControls} succeeded")
             .AppendLine($"Cancelled: {counters.Cancelled}");
 
