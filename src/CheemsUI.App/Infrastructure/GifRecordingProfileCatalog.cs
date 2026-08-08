@@ -86,21 +86,21 @@ internal static class GifRecordingProfileCatalog
         };
 
     /// <summary>
-    /// 按钮交互 GIF 总时长（秒）：交互脚本在 1.85s（释放后停留 0.5s）移出，
+    /// 按钮交互 GIF 总时长（秒）：交互脚本在 1.65s（抬起后停留 0.5s）移出，
     /// 总时长须覆盖控件各自的离开过渡动画（Layered3DButton 1.1s、LeafButton 1s、DashedButton 实测 ~0.9s 等）再加余量，
-    /// 保证 GIF 循环回开头时已完全回到常态、无跳变。未登记的新按钮取 2.4s 默认值。
+    /// 保证 GIF 循环回开头时已完全回到常态、无跳变。未登记的新按钮取 2.2s 默认值。
     /// </summary>
     private static readonly IReadOnlyDictionary<string, double> ButtonDurations =
         new Dictionary<string, double>(StringComparer.Ordinal)
         {
-            [nameof(CheemsDashedButton)] = 3.2,
-            [nameof(CheemsPixelHandButton)] = 2.5,
-            [nameof(CheemsDeleteButton)] = 2.4,
-            [nameof(CheemsSoftButton)] = 2.4,
-            [nameof(CheemsSubscribeButton)] = 2.7,
-            [nameof(CheemsShineButton)] = 2.8,
-            [nameof(CheemsLeafButton)] = 3.1,
-            [nameof(CheemsLayered3DButton)] = 3.2
+            [nameof(CheemsDashedButton)] = 3.0,
+            [nameof(CheemsPixelHandButton)] = 2.3,
+            [nameof(CheemsDeleteButton)] = 2.2,
+            [nameof(CheemsSoftButton)] = 2.2,
+            [nameof(CheemsSubscribeButton)] = 2.5,
+            [nameof(CheemsShineButton)] = 2.6,
+            [nameof(CheemsLeafButton)] = 2.9,
+            [nameof(CheemsLayered3DButton)] = 3.0
         };
 
     private static readonly IReadOnlyDictionary<string, object?> InitialContent =
@@ -151,12 +151,13 @@ internal static class GifRecordingProfileCatalog
 
         if (typeof(ProgressBar).IsAssignableFrom(type))
         {
+            // 0 → 100% 全程 5s 匀速渐进，录制时长与脚本行程一致
             return new GifRecordingProfile(
                 type, "Progress",
-                TimeSpan.FromSeconds(2.6), TimeSpan.Zero,
-                isAnimated: false,
+                TimeSpan.FromSeconds(5), TimeSpan.Zero,
+                isAnimated: true,
                 ConfigureProgress,
-                control => new ProgressRecordingScript((ProgressBar)control));
+                control => new ProgressRecordingScript((ProgressBar)control, TimeSpan.FromSeconds(5)));
         }
 
         if (typeof(ToggleButton).IsAssignableFrom(type))
@@ -173,7 +174,7 @@ internal static class GifRecordingProfileCatalog
 
         if (typeof(ButtonBase).IsAssignableFrom(type))
         {
-            var duration = ButtonDurations.TryGetValue(type.Name, out var configured) ? configured : 2.4;
+            var duration = ButtonDurations.TryGetValue(type.Name, out var configured) ? configured : 2.2;
             return new GifRecordingProfile(
                 type, "Buttons",
                 TimeSpan.FromSeconds(duration), TimeSpan.Zero,
@@ -258,8 +259,7 @@ internal static class GifRecordingProfileCatalog
         var progress = (ProgressBar)control;
         progress.Minimum = 0;
         progress.Maximum = 100;
-        // 40% 处于行程中间偏左，轨道填充与进度球都处于可辨识状态
-        progress.Value = 40;
+        // Value 由录制脚本全程驱动（0 → 100%）
     }
 
     private static void ConfigureTextInput(Control control)
@@ -401,12 +401,12 @@ internal sealed class RecordingCursorPath
 
 internal sealed class ButtonRecordingScript : StagedRecordingScript
 {
-    // 交互节奏：常态 0.4s → 移入悬停 0.45s → 按下保持 0.5s → 释放后停留 0.5s → 移出，
+    // 交互节奏：常态 0.4s → 移入悬停 0.45s → 按下 0.3s → 抬起停留 0.5s → 移出，
     // 收尾空档留给离开过渡动画播完，GIF 循环回到常态时无跳变（全程不触发 Click）
     private static readonly TimeSpan EnterTime = TimeSpan.FromSeconds(0.4);
     private static readonly TimeSpan PressTime = TimeSpan.FromSeconds(0.85);
-    private static readonly TimeSpan ReleaseTime = TimeSpan.FromSeconds(1.35);
-    private static readonly TimeSpan LeaveTime = TimeSpan.FromSeconds(1.85);
+    private static readonly TimeSpan ReleaseTime = TimeSpan.FromSeconds(1.15);
+    private static readonly TimeSpan LeaveTime = TimeSpan.FromSeconds(1.65);
 
     // 光标路径共用 RecordingCursorPath：入画对齐悬停触发，出画对齐移出触发
     private static readonly TimeSpan[] Times =
@@ -515,16 +515,21 @@ internal sealed class ToggleRecordingScript : StagedRecordingScript
 
 internal sealed class ProgressRecordingScript : ControlRecordingScript
 {
-    private const double RampDurationSeconds = 2;
     private readonly ProgressBar _progress;
+    private readonly TimeSpan _rampDuration;
 
-    public ProgressRecordingScript(ProgressBar progress) : base(progress) => _progress = progress;
+    public ProgressRecordingScript(ProgressBar progress, TimeSpan duration) : base(progress)
+    {
+        _progress = progress;
+        // 录制末帧在第 (N-1)/fps 时刻抓取，行程减去一帧间隔让末帧恰好抵达 100%
+        _rampDuration = duration - TimeSpan.FromSeconds(1.0 / ControlGifExporter.DefaultFramesPerSecond);
+    }
 
     public override void Start() => _progress.Value = _progress.Minimum;
 
     public override void Update(TimeSpan elapsed)
     {
-        var fraction = Math.Clamp(elapsed.TotalSeconds / RampDurationSeconds, 0, 1);
+        var fraction = Math.Clamp(elapsed / _rampDuration, 0, 1);
         _progress.Value = _progress.Minimum + ((_progress.Maximum - _progress.Minimum) * fraction);
     }
 

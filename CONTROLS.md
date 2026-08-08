@@ -1,6 +1,6 @@
 # 控件总览
 
-CheemsUI 全部 **42 个控件**的清单与动效演示。图片均由 Demo 程序自动实录生成（按钮 / 开关为带鼠标光标的完整交互 GIF；Loader 为循环 GIF；其余为关键状态截图）。
+CheemsUI 全部 **42 个控件**的清单与动效演示。图片均由 Demo 程序自动实录生成（按钮 / 开关为带鼠标光标的完整交互 GIF；进度条为 0 → 100% 全程 5s 实录；Loader 为循环 GIF；输入框为关键状态截图）。
 
 [![返回 README](https://img.shields.io/badge/%E2%86%90_%E8%BF%94%E5%9B%9E_README-18181B?style=flat-square)](README.md)
 
@@ -65,11 +65,11 @@ CheemsUI 全部 **42 个控件**的清单与动效演示。图片均由 Demo 程
 
 ## Progress（4）
 
-均继承自 `ProgressBar`，直接绑定 `Value` / `Minimum` / `Maximum` 使用：
+均继承自 `ProgressBar`，直接绑定 `Value` / `Minimum` / `Maximum` 使用。GIF 为 0 → 100% 全程 5s 的完整行程实录：
 
 | 控件 | 演示 |
 |---|---|
-| `CheemsCosmicProgressBar` | <img src="docs/gallery/Progress/CheemsCosmicProgressBar.jpg" width="240"> |
-| `CheemsCircuitProgressBar` | <img src="docs/gallery/Progress/CheemsCircuitProgressBar.jpg" width="240"> |
-| `CheemsMonoProgressBar` | <img src="docs/gallery/Progress/CheemsMonoProgressBar.jpg" width="240"> |
-| `CheemsWaveProgressBall` | <img src="docs/gallery/Progress/CheemsWaveProgressBall.jpg" width="240"> |
+| `CheemsCosmicProgressBar` | <img src="docs/gallery/Progress/CheemsCosmicProgressBar.gif" width="240"> |
+| `CheemsCircuitProgressBar` | <img src="docs/gallery/Progress/CheemsCircuitProgressBar.gif" width="240"> |
+| `CheemsMonoProgressBar` | <img src="docs/gallery/Progress/CheemsMonoProgressBar.gif" width="240"> |
+| `CheemsWaveProgressBall` | <img src="docs/gallery/Progress/CheemsWaveProgressBall.gif" width="240"> |
