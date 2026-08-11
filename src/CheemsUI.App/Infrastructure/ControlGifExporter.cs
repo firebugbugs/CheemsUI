@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using CheemsUI;
 
 namespace CheemsUI.App.Infrastructure;
 
@@ -20,11 +19,12 @@ internal sealed record GifExportResult(
     bool IsCancelled, IReadOnlyList<GifExportFailure> Failures);
 
 /// <summary>
-/// 导出所有控件：Loader 录制 GIF（四周扩 10%），
-/// 按钮录制交互 GIF（常态 → 移入 → 按下 0.3s → 抬起停留 0.5s → 离开，带可替换的虚拟光标），
-/// 开关录制交互 GIF（常态 → 移入 → 点击打开 → 移开，带光标），
-/// 进度条录制 GIF（0 → 100% 全程 5s），
-/// 其余（输入框）截图 JPEG：常态 + 悬停态。
+/// 导出所有控件（全部为 GIF）：
+/// Loader 循环动画（四周扩 10%）；
+/// 按钮交互（常态 → 移入 → 按下 0.3s → 抬起停留 0.5s → 离开，带可替换的虚拟光标）；
+/// 开关交互（常态 → 移入 → 点击打开 → 移开，带光标）；
+/// 输入框交互（常态 → 移入 → 点击聚焦 → 逐字输入 "Cheems"，带光标）；
+/// 进度条（0 → 100% 全程 5s）。
 /// 录制在多个 STA 工作线程上并行：每个线程有独立 Dispatcher/宿主窗口（按屏幕网格铺开互不遮挡），
 /// GIF 编码只处理已 Freeze 的位图，放线程池执行，不占用录制线程。
 /// </summary>
@@ -35,9 +35,6 @@ internal sealed class ControlGifExporter
     private const double LoaderExpandPercent = 10;
     /// <summary>首帧前预热：留出 Loaded → CompositionTarget.Rendering 自驱动动画完成自举的时间（高负载下首个渲染 tick 可能滞后）。</summary>
     private static readonly TimeSpan FirstFrameWarmup = TimeSpan.FromMilliseconds(200);
-
-    /// <summary>悬停/开启/按下切换后等待状态过渡动画播完的时间。</summary>
-    private static readonly TimeSpan StateSettleDelay = TimeSpan.FromMilliseconds(400);
 
     /// <summary>
     /// 默认输出目录：固定为仓库 docs\gallery，README 可用稳定相对路径引用（如 docs/gallery/Loaders/X.gif）。
@@ -226,37 +223,6 @@ internal sealed class ControlGifExporter
         return union;
     }
 
-    private async Task ExportJpegAsync(
-        GifRecordingProfile profile, string categoryDirectory, Point position,
-        IProgress<GifExportProgress>? progress, CancellationToken ct, ExportCounters counters)
-    {
-        var control = profile.CreateControl();
-        using var host = new GifCaptureHost(control, expandPercent: 0, position);
-
-        await host.OpenAsync(ct);
-        await DelayAsync(FirstFrameWarmup, ct);
-
-        // 常态
-        var frame = host.Capture();
-        SaveJpeg(Path.Combine(categoryDirectory, $"{profile.ControlType.Name}.jpg"), frame, 95);
-
-        // 悬停态：模拟鼠标移入，等 hover 过渡动画播完再截
-        progress?.Report(counters.Report(profile.ControlType.Name, $"{profile.ControlType.Name} · 悬停态"));
-
-        // SearchBox 的悬停效果挂在模板内部按钮上（Trigger SourceName），悬停根控件无视觉变化
-        UIElement hoverTarget = control;
-        if (control is CheemsSearchBox searchBox &&
-            searchBox.Template?.FindName("PartSearchButton", searchBox) is UIElement searchButton)
-        {
-            hoverTarget = searchButton;
-        }
-
-        RecordingInputState.Enter(hoverTarget);
-        await DelayAsync(StateSettleDelay, ct);
-        SaveJpeg(Path.Combine(categoryDirectory, $"{profile.ControlType.Name}-hover.jpg"), host.Capture(), 95);
-        RecordingInputState.Leave(hoverTarget);
-    }
-
     /// <summary>
     /// 异步等待，期间 Dispatcher 空闲，布局、渲染与动画时钟正常推进。
     /// 不能用 Thread.Sleep：它会冻结 UI 线程，画面永远停在第一帧。
@@ -265,14 +231,6 @@ internal sealed class ControlGifExporter
     {
         if (duration <= TimeSpan.Zero) return;
         await Task.Delay(duration, ct);
-    }
-
-    private static void SaveJpeg(string filePath, BitmapSource bitmap, int quality)
-    {
-        var encoder = new JpegBitmapEncoder { QualityLevel = quality };
-        encoder.Frames.Add(BitmapFrame.Create(bitmap));
-        using var stream = File.Create(filePath);
-        encoder.Save(stream);
     }
 
     private static void WriteSummary(string outputDirectory, ExportCounters counters)
@@ -284,8 +242,8 @@ internal sealed class ControlGifExporter
             .AppendLine("Loaders: GIF (animated, +10% padding)")
             .AppendLine("Buttons: GIF (normal -> hover -> press 0.3s -> dwell 0.5s -> leave, custom cursor)")
             .AppendLine("Toggles: GIF (normal -> hover -> click on -> leave, custom cursor)")
+            .AppendLine("Inputs: GIF (normal -> hover -> click focus -> type \"Cheems\", custom cursor)")
             .AppendLine("Progress: GIF (value 0 -> 100% in 5s)")
-            .AppendLine("Inputs: JPEG (normal + hover)")
             .AppendLine($"Result: {counters.Succeeded}/{counters.TotalControls} succeeded")
             .AppendLine($"Cancelled: {counters.Cancelled}");
 
@@ -435,10 +393,7 @@ internal sealed class ControlGifExporter
                         var categoryDirectory = Path.Combine(_outputDirectory, profile.Category);
                         Directory.CreateDirectory(categoryDirectory);
 
-                        if (profile.IsAnimated)
-                            await _owner.ExportGifAsync(profile, categoryDirectory, position, _progress, _ct, _counters);
-                        else
-                            await _owner.ExportJpegAsync(profile, categoryDirectory, position, _progress, _ct, _counters);
+                        await _owner.ExportGifAsync(profile, categoryDirectory, position, _progress, _ct, _counters);
 
                         _counters.Complete(profile.ControlType.Name);
                         _progress?.Report(_counters.Report(

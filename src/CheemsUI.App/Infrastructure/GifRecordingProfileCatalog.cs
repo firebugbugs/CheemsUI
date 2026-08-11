@@ -186,28 +186,31 @@ internal static class GifRecordingProfileCatalog
 
         if (type == typeof(CheemsSearchBox))
         {
+            // 2.8s = 点击聚焦（0.85s）+ 逐字输入 "Cheems"（1.35s 起，0.15s/字）+ 停留收尾
             return new GifRecordingProfile(
                 type, "Inputs",
-                TimeSpan.FromSeconds(2.9), TimeSpan.Zero,
-                isAnimated: false,
+                TimeSpan.FromSeconds(2.8), TimeSpan.Zero,
+                isAnimated: true,
                 ConfigureSearchBox,
-                control => new SearchBoxRecordingScript((CheemsSearchBox)control));
+                control => new SearchBoxRecordingScript((CheemsSearchBox)control),
+                usesCursorOverlay: true);
         }
 
         if (typeof(TextBoxBase).IsAssignableFrom(type))
         {
             return new GifRecordingProfile(
                 type, "Inputs",
-                TimeSpan.FromSeconds(2.5), TimeSpan.Zero,
-                isAnimated: false,
+                TimeSpan.FromSeconds(2.8), TimeSpan.Zero,
+                isAnimated: true,
                 ConfigureTextInput,
-                control => new TextInputRecordingScript((TextBoxBase)control));
+                control => new TextInputRecordingScript((TextBoxBase)control),
+                usesCursorOverlay: true);
         }
 
         return new GifRecordingProfile(
             type, "Other",
             TimeSpan.FromSeconds(1), TimeSpan.Zero,
-            isAnimated: false,
+            isAnimated: true,
             ConfigureCommon,
             control => new PassiveRecordingScript(control));
     }
@@ -375,10 +378,22 @@ internal sealed class RecordingCursorPath
         _exitTarget = new Point(host.StageSize.Width + 16, host.StageSize.Height + 16);
     }
 
-    public Point? GetPosition(TimeSpan elapsed, TimeSpan enterTime, TimeSpan leaveTime)
+    /// <summary>leaveTime 为 null 时光标进入后一直停留（无出画阶段的交互，如输入框输入）。</summary>
+    public Point? GetPosition(TimeSpan elapsed, TimeSpan enterTime, TimeSpan? leaveTime = null)
     {
         if (!_valid) return null;
-        if (elapsed < enterTime - EnterGlide || elapsed >= leaveTime + ExitGlide) return null;
+        if (elapsed < enterTime - EnterGlide) return null;
+
+        if (leaveTime is { } leave)
+        {
+            if (elapsed >= leave + ExitGlide) return null;
+
+            if (elapsed >= leave)
+            {
+                var q = Math.Clamp((elapsed - leave).TotalSeconds / ExitGlide.TotalSeconds, 0, 1);
+                return _center + (_exitTarget - _center) * q;
+            }
+        }
 
         if (elapsed < enterTime)
         {
@@ -386,13 +401,7 @@ internal sealed class RecordingCursorPath
             return _entryOrigin + (_center - _entryOrigin) * p;
         }
 
-        if (elapsed < leaveTime)
-        {
-            return _center;
-        }
-
-        var q = Math.Clamp((elapsed - leaveTime).TotalSeconds / ExitGlide.TotalSeconds, 0, 1);
-        return _center + (_exitTarget - _center) * q;
+        return _center;
     }
 
     private static double EaseOut(double fraction) =>
@@ -536,64 +545,68 @@ internal sealed class ProgressRecordingScript : ControlRecordingScript
     public override void Finish() => _progress.Value = _progress.Maximum;
 }
 
-internal sealed class TextInputRecordingScript : ControlRecordingScript
+internal sealed class TextInputRecordingScript : StagedRecordingScript
 {
+    // 交互节奏：常态 0.4s → 光标移入 → 点击聚焦 → 逐字输入 "Cheems"（0.15s/字）→ 停留收尾。
+    // TextBox 没有 IsPressed 状态，点击只派发路由事件，聚焦发光由注入的键盘焦点驱动。
+    private static readonly TimeSpan EnterTime = TimeSpan.FromSeconds(0.4);
+    private static readonly TimeSpan ClickTime = TimeSpan.FromSeconds(0.85);
+    private static readonly TimeSpan TypeStartTime = TimeSpan.FromSeconds(1.35);
+    private static readonly TimeSpan TypingInterval = TimeSpan.FromSeconds(0.15);
     private const string DemoText = "Cheems";
+
+    private static readonly TimeSpan[] Times =
+    {
+        TimeSpan.Zero,
+        EnterTime,
+        ClickTime
+    };
+
     private readonly TextBoxBase _textBox;
-    private int _stage;
+    private RecordingCursorPath? _cursorPath;
 
     public TextInputRecordingScript(TextBoxBase textBox) : base(textBox) => _textBox = textBox;
 
-    public override void Start()
-    {
-        _stage = 0;
-        if (_textBox is TextBox textBox)
-        {
-            textBox.Text = string.Empty;
-        }
+    protected override IReadOnlyList<TimeSpan> StageTimes => Times;
 
-        RecordingInputState.Reset(_textBox);
+    public override void Attach(GifCaptureHost host) => _cursorPath = new RecordingCursorPath(host);
+
+    protected override void EnterStage(int stage)
+    {
+        switch (stage)
+        {
+            case 0:
+                if (_textBox is TextBox textBox)
+                {
+                    textBox.Text = string.Empty;
+                }
+
+                RecordingInputState.Reset(_textBox);
+                break;
+            case 1:
+                RecordingInputState.Enter(_textBox);
+                break;
+            case 2:
+                RecordingInputState.Click(_textBox);
+                RecordingInputState.SetKeyboardFocus(_textBox, true);
+                break;
+        }
     }
 
     public override void Update(TimeSpan elapsed)
     {
-        var seconds = elapsed.TotalSeconds;
-        if (_stage < 1 && seconds >= 0.25)
-        {
-            RecordingInputState.Enter(_textBox);
-            _stage = 1;
-        }
+        base.Update(elapsed);
 
-        if (_stage < 2 && seconds >= 0.45)
-        {
-            RecordingInputState.SetKeyboardFocus(_textBox, true);
-            _stage = 2;
-        }
+        if (elapsed < TypeStartTime || _textBox is not TextBox textBox) return;
 
-        if (_textBox is TextBox textBox && seconds is >= 0.6 and < 1.5)
-        {
-            var characterCount = Math.Clamp((int)Math.Ceiling((seconds - 0.6) / 0.12), 0, DemoText.Length);
-            textBox.Text = DemoText[..characterCount];
-            textBox.CaretIndex = textBox.Text.Length;
-        }
-
-        if (_stage < 3 && seconds >= 1.55)
-        {
-            if (_textBox is TextBox textBoxToClear)
-            {
-                textBoxToClear.Text = string.Empty;
-            }
-
-            _stage = 3;
-        }
-
-        if (_stage < 4 && seconds >= 1.9)
-        {
-            RecordingInputState.SetKeyboardFocus(_textBox, false);
-            RecordingInputState.Leave(_textBox);
-            _stage = 4;
-        }
+        var typed = Math.Clamp(
+            (int)((elapsed - TypeStartTime) / TypingInterval) + 1, 0, DemoText.Length);
+        textBox.Text = DemoText[..typed];
+        textBox.CaretIndex = textBox.Text.Length;
     }
+
+    public override Point? GetCursorPosition(TimeSpan elapsed) =>
+        _cursorPath?.GetPosition(elapsed, EnterTime);
 
     public override void Finish()
     {
@@ -602,92 +615,69 @@ internal sealed class TextInputRecordingScript : ControlRecordingScript
     }
 }
 
-internal sealed class SearchBoxRecordingScript : ControlRecordingScript
+internal sealed class SearchBoxRecordingScript : StagedRecordingScript
 {
+    // 与 TextInputRecordingScript 同节奏：移入 → 点击 → 逐字输入 "Cheems"（清除按钮随文字出现）
+    private static readonly TimeSpan EnterTime = TimeSpan.FromSeconds(0.4);
+    private static readonly TimeSpan ClickTime = TimeSpan.FromSeconds(0.85);
+    private static readonly TimeSpan TypeStartTime = TimeSpan.FromSeconds(1.35);
+    private static readonly TimeSpan TypingInterval = TimeSpan.FromSeconds(0.15);
     private const string DemoText = "Cheems";
+
+    private static readonly TimeSpan[] Times =
+    {
+        TimeSpan.Zero,
+        EnterTime,
+        ClickTime
+    };
+
     private readonly CheemsSearchBox _searchBox;
-    private int _stage;
+    private RecordingCursorPath? _cursorPath;
 
     public SearchBoxRecordingScript(CheemsSearchBox searchBox) : base(searchBox) => _searchBox = searchBox;
 
-    public override void Start()
+    protected override IReadOnlyList<TimeSpan> StageTimes => Times;
+
+    public override void Attach(GifCaptureHost host) => _cursorPath = new RecordingCursorPath(host);
+
+    protected override void EnterStage(int stage)
     {
-        _stage = 0;
-        _searchBox.Text = string.Empty;
+        switch (stage)
+        {
+            case 0:
+                _searchBox.Text = string.Empty;
+                RecordingInputState.Reset(_searchBox);
+                break;
+            case 1:
+                RecordingInputState.Enter(_searchBox);
+                break;
+            case 2:
+                RecordingInputState.Click(_searchBox);
+                RecordingInputState.SetKeyboardFocus(_searchBox, true);
+                break;
+        }
     }
 
     public override void Update(TimeSpan elapsed)
     {
-        var seconds = elapsed.TotalSeconds;
-        if (seconds is >= 0.25 and < 1.15)
-        {
-            var characterCount = Math.Clamp((int)Math.Ceiling((seconds - 0.25) / 0.12), 0, DemoText.Length);
-            _searchBox.Text = DemoText[..characterCount];
-        }
+        base.Update(elapsed);
 
-        var searchButton = FindTemplateButton("PartSearchButton");
-        var clearButton = FindTemplateButton("PartClearButton");
+        if (elapsed < TypeStartTime) return;
 
-        if (_stage < 1 && seconds >= 1.1 && searchButton is not null)
-        {
-            RecordingInputState.Enter(searchButton);
-            _stage = 1;
-        }
-
-        if (_stage < 2 && seconds >= 1.35 && searchButton is not null)
-        {
-            RecordingInputState.Press(searchButton);
-            _stage = 2;
-        }
-
-        if (_stage < 3 && seconds >= 1.55 && searchButton is not null)
-        {
-            RecordingInputState.Release(searchButton, raiseClick: true);
-            _stage = 3;
-        }
-
-        if (_stage < 4 && seconds >= 1.8 && searchButton is not null && clearButton is not null)
-        {
-            RecordingInputState.Leave(searchButton);
-            RecordingInputState.Enter(clearButton);
-            _stage = 4;
-        }
-
-        if (_stage < 5 && seconds >= 2.05 && clearButton is not null)
-        {
-            RecordingInputState.Press(clearButton);
-            _stage = 5;
-        }
-
-        if (_stage < 6 && seconds >= 2.25 && clearButton is not null)
-        {
-            RecordingInputState.Release(clearButton, raiseClick: true);
-            _stage = 6;
-        }
-
-        if (_stage < 7 && seconds >= 2.55 && clearButton is not null)
-        {
-            RecordingInputState.Leave(clearButton);
-            _stage = 7;
-        }
+        var typed = Math.Clamp(
+            (int)((elapsed - TypeStartTime) / TypingInterval) + 1, 0, DemoText.Length);
+        _searchBox.Text = DemoText[..typed];
     }
+
+    public override Point? GetCursorPosition(TimeSpan elapsed) =>
+        _cursorPath?.GetPosition(elapsed, EnterTime);
 
     public override void Finish()
     {
         _searchBox.Text = string.Empty;
-        if (FindTemplateButton("PartSearchButton") is { } searchButton)
-        {
-            RecordingInputState.Reset(searchButton);
-        }
-
-        if (FindTemplateButton("PartClearButton") is { } clearButton)
-        {
-            RecordingInputState.Reset(clearButton);
-        }
+        RecordingInputState.SetKeyboardFocus(_searchBox, false);
+        RecordingInputState.Reset(_searchBox);
     }
-
-    private Button? FindTemplateButton(string name) =>
-        _searchBox.Template?.FindName(name, _searchBox) as Button;
 }
 
 internal static class RecordingInputState
@@ -739,6 +729,15 @@ internal static class RecordingInputState
         {
             button.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent, button));
         }
+    }
+
+    /// <summary>非按钮控件的点击：只派发按下/抬起路由事件（TextBox 等无 IsPressed 状态可注入，视觉变化来自焦点）。</summary>
+    public static void Click(UIElement element)
+    {
+        RaiseMouseButtonEvent(element, Mouse.PreviewMouseDownEvent);
+        RaiseMouseButtonEvent(element, Mouse.MouseDownEvent);
+        RaiseMouseButtonEvent(element, Mouse.PreviewMouseUpEvent);
+        RaiseMouseButtonEvent(element, Mouse.MouseUpEvent);
     }
 
     public static void SetKeyboardFocus(UIElement element, bool focused)

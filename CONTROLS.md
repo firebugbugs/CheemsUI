@@ -1,6 +1,6 @@
 # 控件总览
 
-CheemsUI 全部 **42 个控件**的清单与动效演示。图片均由 Demo 程序自动实录生成（按钮 / 开关为带鼠标光标的完整交互 GIF；进度条为 0 → 100% 全程 5s 实录；Loader 为循环 GIF；输入框为关键状态截图）。
+CheemsUI 全部 **42 个控件**的清单与动效演示。所有图片均为 Demo 程序自动实录生成的 GIF（按钮 / 开关 / 输入框为带鼠标光标的完整交互演示，输入框演示逐字输入 "Cheems"；进度条为 0 → 100% 全程 5s；Loader 为循环动画）。
 
 [![返回 README](https://img.shields.io/badge/%E2%86%90_%E8%BF%94%E5%9B%9E_README-18181B?style=flat-square)](README.md)
 
@@ -56,12 +56,12 @@ CheemsUI 全部 **42 个控件**的清单与动效演示。图片均由 Demo 程
 | `CheemsPixelCoinSwitch`<br>像素投币开关 | <img src="docs/gallery/Inputs/CheemsPixelCoinSwitch.gif" width="150"> |
 | `CheemsScaleSwitch`<br>天平式开关 | <img src="docs/gallery/Inputs/CheemsScaleSwitch.gif" width="150"> |
 
-输入框展示 常态 / 悬停（聚焦）两态：
+输入框为完整交互实录 GIF（光标移入 → 点击聚焦 → 逐字输入 "Cheems"）：
 
-| 控件 | 常态 | 聚焦 |
-|---|---|---|
-| `CheemsGlowInput`<br>聚焦发光输入框（`Placeholder` 属性） | <img src="docs/gallery/Inputs/CheemsGlowInput.jpg" width="220"> | <img src="docs/gallery/Inputs/CheemsGlowInput-hover.jpg" width="220"> |
-| `CheemsSearchBox`<br>搜索框（`Label` / `Text`，带清除按钮） | <img src="docs/gallery/Inputs/CheemsSearchBox.jpg" width="220"> | <img src="docs/gallery/Inputs/CheemsSearchBox-hover.jpg" width="220"> |
+| 控件 | 交互实录 |
+|---|---|
+| `CheemsGlowInput`<br>聚焦发光输入框（`Placeholder` 属性） | <img src="docs/gallery/Inputs/CheemsGlowInput.gif" width="240"> |
+| `CheemsSearchBox`<br>搜索框（`Label` / `Text`，带清除按钮） | <img src="docs/gallery/Inputs/CheemsSearchBox.gif" width="240"> |
 
 ## Progress（4）
 
