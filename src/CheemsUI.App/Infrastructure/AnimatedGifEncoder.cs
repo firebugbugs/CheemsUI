@@ -15,11 +15,17 @@ internal static class AnimatedGifEncoder
         string filePath,
         IReadOnlyList<BitmapSource> frames,
         int framesPerSecond,
+        TimeSpan? totalDuration = null,
         Color? chromaKey = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(filePath);
         ArgumentNullException.ThrowIfNull(frames);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(framesPerSecond);
+
+        if (totalDuration is { } duration && duration <= TimeSpan.Zero)
+        {
+            throw new ArgumentOutOfRangeException(nameof(totalDuration));
+        }
 
         if (frames.Count == 0)
         {
@@ -42,9 +48,10 @@ internal static class AnimatedGifEncoder
         encoder.Save(encodedStream);
         var sourceBytes = encodedStream.ToArray();
 
+        var frameDelays = BuildFrameDelays(frames.Count, framesPerSecond, totalDuration);
         var animatedBytes = chromaKey.HasValue
-            ? AddAnimationMetadataWithTransparency(sourceBytes, frames.Count, framesPerSecond)
-            : AddAnimationMetadata(sourceBytes, frames.Count, framesPerSecond);
+            ? AddAnimationMetadataWithTransparency(sourceBytes, frames.Count, frameDelays)
+            : AddAnimationMetadata(sourceBytes, frames.Count, frameDelays);
 
         File.WriteAllBytes(filePath, animatedBytes);
     }
@@ -99,24 +106,29 @@ internal static class AnimatedGifEncoder
     /// <summary>
     /// 添加动画元数据（无透明支持）。
     /// </summary>
-    private static byte[] AddAnimationMetadata(byte[] source, int expectedFrameCount, int framesPerSecond)
+    private static byte[] AddAnimationMetadata(byte[] source, int expectedFrameCount, IReadOnlyList<int> frameDelays)
     {
-        return PatchAnimationMetadata(source, expectedFrameCount, framesPerSecond, fixTransparency: false);
+        return PatchAnimationMetadata(source, expectedFrameCount, frameDelays, fixTransparency: false);
     }
 
     /// <summary>
     /// 添加动画元数据并修正透明色索引。
     /// </summary>
-    private static byte[] AddAnimationMetadataWithTransparency(byte[] source, int expectedFrameCount, int framesPerSecond)
+    private static byte[] AddAnimationMetadataWithTransparency(byte[] source, int expectedFrameCount, IReadOnlyList<int> frameDelays)
     {
-        return PatchAnimationMetadata(source, expectedFrameCount, framesPerSecond, fixTransparency: true);
+        return PatchAnimationMetadata(source, expectedFrameCount, frameDelays, fixTransparency: true);
     }
 
-    private static byte[] PatchAnimationMetadata(byte[] source, int expectedFrameCount, int framesPerSecond, bool fixTransparency)
+    private static byte[] PatchAnimationMetadata(byte[] source, int expectedFrameCount, IReadOnlyList<int> frameDelays, bool fixTransparency)
     {
         if (source.Length < 14 || Encoding.ASCII.GetString(source, 0, 3) != "GIF")
         {
             throw new InvalidDataException("WIC 返回了无效的 GIF 数据。");
+        }
+
+        if (frameDelays.Count != expectedFrameCount)
+        {
+            throw new ArgumentException("GIF 帧延迟数必须与帧数一致。", nameof(frameDelays));
         }
 
         // 找到透明色索引（调色板中 Alpha=0 的颜色）
@@ -158,7 +170,7 @@ internal static class AnimatedGifEncoder
                             block[6] = (byte)transparentIndex;
                         }
 
-                        var delay = GetFrameDelay(frameIndex, framesPerSecond);
+                        var delay = frameDelays[frameIndex];
                         block[4] = (byte)(delay & 0xFF);
                         block[5] = (byte)(delay >> 8);
                         output.Write(block);
@@ -175,7 +187,7 @@ internal static class AnimatedGifEncoder
                 case 0x2C: // Image Descriptor
                     if (!hasPendingGraphicControl)
                     {
-                        WriteGraphicControlExtension(output, GetFrameDelay(frameIndex, framesPerSecond), transparentIndex);
+                        WriteGraphicControlExtension(output, frameDelays[frameIndex], transparentIndex);
                     }
 
                     position = CopyImage(source, position, output);
@@ -297,12 +309,25 @@ internal static class AnimatedGifEncoder
         });
     }
 
-    private static int GetFrameDelay(int frameIndex, int framesPerSecond)
+    /// <summary>
+    /// GIF 以 1/100 秒记录帧时长。将量化误差分散到各帧，同时让全部帧延迟精确等于
+    /// 录制时长；这样周期动画的首尾状态与 GIF 循环点保持一致。
+    /// </summary>
+    private static int[] BuildFrameDelays(int frameCount, int framesPerSecond, TimeSpan? totalDuration)
     {
-        // GIF 延迟单位是 1/100 秒。通过误差累积生成稳定序列。
-        var currentHundredths = (int)Math.Round((frameIndex + 1) * 100d / framesPerSecond);
-        var previousHundredths = (int)Math.Round(frameIndex * 100d / framesPerSecond);
-        return Math.Max(1, currentHundredths - previousHundredths);
+        var totalHundredths = totalDuration is { } duration
+            ? Math.Max(frameCount, (int)Math.Round(duration.TotalMilliseconds / 10))
+            : Math.Max(frameCount, (int)Math.Round(frameCount * 100d / framesPerSecond));
+
+        var delays = new int[frameCount];
+        for (var frameIndex = 0; frameIndex < frameCount; frameIndex++)
+        {
+            var current = (int)Math.Round((frameIndex + 1) * totalHundredths / (double)frameCount);
+            var previous = (int)Math.Round(frameIndex * totalHundredths / (double)frameCount);
+            delays[frameIndex] = Math.Max(1, current - previous);
+        }
+
+        return delays;
     }
 
     private static void EnsureAvailable(byte[] source, int position, int requiredLength)

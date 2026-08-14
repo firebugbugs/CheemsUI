@@ -137,7 +137,11 @@ internal sealed class ControlGifExporter
         if (profile.Warmup > TimeSpan.Zero)
             await DelayAsync(profile.Warmup, ct);
 
+        // GIF 的 1/100 秒延迟精度无法保证所有动画周期都是 1/FPS 的整数倍
+        // （例如 OrbitDots 的 2.4s 在 24 FPS 下为 57.6 帧）。采样时间轴按完整
+        // 录制时长均分，并把相同的总时长交给编码器，循环点便能与控件周期精确对齐。
         var frameCount = Math.Max(1, (int)Math.Ceiling(profile.Duration.TotalSeconds * DefaultFramesPerSecond));
+        var frameInterval = TimeSpan.FromTicks(profile.Duration.Ticks / frameCount);
         var frames = new List<BitmapSource>(frameCount);
         var stopwatch = Stopwatch.StartNew();
 
@@ -146,7 +150,7 @@ internal sealed class ControlGifExporter
             for (var fi = 0; fi < frameCount; fi++)
             {
                 ct.ThrowIfCancellationRequested();
-                var target = TimeSpan.FromSeconds(fi / (double)DefaultFramesPerSecond);
+                var target = TimeSpan.FromTicks(frameInterval.Ticks * fi);
                 var remaining = target - stopwatch.Elapsed;
                 if (remaining > TimeSpan.Zero)
                     await DelayAsync(remaining, ct);
@@ -178,13 +182,13 @@ internal sealed class ControlGifExporter
             {
                 for (var i = 0; i < frames.Count; i++)
                 {
-                    var time = TimeSpan.FromSeconds(i / (double)DefaultFramesPerSecond);
+                    var time = TimeSpan.FromTicks(frameInterval.Ticks * i);
                     if (script.GetCursorPosition(time) is { } tip)
                         frames[i] = RecordingCursor.Composite(frames[i], tip, stageScale);
                 }
             }
 
-            AnimatedGifEncoder.Save(filePath, frames, DefaultFramesPerSecond);
+            AnimatedGifEncoder.Save(filePath, frames, DefaultFramesPerSecond, profile.Duration);
         }));
     }
 
