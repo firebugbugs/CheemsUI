@@ -1,9 +1,9 @@
 CheemsUI Export
-Generated: 2026-08-28 11:28:44
+Generated: 2026-08-28 11:44:12
 Frame rate: 24 FPS
 Loaders: GIF (animated, +10% padding)
 Buttons: GIF (normal -> hover -> press 0.3s -> dwell 0.5s -> leave, custom cursor)
-Toggles: GIF (normal -> hover -> click on -> leave, custom cursor)
+Toggles: GIF (normal -> hover -> click on -> click off -> leave, custom cursor)
 Inputs: GIF (normal -> hover -> click focus -> type "Cheems", custom cursor)
 Progress: GIF (value 0 -> 100% in 5s)
 Result: 13/13 succeeded

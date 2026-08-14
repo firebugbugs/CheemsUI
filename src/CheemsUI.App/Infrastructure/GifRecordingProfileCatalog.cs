@@ -162,10 +162,11 @@ internal static class GifRecordingProfileCatalog
 
         if (typeof(ToggleButton).IsAssignableFrom(type))
         {
-            // 3.0s = 移出（2.35s）+ 悬停离开过渡（≤ ~0.5s）+ 余量
+            // 3.8s = 移出（3.0s）+ 关闭动画收尾与悬停离开过渡（≤ ~0.5s）+ 余量。
+            // Gender/Metal/PixelCoin 在开→关循环后存在与时长无关的恒定渲染差异（控件层行为），加长无益。
             return new GifRecordingProfile(
                 type, "Inputs",
-                TimeSpan.FromSeconds(3.0), TimeSpan.Zero,
+                TimeSpan.FromSeconds(3.8), TimeSpan.Zero,
                 isAnimated: true,
                 ConfigureToggle,
                 control => new ToggleRecordingScript((ToggleButton)control),
@@ -466,19 +467,24 @@ internal sealed class ButtonRecordingScript : StagedRecordingScript
 
 internal sealed class ToggleRecordingScript : StagedRecordingScript
 {
-    // 交互节奏：常态 0.4s → 移入悬停 0.45s → 按下 0.2s → 打开（各开关形态动画 ≤ ~0.9s，
-    // 留 1.3s 播完并展示开启态）→ 移出。全程不触发 Click，Checked 事件手动补发。
+    // 交互节奏：常态 0.4s → 移入悬停 0.45s → 点击打开（各开关形态动画 ≤ ~0.9s，留 ~0.95s 播完）
+    // → 再点击关闭（留 0.8s 播完，结尾回到常态，GIF 循环无缝）→ 移出。
+    // 全程不触发 Click，Checked/Unchecked 事件手动补发。
     private static readonly TimeSpan EnterTime = TimeSpan.FromSeconds(0.4);
-    private static readonly TimeSpan PressTime = TimeSpan.FromSeconds(0.85);
-    private static readonly TimeSpan ReleaseTime = TimeSpan.FromSeconds(1.05);
-    private static readonly TimeSpan LeaveTime = TimeSpan.FromSeconds(2.35);
+    private static readonly TimeSpan PressOnTime = TimeSpan.FromSeconds(0.85);
+    private static readonly TimeSpan ReleaseOnTime = TimeSpan.FromSeconds(1.05);
+    private static readonly TimeSpan PressOffTime = TimeSpan.FromSeconds(2.0);
+    private static readonly TimeSpan ReleaseOffTime = TimeSpan.FromSeconds(2.2);
+    private static readonly TimeSpan LeaveTime = TimeSpan.FromSeconds(3.0);
 
     private static readonly TimeSpan[] Times =
     {
         TimeSpan.Zero,
         EnterTime,
-        PressTime,
-        ReleaseTime,
+        PressOnTime,
+        ReleaseOnTime,
+        PressOffTime,
+        ReleaseOffTime,
         LeaveTime
     };
 
@@ -511,6 +517,14 @@ internal sealed class ToggleRecordingScript : StagedRecordingScript
                 _toggle.RaiseEvent(new RoutedEventArgs(ToggleButton.CheckedEvent, _toggle));
                 break;
             case 4:
+                RecordingInputState.Press(_toggle);
+                break;
+            case 5:
+                RecordingInputState.Release(_toggle, raiseClick: false);
+                _toggle.IsChecked = false;
+                _toggle.RaiseEvent(new RoutedEventArgs(ToggleButton.UncheckedEvent, _toggle));
+                break;
+            case 6:
                 RecordingInputState.Leave(_toggle);
                 break;
         }

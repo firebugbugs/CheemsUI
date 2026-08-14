@@ -22,7 +22,7 @@ internal sealed record GifExportResult(
 /// 导出所有控件（全部为 GIF）：
 /// Loader 循环动画（四周扩 10%）；
 /// 按钮交互（常态 → 移入 → 按下 0.3s → 抬起停留 0.5s → 离开，带可替换的虚拟光标）；
-/// 开关交互（常态 → 移入 → 点击打开 → 移开，带光标）；
+/// 开关交互（常态 → 移入 → 点击打开 → 再点击关闭 → 移开，带光标）；
 /// 输入框交互（常态 → 移入 → 点击聚焦 → 逐字输入 "Cheems"，带光标）；
 /// 进度条（0 → 100% 全程 5s）。
 /// 录制在多个 STA 工作线程上并行：每个线程有独立 Dispatcher/宿主窗口（按屏幕网格铺开互不遮挡），
@@ -241,7 +241,7 @@ internal sealed class ControlGifExporter
             .AppendLine($"Frame rate: {DefaultFramesPerSecond} FPS")
             .AppendLine("Loaders: GIF (animated, +10% padding)")
             .AppendLine("Buttons: GIF (normal -> hover -> press 0.3s -> dwell 0.5s -> leave, custom cursor)")
-            .AppendLine("Toggles: GIF (normal -> hover -> click on -> leave, custom cursor)")
+            .AppendLine("Toggles: GIF (normal -> hover -> click on -> click off -> leave, custom cursor)")
             .AppendLine("Inputs: GIF (normal -> hover -> click focus -> type \"Cheems\", custom cursor)")
             .AppendLine("Progress: GIF (value 0 -> 100% in 5s)")
             .AppendLine($"Result: {counters.Succeeded}/{counters.TotalControls} succeeded")
