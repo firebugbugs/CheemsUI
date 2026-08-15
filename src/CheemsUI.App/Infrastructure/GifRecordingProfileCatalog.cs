@@ -60,6 +60,8 @@ internal sealed class GifRecordingProfile
 /// <summary>
 /// 自动发现类库中的公开控件，并按继承类型生成默认录制脚本。
 /// 特殊动画只登记周期/预热覆盖项，新增控件不会因遗漏清单而完全不导出。
+/// 带交替方向等复合周期的控件应公开 AnimationCycleDurationSeconds；录制优先使用该值，
+/// 防止将单向阶段时长误作完整循环周期。
 /// </summary>
 internal static class GifRecordingProfileCatalog
 {
@@ -79,7 +81,7 @@ internal static class GifRecordingProfileCatalog
             [nameof(CheemsOrbitDotsLoader)] = (2.4, 0),
             [nameof(CheemsPolylineLoader)] = (1.4, 0),
             [nameof(CheemsPulseDotsLoader)] = (1.5, 0.1),
-            [nameof(CheemsRainbowBarsLoader)] = (0.45, 0.4),
+            [nameof(CheemsRainbowBarsLoader)] = (0.9, 0.4),
             [nameof(CheemsTypewriterLoader)] = (3.0, 0),
             [nameof(CheemsWashingMachineLoader)] = (3.0, 0),
             [nameof(CheemsWaveBarsLoader)] = (3.0, 0.1)
@@ -218,6 +220,19 @@ internal static class GifRecordingProfileCatalog
 
     private static (double Duration, double Warmup) ResolveLoaderTiming(Type type)
     {
+        var configuredWarmup = LoaderTimings.TryGetValue(type.Name, out var configured)
+            ? configured.Warmup
+            : 0;
+
+        var declaredCycle = type.GetField(
+            "AnimationCycleDurationSeconds",
+            BindingFlags.Static | BindingFlags.Public)?.GetRawConstantValue();
+        if (declaredCycle is IConvertible cycle &&
+            cycle.ToDouble(System.Globalization.CultureInfo.InvariantCulture) > 0)
+        {
+            return (cycle.ToDouble(System.Globalization.CultureInfo.InvariantCulture), configuredWarmup);
+        }
+
         if (LoaderTimings.TryGetValue(type.Name, out var timing))
         {
             return timing;

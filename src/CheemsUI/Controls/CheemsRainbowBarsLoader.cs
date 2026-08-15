@@ -8,7 +8,9 @@ namespace CheemsUI;
 /// <summary>Uiverse Gianluks90 Rainbow Bars Loader 的 WPF 等价实现。</summary>
 public sealed class CheemsRainbowBarsLoader : Control
 {
-    private const double Duration = 0.45;
+    // 每个方向各走 0.45 秒；交替反向后完整的可循环状态需要两个阶段。
+    private const double HalfCycleDurationSeconds = 0.45;
+    public const double AnimationCycleDurationSeconds = HalfCycleDurationSeconds * 2;
     private static readonly double[] Delays = { 0.10, 0.20, 0.25, 0.30, 0.35, 0.40 };
     private readonly FrameworkElement?[] _bars = new FrameworkElement?[6];
     private long _startedAt;
@@ -74,8 +76,8 @@ public sealed class CheemsRainbowBarsLoader : Control
                 continue;
             }
 
-            var iteration = (int)Math.Floor(active / Duration);
-            var local = active / Duration - iteration;
+            var iteration = (int)Math.Floor(active / HalfCycleDurationSeconds);
+            var local = active / HalfCycleDurationSeconds - iteration;
             var progress = iteration % 2 == 0 ? Ease(local) : Ease(1 - local);
             bar.Height = 5 + 35 * progress;
         }
