@@ -4,8 +4,8 @@
 
 ![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-1094431427-12B7F5?logo=tencentqq&logoColor=white)
 
-![](docs/gallery/Loaders/CheemsBounceBallLoader.gif)
 ![](docs/gallery/Loaders/CheemsEarthLoader.gif)
+![](docs/gallery/Loaders/CheemsWashingMachineLoader.gif)
 ![](docs/gallery/Loaders/CheemsHamsterWheelLoader.gif)
 
 <p align="center">

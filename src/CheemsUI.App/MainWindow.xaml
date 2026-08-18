@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:infra="clr-namespace:CheemsUI.App.Infrastructure"
+        xmlns:backgrounds="clr-namespace:CheemsUI.App.Backgrounds"
         xmlns:pages="clr-namespace:CheemsUI.App.Pages"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:vm="clr-namespace:CheemsUI.App.ViewModels"
@@ -16,7 +17,8 @@
         WindowStyle="None"
         FontFamily="{DynamicResource Cheems.FontFamily.Default}"
         TextOptions.TextFormattingMode="Display"
-        UseLayoutRounding="True">
+        UseLayoutRounding="True"
+        MouseMove="Window_MouseMove">
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome CaptionHeight="44"
                             ResizeBorderThickness="7"
@@ -30,10 +32,11 @@
         <DataTemplate DataType="{x:Type vm:LoadersViewModel}"><pages:LoadersPage /></DataTemplate>
         <DataTemplate DataType="{x:Type vm:InputsViewModel}"><pages:InputsPage /></DataTemplate>
         <DataTemplate DataType="{x:Type vm:ProgressViewModel}"><pages:ProgressPage /></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:BackgroundsViewModel}"><pages:BackgroundsPage /></DataTemplate>
 
-        <SolidColorBrush x:Key="App.Sidebar.Background" Color="#F5F5F5" />
-        <SolidColorBrush x:Key="App.Navigation.Hover" Color="#ECECEC" />
-        <SolidColorBrush x:Key="App.Navigation.Selected" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="App.Sidebar.Background" Color="#D9F5F5F5" />
+        <SolidColorBrush x:Key="App.Navigation.Hover" Color="#BFECECEC" />
+        <SolidColorBrush x:Key="App.Navigation.Selected" Color="#CCFFFFFF" />
         <SolidColorBrush x:Key="App.Text.Primary" Color="#202124" />
         <SolidColorBrush x:Key="App.Text.Secondary" Color="#74777C" />
         <SolidColorBrush x:Key="App.Accent" Color="#202124" />
@@ -132,9 +135,14 @@
         </Style>
     </Window.Resources>
 
-    <Border x:Name="WindowFrame"
-            Background="#E8E8E8"
-            BorderBrush="#D1D1D1">
+    <Grid>
+        <backgrounds:CheemsBirdsBackground x:Name="PartBirdsWindowBackground"
+                                           Visibility="Collapsed"
+                                           Cursor="Arrow" />
+
+        <Border x:Name="WindowFrame"
+                Background="#E8E8E8"
+                BorderBrush="#D1D1D1">
         <Border.Style>
             <Style TargetType="{x:Type Border}">
                 <Setter Property="CornerRadius" Value="12" />
@@ -262,7 +270,7 @@
                 </ListBox>
 
                 <Border Grid.Row="4" Margin="2,10,2,2" Padding="12,10"
-                        Background="#ECECEC" CornerRadius="10">
+                        Background="#CCECECEC" CornerRadius="10">
                     <StackPanel>
                         <TextBlock Text="CheemsUI" FontSize="11" FontWeight="SemiBold"
                                    Foreground="{StaticResource App.Text.Primary}" />
@@ -308,5 +316,6 @@
                            TextWrapping="Wrap" />
             </Border>
         </Grid>
-    </Border>
+        </Border>
+    </Grid>
 </Window>

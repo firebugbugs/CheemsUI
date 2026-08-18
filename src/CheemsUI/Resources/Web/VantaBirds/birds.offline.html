@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vanta BIRDS · Offline</title>
+  <style>
+    html, body, #birds-background { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <div id="birds-background"></div>
+  <!-- 本页只引用同目录的本地副本，可从离线目录直接打开。 -->
+  <script src="three.r134.min.js"></script>
+  <script src="vanta.birds.min.js"></script>
+  <script>
+    const birds = VANTA.BIRDS({
+      el: "#birds-background",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      scaleMobile: 1.00
+    });
+
+    document.addEventListener("click", function () {
+      if (window.chrome && window.chrome.webview) {
+        window.chrome.webview.postMessage("apply-background");
+      }
+    });
+
+    if (window.chrome && window.chrome.webview) {
+      window.chrome.webview.addEventListener("message", function (event) {
+        const message = event.data;
+        if (message && message.type === "pointer") {
+          birds.triggerMouseMove(message.x, message.y);
+        }
+      });
+    }
+
+    // WPF 前景覆盖全窗口时，宿主直接调用此函数转发鼠标坐标。
+    window.__cheemsSetPointer = function (x, y) {
+      birds.triggerMouseMove(x, y);
+    };
+  </script>
+</body>
+</html>

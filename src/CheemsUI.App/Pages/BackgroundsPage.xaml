@@ -1,0 +1,104 @@
+<UserControl x:Class="CheemsUI.App.Pages.BackgroundsPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:backgrounds="clr-namespace:CheemsUI.App.Backgrounds"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700">
+    <UserControl.Resources>
+        <Style x:Key="RestoreBackgroundCardStyle" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="320" />
+            <Setter Property="Height" Value="180" />
+            <Setter Property="Margin" Value="0,0,20,20" />
+            <Setter Property="Background" Value="#E8E8E8" />
+            <Setter Property="BorderBrush" Value="#CFCFCF" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="PartCard" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="12">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="PartCard" Property="BorderBrush" Value="#7A7A7A" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="PartCard" Property="Opacity" Value="0.82" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="BirdsCodeButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="34" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Background" Value="#A807192F" />
+            <Setter Property="BorderBrush" Value="#66FFFFFF" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="ToolTip" Value="复制 XAML" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="PartCodeButton" Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="PartCodeButton" Property="Background" Value="#D922466F" />
+                                <Setter TargetName="PartCodeButton" Property="BorderBrush" Value="#CCFFFFFF" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="PartCodeButton" Property="Opacity" Value="0.76" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,0,16,16">
+            <TextBlock Text="背景 Backgrounds" FontSize="24" FontWeight="Bold"
+                       Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+            <TextBlock Text="选择一张卡片即可应用到整个软件。飞鸟背景直接使用本地 three.js r134 与 Vanta BIRDS，运行时不访问网络。"
+                       Margin="0,8,0,24" FontSize="13" TextWrapping="Wrap"
+                       Foreground="{DynamicResource Cheems.Brush.Text.Secondary}" />
+
+            <WrapPanel Visibility="{Binding IsBirdsVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12"
+                        BorderBrush="#172642" BorderThickness="1">
+                    <Border.Clip>
+                        <RectangleGeometry Rect="0,0,320,180" RadiusX="12" RadiusY="12" />
+                    </Border.Clip>
+                    <Grid>
+                        <backgrounds:CheemsBirdsBackground ApplyRequested="BirdsBackground_ApplyRequested" />
+                        <Button x:Name="BirdsCodeButton" Margin="0,12,12,0"
+                                HorizontalAlignment="Right" VerticalAlignment="Top"
+                                Style="{StaticResource BirdsCodeButtonStyle}"
+                                Click="BirdsCodeButton_Click">
+                            <TextBlock Text="&lt;/&gt;" FontFamily="{DynamicResource Cheems.FontFamily.Mono}"
+                                       FontSize="12" FontWeight="SemiBold" Foreground="White" />
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <Button Style="{StaticResource RestoreBackgroundCardStyle}" Click="RestoreBackground_Click">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="恢复默认" FontSize="17" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource Cheems.Brush.Text.Primary}" HorizontalAlignment="Center" />
+                        <TextBlock Margin="0,6,0,0" Text="使用软件原始浅灰背景" FontSize="12"
+                                   Foreground="{DynamicResource Cheems.Brush.Text.Secondary}" HorizontalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+            </WrapPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -1,4 +1,6 @@
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Input;
 using CheemsUI.App.ViewModels;
 
 namespace CheemsUI.App;
@@ -8,10 +10,34 @@ namespace CheemsUI.App;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private static readonly Brush DefaultWindowBackground = new SolidColorBrush(Color.FromRgb(0xE8, 0xE8, 0xE8));
+
     public MainWindow()
     {
         InitializeComponent();
         DataContext = new MainViewModel();
+    }
+
+    public void ApplyBirdsBackground()
+    {
+        PartBirdsWindowBackground.Visibility = Visibility.Visible;
+        WindowFrame.Background = Brushes.Transparent;
+        Background = Brushes.Transparent;
+    }
+
+    public void RestoreDefaultBackground()
+    {
+        PartBirdsWindowBackground.Visibility = Visibility.Collapsed;
+        WindowFrame.Background = DefaultWindowBackground;
+        Background = DefaultWindowBackground;
+    }
+
+    private void Window_MouseMove(object sender, MouseEventArgs e)
+    {
+        if (PartBirdsWindowBackground.Visibility == Visibility.Visible)
+        {
+            PartBirdsWindowBackground.SetPointerPosition(e.GetPosition(PartBirdsWindowBackground));
+        }
     }
 
     private void MinimizeButton_Click(object sender, RoutedEventArgs e)

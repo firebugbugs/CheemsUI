@@ -12,6 +12,8 @@
     <Resource Include="Resources\Fonts\**\*.ttf" />
     <Resource Include="Resources\Fonts\**\*.otf" />
     <Resource Include="Resources\Images\**\*.png" />
+    <!-- 离线网页背景参考实现：资源只在本地包内，不在运行时请求网络。 -->
+    <Resource Include="Resources\Web\**\*.*" />
   </ItemGroup>
 
 </Project>

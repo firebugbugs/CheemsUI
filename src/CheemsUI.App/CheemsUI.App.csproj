@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
@@ -14,6 +14,8 @@
 
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="8.0.8" />
+    <!-- WebView2 仅承载 Resources/Web 中的本地 Vanta 页面；不请求任何 CDN。 -->
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3065.39" />
     <ProjectReference Include="..\CheemsUI\CheemsUI.csproj" />
   </ItemGroup>
 
@@ -25,6 +27,9 @@
   <!-- 录制光标素材：随构建复制到输出目录，替换 Assets\cursor.png 后重新导出即可换光标 -->
   <ItemGroup>
     <Content Include="Assets\cursor.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\CheemsUI\Resources\Web\VantaBirds\**\*.*"
+             Link="Assets\VantaBirds\%(RecursiveDir)%(Filename)%(Extension)"
+             CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
