@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using CheemsUI.App.Infrastructure;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
@@ -15,7 +16,6 @@ namespace CheemsUI.App.Backgrounds;
 public sealed class CheemsBirdsBackground : WebView2CompositionControl
 {
     private const string VirtualHostName = "birds.cheemsui.local";
-    private readonly Uri _birdsPage = new($"https://{VirtualHostName}/birds.offline.html");
     private Task? _initializationTask;
     private bool _isLoaded;
     private bool _isVantaReady;
@@ -26,12 +26,37 @@ public sealed class CheemsBirdsBackground : WebView2CompositionControl
     /// </summary>
     public event EventHandler? ApplyRequested;
 
+    public static readonly DependencyProperty IsPreviewProperty = DependencyProperty.Register(
+        nameof(IsPreview), typeof(bool), typeof(CheemsBirdsBackground),
+        new PropertyMetadata(false, OnPageOptionChanged));
+
+    public static readonly DependencyProperty ClipRadiusProperty = DependencyProperty.Register(
+        nameof(ClipRadius), typeof(double), typeof(CheemsBirdsBackground),
+        new PropertyMetadata(0d, OnClipRadiusChanged));
+
     public CheemsBirdsBackground()
     {
         Cursor = Cursors.Hand;
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
+        SizeChanged += (_, _) => UpdateClip();
     }
+
+    /// <summary>以较低鸟群数量渲染卡片预览，避免与全窗口背景竞争 GPU。</summary>
+    public bool IsPreview
+    {
+        get => (bool)GetValue(IsPreviewProperty);
+        set => SetValue(IsPreviewProperty, value);
+    }
+
+    /// <summary>当前 WebGL 表面的统一裁剪圆角。</summary>
+    public double ClipRadius
+    {
+        get => (double)GetValue(ClipRadiusProperty);
+        set => SetValue(ClipRadiusProperty, value);
+    }
+
+    private Uri BirdsPage => new($"https://{VirtualHostName}/birds.offline.html{(IsPreview ? "?preview=1" : string.Empty)}");
 
     private async void OnLoaded(object sender, System.Windows.RoutedEventArgs e)
     {
@@ -42,10 +67,7 @@ public sealed class CheemsBirdsBackground : WebView2CompositionControl
             _initializationTask ??= InitializeAsync();
             await _initializationTask;
 
-            if (_isLoaded && CoreWebView2.Source != _birdsPage.AbsoluteUri)
-            {
-                CoreWebView2.Navigate(_birdsPage.AbsoluteUri);
-            }
+            NavigateToBirdsPage();
         }
         catch (Exception exception)
         {
@@ -100,7 +122,7 @@ public sealed class CheemsBirdsBackground : WebView2CompositionControl
         }
 
         var now = Stopwatch.GetTimestamp();
-        if ((now - _lastPointerMessageTimestamp) / (double)Stopwatch.Frequency < 1d / 60)
+        if ((now - _lastPointerMessageTimestamp) / (double)Stopwatch.Frequency < 1d / 30)
         {
             return;
         }
@@ -123,8 +145,43 @@ public sealed class CheemsBirdsBackground : WebView2CompositionControl
         }
     }
 
+    private static void OnPageOptionChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+    {
+        ((CheemsBirdsBackground)dependencyObject).NavigateToBirdsPage();
+    }
+
+    private static void OnClipRadiusChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+    {
+        ((CheemsBirdsBackground)dependencyObject).UpdateClip();
+    }
+
+    private void NavigateToBirdsPage()
+    {
+        _isVantaReady = false;
+        if (_isLoaded && CoreWebView2 is not null && CoreWebView2.Source != BirdsPage.AbsoluteUri)
+        {
+            CoreWebView2.Navigate(BirdsPage.AbsoluteUri);
+        }
+    }
+
+    private void UpdateClip()
+    {
+        if (ClipRadius <= 0 || ActualWidth <= 0 || ActualHeight <= 0)
+        {
+            Clip = null;
+            return;
+        }
+
+        Clip = new RectangleGeometry(new Rect(0, 0, ActualWidth, ActualHeight), ClipRadius, ClipRadius);
+    }
+
     private async void OnNavigationCompleted(object? sender, CoreWebView2NavigationCompletedEventArgs e)
     {
+        if (CoreWebView2.Source != BirdsPage.AbsoluteUri)
+        {
+            return;
+        }
+
         if (!e.IsSuccess)
         {
             ErrorLog.Write(new InvalidOperationException($"离线 Vanta 页面导航失败：{e.WebErrorStatus}"));

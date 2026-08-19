@@ -14,6 +14,7 @@
   <script src="three.r134.min.js"></script>
   <script src="vanta.birds.min.js"></script>
   <script>
+    const isPreview = new URLSearchParams(window.location.search).get("preview") === "1";
     const birds = VANTA.BIRDS({
       el: "#birds-background",
       mouseControls: true,
@@ -22,7 +23,9 @@
       minHeight: 200.00,
       minWidth: 200.00,
       scale: 1.00,
-      scaleMobile: 1.00
+      scaleMobile: 1.00,
+      // 卡片预览只需表现风格；全窗口背景仍使用原版默认 quantity: 5。
+      quantity: isPreview ? 4 : 5
     });
 
     document.addEventListener("click", function () {

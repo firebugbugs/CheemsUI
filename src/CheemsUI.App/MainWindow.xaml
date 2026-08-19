@@ -34,18 +34,31 @@
         <DataTemplate DataType="{x:Type vm:ProgressViewModel}"><pages:ProgressPage /></DataTemplate>
         <DataTemplate DataType="{x:Type vm:BackgroundsViewModel}"><pages:BackgroundsPage /></DataTemplate>
 
+        <!-- Window chrome colours are changed together by MainWindow according to the active background. -->
+        <SolidColorBrush x:Key="App.Window.Background" Color="#E8E8E8" />
+        <SolidColorBrush x:Key="App.Window.Border" Color="#D1D1D1" />
         <SolidColorBrush x:Key="App.Sidebar.Background" Color="#D9F5F5F5" />
         <SolidColorBrush x:Key="App.Navigation.Hover" Color="#BFECECEC" />
         <SolidColorBrush x:Key="App.Navigation.Selected" Color="#CCFFFFFF" />
         <SolidColorBrush x:Key="App.Text.Primary" Color="#202124" />
         <SolidColorBrush x:Key="App.Text.Secondary" Color="#74777C" />
         <SolidColorBrush x:Key="App.Accent" Color="#202124" />
+        <SolidColorBrush x:Key="App.TitleBar.Icon.Background" Color="#202124" />
+        <SolidColorBrush x:Key="App.TitleBar.Button.Foreground" Color="#4D4F53" />
+        <SolidColorBrush x:Key="App.TitleBar.Button.Hover" Color="#DCDCDC" />
+        <SolidColorBrush x:Key="App.TitleBar.Button.Pressed" Color="#D2D2D2" />
+        <SolidColorBrush x:Key="App.Search.Background" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="App.Search.Border" Color="#E0E0E0" />
+        <SolidColorBrush x:Key="App.Search.Icon" Color="#777A7F" />
+        <SolidColorBrush x:Key="App.Sidebar.Footer.Background" Color="#CCECECEC" />
+        <SolidColorBrush x:Key="App.Notification.Background" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="App.Notification.Border" Color="#D6D9DE" />
 
         <Style x:Key="TitleBarButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="Width" Value="46" />
             <Setter Property="Height" Value="36" />
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Foreground" Value="#4D4F53" />
+            <Setter Property="Foreground" Value="{DynamicResource App.TitleBar.Button.Foreground}" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="FocusVisualStyle" Value="{x:Null}" />
             <Setter Property="Cursor" Value="Hand" />
@@ -60,10 +73,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="ButtonSurface" Property="Background" Value="#DCDCDC" />
+                                <Setter TargetName="ButtonSurface" Property="Background" Value="{DynamicResource App.TitleBar.Button.Hover}" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="ButtonSurface" Property="Background" Value="#D2D2D2" />
+                                <Setter TargetName="ButtonSurface" Property="Background" Value="{DynamicResource App.TitleBar.Button.Pressed}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -113,7 +126,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Border x:Name="SelectionMark" Width="4" Height="20"
                                         HorizontalAlignment="Left" VerticalAlignment="Center"
-                                        Background="{StaticResource App.Accent}"
+                                        Background="{DynamicResource App.Accent}"
                                         CornerRadius="0,3,3,0" Opacity="0" />
                                 <ContentPresenter Grid.Column="1" Margin="13,0,12,0"
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -122,10 +135,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="ItemBackground" Property="Background" Value="{StaticResource App.Navigation.Hover}" />
+                                <Setter TargetName="ItemBackground" Property="Background" Value="{DynamicResource App.Navigation.Hover}" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="ItemBackground" Property="Background" Value="{StaticResource App.Navigation.Selected}" />
+                                <Setter TargetName="ItemBackground" Property="Background" Value="{DynamicResource App.Navigation.Selected}" />
                                 <Setter TargetName="SelectionMark" Property="Opacity" Value="1" />
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -137,12 +150,12 @@
 
     <Grid>
         <backgrounds:CheemsBirdsBackground x:Name="PartBirdsWindowBackground"
-                                           Visibility="Collapsed"
+                                           Visibility="Collapsed" ClipRadius="12"
                                            Cursor="Arrow" />
 
         <Border x:Name="WindowFrame"
-                Background="#E8E8E8"
-                BorderBrush="#D1D1D1">
+                Background="{DynamicResource App.Window.Background}"
+                BorderBrush="{DynamicResource App.Window.Border}">
         <Border.Style>
             <Style TargetType="{x:Type Border}">
                 <Setter Property="CornerRadius" Value="12" />
@@ -168,16 +181,16 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Width="22" Height="22" Background="#202124" CornerRadius="7">
+                    <Border Width="22" Height="22" Background="{DynamicResource App.TitleBar.Icon.Background}" CornerRadius="7">
                         <TextBlock Text="C" HorizontalAlignment="Center" VerticalAlignment="Center"
                                    FontSize="11" FontWeight="SemiBold" Foreground="White" />
                     </Border>
                     <TextBlock Margin="9,0,0,0" VerticalAlignment="Center"
                                Text="CheemsUI" FontSize="12" FontWeight="SemiBold"
-                               Foreground="{StaticResource App.Text.Primary}" />
+                               Foreground="{DynamicResource App.Text.Primary}" />
                     <TextBlock Margin="8,0,0,0" VerticalAlignment="Center"
                                Text="组件展示" FontSize="11"
-                               Foreground="{StaticResource App.Text.Secondary}" />
+                               Foreground="{DynamicResource App.Text.Secondary}" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal">
@@ -207,7 +220,7 @@
                 </Grid.ColumnDefinitions>
 
         <Border Grid.Column="0" Margin="18,8,18,18"
-                Background="{StaticResource App.Sidebar.Background}" CornerRadius="18">
+                Background="{DynamicResource App.Sidebar.Background}" CornerRadius="18">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="22" Direction="270" Opacity="0.10"
                                   ShadowDepth="4" Color="#000000" />
@@ -229,9 +242,9 @@
                 <StackPanel Grid.Row="1" Margin="2,0,2,14">
                     <TextBlock Margin="8,0,8,7" Text="搜索控件"
                                FontSize="11" FontWeight="SemiBold"
-                               Foreground="{StaticResource App.Text.Secondary}" />
-                    <Border Height="38" Background="#FFFFFF" CornerRadius="11"
-                            BorderBrush="#E0E0E0" BorderThickness="1">
+                               Foreground="{DynamicResource App.Text.Secondary}" />
+                    <Border Height="38" Background="{DynamicResource App.Search.Background}" CornerRadius="11"
+                            BorderBrush="{DynamicResource App.Search.Border}" BorderThickness="1">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="34" />
@@ -239,13 +252,13 @@
                             </Grid.ColumnDefinitions>
                             <Path Width="13" Height="13" Stretch="Uniform"
                                   HorizontalAlignment="Right" VerticalAlignment="Center"
-                                  Stroke="#777A7F" StrokeThickness="1.5"
+                                  Stroke="{DynamicResource App.Search.Icon}" StrokeThickness="1.5"
                                   Data="M 8.5,8.5 L 13,13 M 11,5.5 A 5.5,5.5 0 1 1 0,5.5 A 5.5,5.5 0 1 1 11,5.5" />
                             <TextBox Grid.Column="1" Margin="9,0,9,0"
                                      VerticalContentAlignment="Center"
                                      Background="Transparent" BorderThickness="0"
-                                     FontSize="12" Foreground="{StaticResource App.Text.Primary}"
-                                     CaretBrush="{StaticResource App.Text.Primary}"
+                                     FontSize="12" Foreground="{DynamicResource App.Text.Primary}"
+                                     CaretBrush="{DynamicResource App.Text.Primary}"
                                      Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
                         </Grid>
                     </Border>
@@ -253,7 +266,7 @@
 
                 <TextBlock Grid.Row="2" Margin="10,2,10,7" Text="组件"
                            FontSize="11" FontWeight="SemiBold"
-                           Foreground="{StaticResource App.Text.Secondary}" />
+                           Foreground="{DynamicResource App.Text.Secondary}" />
 
                 <ListBox Grid.Row="3" ItemsSource="{Binding GroupsView}"
                          SelectedItem="{Binding SelectedGroup}"
@@ -263,19 +276,19 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="Medium"
-                                       Foreground="{StaticResource App.Text.Primary}"
+                                       Foreground="{DynamicResource App.Text.Primary}"
                                        TextTrimming="CharacterEllipsis" />
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
 
                 <Border Grid.Row="4" Margin="2,10,2,2" Padding="12,10"
-                        Background="#CCECECEC" CornerRadius="10">
+                        Background="{DynamicResource App.Sidebar.Footer.Background}" CornerRadius="10">
                     <StackPanel>
                         <TextBlock Text="CheemsUI" FontSize="11" FontWeight="SemiBold"
-                                   Foreground="{StaticResource App.Text.Primary}" />
+                                   Foreground="{DynamicResource App.Text.Primary}" />
                         <TextBlock Text="CSS → WPF component gallery" Margin="0,3,0,0"
-                                   FontSize="10" Foreground="{StaticResource App.Text.Secondary}" />
+                                   FontSize="10" Foreground="{DynamicResource App.Text.Secondary}" />
                     </StackPanel>
                 </Border>
             </Grid>
@@ -295,8 +308,8 @@
                     Padding="18,11"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
-                    Background="#FFFFFF"
-                    BorderBrush="#D6D9DE"
+                    Background="{DynamicResource App.Notification.Background}"
+                    BorderBrush="{DynamicResource App.Notification.Border}"
                     BorderThickness="1"
                     CornerRadius="10"
                     IsHitTestVisible="False"
@@ -311,7 +324,7 @@
                 <TextBlock Text="{Binding SelectedGroup.PageViewModel.NotificationMessage}"
                            FontSize="13"
                            FontWeight="Medium"
-                           Foreground="{StaticResource App.Text.Primary}"
+                           Foreground="{DynamicResource App.Text.Primary}"
                            TextAlignment="Center"
                            TextWrapping="Wrap" />
             </Border>
