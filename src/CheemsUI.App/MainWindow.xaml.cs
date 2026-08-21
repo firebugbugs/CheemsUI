@@ -71,6 +71,11 @@ public partial class MainWindow : Window
         SetBrushColor("App.Sidebar.Footer.Background", Color.FromArgb(0xCC, 0xEC, 0xEC, 0xEC));
         SetBrushColor("App.Notification.Background", Colors.White);
         SetBrushColor("App.Notification.Border", Color.FromRgb(0xD6, 0xD9, 0xDE));
+        SetBrushColor("Cheems.Brush.Text.Primary", Color.FromRgb(0x2D, 0x34, 0x36));
+        SetBrushColor("Cheems.Brush.Text.Secondary", Color.FromRgb(0x63, 0x6E, 0x72));
+        SetBrushColor("Cheems.Brush.Background.Default", Colors.White);
+        SetBrushColor("Cheems.Brush.Background.Elevated", Color.FromRgb(0xF5, 0xF6, 0xFA));
+        SetBrushColor("Cheems.Brush.Border.Default", Color.FromRgb(0xDF, 0xE6, 0xE9));
     }
 
     private void ApplyDarkPalette()
@@ -93,6 +98,11 @@ public partial class MainWindow : Window
         SetBrushColor("App.Sidebar.Footer.Background", Color.FromArgb(0xB8, 0x11, 0x2A, 0x47));
         SetBrushColor("App.Notification.Background", Color.FromRgb(0x16, 0x2D, 0x49));
         SetBrushColor("App.Notification.Border", Color.FromRgb(0x75, 0x91, 0xAF));
+        SetBrushColor("Cheems.Brush.Text.Primary", Color.FromRgb(0xF4, 0xF7, 0xFB));
+        SetBrushColor("Cheems.Brush.Text.Secondary", Color.FromRgb(0xC0, 0xCE, 0xDD));
+        SetBrushColor("Cheems.Brush.Background.Default", Color.FromArgb(0xE8, 0x16, 0x2D, 0x49));
+        SetBrushColor("Cheems.Brush.Background.Elevated", Color.FromArgb(0xE8, 0x20, 0x3B, 0x59));
+        SetBrushColor("Cheems.Brush.Border.Default", Color.FromArgb(0xB8, 0x86, 0xA3, 0xC1));
     }
 
     private void SetBrushColor(string resourceKey, Color color)
