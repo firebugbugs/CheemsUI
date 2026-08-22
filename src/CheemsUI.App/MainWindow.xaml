@@ -153,6 +153,33 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <ContextMenu x:Key="App.UpdateMenu" Placement="Top"
+                     Padding="5" Background="#FFFCFCFD" BorderBrush="#FFD9E1EA" BorderThickness="1">
+            <ContextMenu.Resources>
+                <Style TargetType="{x:Type MenuItem}">
+                    <Setter Property="Padding" Value="14,9,20,9" />
+                    <Setter Property="FontSize" Value="13" />
+                    <Setter Property="Foreground" Value="#FF243247" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type MenuItem}">
+                                <Border x:Name="ItemSurface" Background="{TemplateBinding Background}" CornerRadius="7" Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsHighlighted" Value="True">
+                                        <Setter TargetName="ItemSurface" Property="Background" Value="#FFE8F1FF" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ContextMenu.Resources>
+            <MenuItem Header="检查更新…" Click="CheckForUpdates_Click" />
+        </ContextMenu>
     </Window.Resources>
 
     <Grid>
@@ -322,34 +349,6 @@
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Button.Template>
-                    <Button.ContextMenu>
-                        <ContextMenu x:Name="UpdateMenu" Placement="Top" PlacementTarget="{Binding ElementName=UpdateMenuButton}"
-                                     Padding="5" Background="#FFFCFCFD" BorderBrush="#FFD9E1EA" BorderThickness="1">
-                            <ContextMenu.Resources>
-                                <Style TargetType="{x:Type MenuItem}">
-                                    <Setter Property="Padding" Value="14,9,20,9" />
-                                    <Setter Property="FontSize" Value="13" />
-                                    <Setter Property="Foreground" Value="#FF243247" />
-                                    <Setter Property="Background" Value="Transparent" />
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="{x:Type MenuItem}">
-                                                <Border x:Name="ItemSurface" Background="{TemplateBinding Background}" CornerRadius="7" Padding="{TemplateBinding Padding}">
-                                                    <ContentPresenter />
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsHighlighted" Value="True">
-                                                        <Setter TargetName="ItemSurface" Property="Background" Value="#FFE8F1FF" />
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ContextMenu.Resources>
-                            <MenuItem Header="检查更新…" Click="CheckForUpdates_Click" />
-                        </ContextMenu>
-                    </Button.ContextMenu>
                 </Button>
             </Grid>
         </Border>

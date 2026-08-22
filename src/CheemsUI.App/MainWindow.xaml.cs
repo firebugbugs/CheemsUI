@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Input;
 using CheemsUI.App.Infrastructure;
@@ -138,12 +139,14 @@ public partial class MainWindow : Window
 
     private void UpdateMenuButton_Click(object sender, RoutedEventArgs e)
     {
-        UpdateMenu.IsOpen = true;
+        var menu = GetUpdateMenu();
+        menu.PlacementTarget = UpdateMenuButton;
+        menu.IsOpen = true;
     }
 
     private async void CheckForUpdates_Click(object sender, RoutedEventArgs e)
     {
-        UpdateMenu.IsOpen = false;
+        GetUpdateMenu().IsOpen = false;
         UpdateMenuButton.IsEnabled = false;
         try
         {
@@ -191,6 +194,8 @@ public partial class MainWindow : Window
             UpdateMenuButton.IsEnabled = true;
         }
     }
+
+    private ContextMenu GetUpdateMenu() => (ContextMenu)FindResource("App.UpdateMenu");
 
     private void MinimizeButton_Click(object sender, RoutedEventArgs e)
     {
