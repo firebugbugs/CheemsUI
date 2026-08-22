@@ -1,0 +1,46 @@
+<Window x:Class="CheemsUI.App.Infrastructure.AppDialog"
+        x:ClassModifier="internal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="CheemsUI"
+        Width="420" SizeToContent="Height"
+        MinHeight="230"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None" ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Background="Transparent"
+        AllowsTransparency="True">
+    <Border Margin="8" Padding="26,24,26,22" Background="#FFFCFCFD" BorderBrush="#FFD9E1EA" BorderThickness="1" CornerRadius="16">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="26" ShadowDepth="8" Opacity="0.22" Color="#600A1624" />
+        </Border.Effect>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="36" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border Width="28" Height="28" Background="#FF1F6FEB" CornerRadius="9" VerticalAlignment="Top">
+                    <TextBlock x:Name="PartIcon" Text="i" Foreground="White" FontSize="17" FontWeight="Bold"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+                <TextBlock Grid.Column="1" x:Name="PartTitle" Margin="10,3,0,0" FontSize="16" FontWeight="SemiBold"
+                           Foreground="#FF1E293B" TextWrapping="Wrap" />
+            </Grid>
+            <TextBlock Grid.Row="1" x:Name="PartMessage" Margin="0,18,0,24" FontSize="13" LineHeight="21"
+                       Foreground="#FF536174" TextWrapping="Wrap" />
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="PartSecondaryButton" MinWidth="84" Height="34" Margin="0,0,9,0" Padding="14,0"
+                        Click="SecondaryButton_Click" Background="#FFF2F5F8" BorderBrush="#FFD9E1EA" Foreground="#FF334155"
+                        BorderThickness="1" Cursor="Hand" />
+                <Button x:Name="PartPrimaryButton" MinWidth="92" Height="34" Padding="14,0"
+                        Click="PrimaryButton_Click" Background="#FF1F6FEB" BorderThickness="0" Foreground="White" Cursor="Hand" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

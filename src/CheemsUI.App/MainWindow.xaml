@@ -239,6 +239,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <infra:SidebarBrandControl Width="160" Height="62"
@@ -298,6 +299,58 @@
                                    FontSize="10" Foreground="{DynamicResource App.Text.Secondary}" />
                     </StackPanel>
                 </Border>
+
+                <Button x:Name="UpdateMenuButton" Grid.Row="5" Width="34" Height="30" Margin="2,8,0,0"
+                        HorizontalAlignment="Left" Click="UpdateMenuButton_Click"
+                        ToolTip="更多" AutomationProperties.Name="更多菜单"
+                        Background="Transparent" BorderThickness="0" Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="ButtonSurface" Background="{TemplateBinding Background}" CornerRadius="9">
+                                <Path Width="16" Height="12" Stretch="Fill"
+                                      Stroke="{DynamicResource App.Text.Secondary}" StrokeThickness="1.6"
+                                      StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                      Data="M 1,1 L 15,1 M 1,6 L 15,6 M 1,11 L 15,11" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="ButtonSurface" Property="Background" Value="{DynamicResource App.Navigation.Hover}" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="ButtonSurface" Property="Background" Value="{DynamicResource App.Navigation.Selected}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <Button.ContextMenu>
+                        <ContextMenu x:Name="UpdateMenu" Placement="Top" PlacementTarget="{Binding ElementName=UpdateMenuButton}"
+                                     Padding="5" Background="#FFFCFCFD" BorderBrush="#FFD9E1EA" BorderThickness="1">
+                            <ContextMenu.Resources>
+                                <Style TargetType="{x:Type MenuItem}">
+                                    <Setter Property="Padding" Value="14,9,20,9" />
+                                    <Setter Property="FontSize" Value="13" />
+                                    <Setter Property="Foreground" Value="#FF243247" />
+                                    <Setter Property="Background" Value="Transparent" />
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type MenuItem}">
+                                                <Border x:Name="ItemSurface" Background="{TemplateBinding Background}" CornerRadius="7" Padding="{TemplateBinding Padding}">
+                                                    <ContentPresenter />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsHighlighted" Value="True">
+                                                        <Setter TargetName="ItemSurface" Property="Background" Value="#FFE8F1FF" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ContextMenu.Resources>
+                            <MenuItem Header="检查更新…" Click="CheckForUpdates_Click" />
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
             </Grid>
         </Border>
 

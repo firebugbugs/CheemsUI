@@ -1,0 +1,18 @@
+CheemsUI automatic-update release checklist
+==============================================
+
+The desktop app reads the stable Gitee release list for:
+https://gitee.com/unbengable/cheems-ui/releases
+
+For each release, attach both files with exactly matching names:
+
+  CheemsUI-Setup-<version>.exe
+  CheemsUI-Setup-<version>.exe.sha256
+
+Create the checksum alongside the installer before uploading:
+
+  $hash = (Get-FileHash 'CheemsUI-Setup-<version>.exe' -Algorithm SHA256).Hash.ToLowerInvariant()
+  Set-Content 'CheemsUI-Setup-<version>.exe.sha256' -Value $hash -NoNewline
+
+Use a numeric tag such as v0.0.2 or 0.0.2. The app ignores prereleases and only
+offers a newer installer after its SHA-256 checksum has been verified.

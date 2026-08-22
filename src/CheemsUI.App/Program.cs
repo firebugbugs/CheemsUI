@@ -2,6 +2,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using CheemsUI.App.Infrastructure;
+using CheemsUI.App.Infrastructure.Updates;
 
 namespace CheemsUI.App;
 
@@ -10,6 +11,11 @@ public static class Program
     [STAThread]
     public static int Main(string[] args)
     {
+        if (UpdateInstallerLauncher.TryRunInstaller(args, out var updateExitCode))
+        {
+            return updateExitCode;
+        }
+
         if (args.Length > 0 && string.Equals(args[0], "--export", StringComparison.OrdinalIgnoreCase))
         {
             return RunExport(args);
