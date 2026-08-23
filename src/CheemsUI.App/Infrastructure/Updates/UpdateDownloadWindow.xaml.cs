@@ -10,9 +10,10 @@ internal partial class UpdateDownloadWindow : Window
     private readonly CancellationTokenSource _cancellationTokenSource = new();
     private bool _completed;
 
-    public UpdateDownloadWindow(Window owner, UpdateService updateService, UpdateRelease release)
+    public UpdateDownloadWindow(Window owner, WindowThemeViewModel theme, UpdateService updateService, UpdateRelease release)
     {
         Owner = owner;
+        DataContext = theme;
         _updateService = updateService;
         _release = release;
         InitializeComponent();

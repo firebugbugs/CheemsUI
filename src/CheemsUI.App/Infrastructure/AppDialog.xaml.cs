@@ -16,8 +16,9 @@ internal sealed record AppDialogOptions(
 /// <summary>Reusable modal prompt used for application-level messages and decisions.</summary>
 internal partial class AppDialog : Window
 {
-    private AppDialog(AppDialogOptions options)
+    private AppDialog(WindowThemeViewModel theme, AppDialogOptions options)
     {
+        DataContext = theme;
         InitializeComponent();
         PartTitle.Text = options.Title;
         PartMessage.Text = options.Message;
@@ -29,9 +30,9 @@ internal partial class AppDialog : Window
         ApplyKind(options.Kind);
     }
 
-    public static bool Show(Window? owner, AppDialogOptions options)
+    public static bool Show(Window? owner, WindowThemeViewModel theme, AppDialogOptions options)
     {
-        var dialog = new AppDialog(options) { Owner = owner };
+        var dialog = new AppDialog(theme, options) { Owner = owner };
         return dialog.ShowDialog() == true;
     }
 

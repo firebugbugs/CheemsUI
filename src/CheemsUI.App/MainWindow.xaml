@@ -154,31 +154,90 @@
             </Setter>
         </Style>
 
-        <ContextMenu x:Key="App.UpdateMenu" Placement="Top"
-                     Padding="5" Background="#FFFCFCFD" BorderBrush="#FFD9E1EA" BorderThickness="1">
+        <ContextMenu x:Key="App.UpdateMenu" Placement="Top" Width="220"
+                     Background="Transparent" BorderThickness="0" Padding="0">
+            <ContextMenu.Template>
+                <ControlTemplate TargetType="{x:Type ContextMenu}">
+                    <Border Margin="5" Padding="6" Background="{Binding SurfaceBrush}" BorderBrush="{Binding BorderBrush}"
+                            BorderThickness="1" CornerRadius="14" SnapsToDevicePixels="True">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="22" ShadowDepth="7" Direction="270" Opacity="0.28" Color="#90040D1C" />
+                        </Border.Effect>
+                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                    </Border>
+                </ControlTemplate>
+            </ContextMenu.Template>
             <ContextMenu.Resources>
-                <Style TargetType="{x:Type MenuItem}">
-                    <Setter Property="Padding" Value="14,9,20,9" />
+                <Style x:Key="App.UpdateMenuItemStyle" TargetType="{x:Type MenuItem}">
+                    <Setter Property="Height" Value="42" />
+                    <Setter Property="Padding" Value="12,0" />
                     <Setter Property="FontSize" Value="13" />
-                    <Setter Property="Foreground" Value="#FF243247" />
+                    <Setter Property="Foreground" Value="{Binding PrimaryTextBrush}" />
                     <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Cursor" Value="Hand" />
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type MenuItem}">
-                                <Border x:Name="ItemSurface" Background="{TemplateBinding Background}" CornerRadius="7" Padding="{TemplateBinding Padding}">
-                                    <ContentPresenter ContentSource="Header" RecognizesAccessKey="True" />
+                                <Border x:Name="ItemSurface" Background="{TemplateBinding Background}" CornerRadius="9" Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter ContentSource="Header" RecognizesAccessKey="True"
+                                                      VerticalAlignment="Center" />
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsHighlighted" Value="True">
-                                        <Setter TargetName="ItemSurface" Property="Background" Value="#FFE8F1FF" />
+                                        <Setter TargetName="ItemSurface" Property="Background" Value="{Binding HoverBrush}" />
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Opacity" Value="0.45" />
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
                 </Style>
+                <Style x:Key="App.UpdateMenuSeparatorStyle" TargetType="{x:Type Separator}">
+                    <Setter Property="Height" Value="1" />
+                    <Setter Property="Margin" Value="9,4" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Separator}">
+                                <Border Height="1" Background="{Binding BorderBrush}" />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
             </ContextMenu.Resources>
-            <MenuItem Header="检查更新…" Click="CheckForUpdates_Click" />
+            <MenuItem Style="{StaticResource App.UpdateMenuItemStyle}" Click="CheckForUpdates_Click">
+                <MenuItem.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="26" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Width="22" Height="22" Background="{Binding MutedSurfaceBrush}" CornerRadius="7">
+                            <Path Width="12" Height="12" Stretch="Uniform" Stroke="{Binding AccentBrush}" StrokeThickness="1.6"
+                                  StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round"
+                                  Data="M 6,1 L 6,8 M 3.2,5.2 L 6,8 L 8.8,5.2 M 2,10.5 L 10,10.5" />
+                        </Border>
+                        <TextBlock Grid.Column="1" Text="检查更新" VerticalAlignment="Center" FontWeight="Medium" />
+                    </Grid>
+                </MenuItem.Header>
+            </MenuItem>
+            <Separator Style="{StaticResource App.UpdateMenuSeparatorStyle}" />
+            <MenuItem Style="{StaticResource App.UpdateMenuItemStyle}" Click="AboutMenuItem_Click">
+                <MenuItem.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="26" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Width="22" Height="22" Background="{Binding MutedSurfaceBrush}" CornerRadius="7">
+                            <TextBlock Text="i" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold"
+                                       Foreground="{Binding AccentBrush}" />
+                        </Border>
+                        <TextBlock Grid.Column="1" Text="关于 CheemsUI" VerticalAlignment="Center" FontWeight="Medium" />
+                    </Grid>
+                </MenuItem.Header>
+            </MenuItem>
         </ContextMenu>
     </Window.Resources>
 
@@ -266,7 +325,6 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <infra:SidebarBrandControl Width="160" Height="62"
@@ -317,17 +375,7 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
 
-                <Border Grid.Row="4" Margin="2,10,2,2" Padding="12,10"
-                        Background="{DynamicResource App.Sidebar.Footer.Background}" CornerRadius="10">
-                    <StackPanel>
-                        <TextBlock Text="CheemsUI" FontSize="11" FontWeight="SemiBold"
-                                   Foreground="{DynamicResource App.Text.Primary}" />
-                        <TextBlock Text="CSS → WPF component gallery" Margin="0,3,0,0"
-                                   FontSize="10" Foreground="{DynamicResource App.Text.Secondary}" />
-                    </StackPanel>
-                </Border>
-
-                <Button x:Name="UpdateMenuButton" Grid.Row="5" Width="34" Height="30" Margin="2,8,0,0"
+                <Button x:Name="UpdateMenuButton" Grid.Row="4" Width="34" Height="30" Margin="2,8,0,0"
                         HorizontalAlignment="Left" Click="UpdateMenuButton_Click"
                         ToolTip="更多" AutomationProperties.Name="更多菜单"
                         Background="Transparent" BorderThickness="0" Cursor="Hand">

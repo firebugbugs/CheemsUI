@@ -16,6 +16,7 @@ public partial class MainWindow : Window
     private static readonly Color DefaultBackgroundColor = Color.FromRgb(0xE8, 0xE8, 0xE8);
     private static readonly Color BirdsBackgroundColor = Color.FromRgb(0x07, 0x19, 0x2F);
     private readonly UpdateService _updateService = new();
+    internal WindowThemeViewModel WindowTheme { get; } = new();
 
     public MainWindow()
     {
@@ -57,6 +58,7 @@ public partial class MainWindow : Window
 
     private void ApplyLightPalette()
     {
+        WindowTheme.ApplyLight();
         SetBrushColor("App.Window.Background", DefaultBackgroundColor);
         SetBrushColor("App.Window.Border", Color.FromRgb(0xD1, 0xD1, 0xD1));
         SetBrushColor("App.Sidebar.Background", Color.FromArgb(0xD9, 0xF5, 0xF5, 0xF5));
@@ -84,6 +86,7 @@ public partial class MainWindow : Window
 
     private void ApplyDarkPalette()
     {
+        WindowTheme.ApplyDark();
         SetBrushColor("App.Window.Background", Color.FromRgb(0x07, 0x19, 0x2F));
         SetBrushColor("App.Window.Border", Color.FromRgb(0x5A, 0x70, 0x8B));
         SetBrushColor("App.Sidebar.Background", Color.FromArgb(0xD9, 0x0B, 0x20, 0x3A));
@@ -140,6 +143,7 @@ public partial class MainWindow : Window
     private void UpdateMenuButton_Click(object sender, RoutedEventArgs e)
     {
         var menu = GetUpdateMenu();
+        menu.DataContext = WindowTheme;
         menu.PlacementTarget = UpdateMenuButton;
         menu.IsOpen = true;
     }
@@ -154,20 +158,20 @@ public partial class MainWindow : Window
             switch (result.State)
             {
                 case UpdateCheckState.NoUpdate:
-                    AppDialog.Show(this, new AppDialogOptions(
+                    AppDialog.Show(this, WindowTheme, new AppDialogOptions(
                         "已是最新版本",
                         $"当前版本 {result.CurrentVersion} 已是可用的最新稳定版。"));
                     break;
 
                 case UpdateCheckState.ConnectionFailed:
-                    AppDialog.Show(this, new AppDialogOptions(
+                    AppDialog.Show(this, WindowTheme, new AppDialogOptions(
                         "无法检查更新",
                         result.Message ?? "暂时无法连接更新服务，请稍后重试。",
                         AppDialogKind.Warning));
                     break;
 
                 case UpdateCheckState.ReleaseUnavailable:
-                    AppDialog.Show(this, new AppDialogOptions(
+                    AppDialog.Show(this, WindowTheme, new AppDialogOptions(
                         "发行版暂不可用",
                         result.Message ?? "最新发行版缺少可用安装包，请稍后重试。",
                         AppDialogKind.Warning));
@@ -177,14 +181,14 @@ public partial class MainWindow : Window
                     var notes = string.IsNullOrWhiteSpace(result.Release.Notes)
                         ? "本次发行未提供更新说明。"
                         : result.Release.Notes.Trim();
-                    if (AppDialog.Show(this, new AppDialogOptions(
+                    if (AppDialog.Show(this, WindowTheme, new AppDialogOptions(
                             $"发现新版本 {result.Release.Version}",
                             $"当前版本：{result.CurrentVersion}\n\n{notes}\n\n下载完成后将校验文件完整性，并关闭当前程序启动安装。",
                             AppDialogKind.Question,
                             "下载并安装",
                             "稍后")))
                     {
-                        new UpdateDownloadWindow(this, _updateService, result.Release).Show();
+                        new UpdateDownloadWindow(this, WindowTheme, _updateService, result.Release).Show();
                     }
                     break;
             }
@@ -196,6 +200,12 @@ public partial class MainWindow : Window
     }
 
     private ContextMenu GetUpdateMenu() => (ContextMenu)FindResource("App.UpdateMenu");
+
+    private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        GetUpdateMenu().IsOpen = false;
+        new AboutWindow(this, WindowTheme).ShowDialog();
+    }
 
     private void MinimizeButton_Click(object sender, RoutedEventArgs e)
     {

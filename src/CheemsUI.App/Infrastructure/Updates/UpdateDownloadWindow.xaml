@@ -9,7 +9,7 @@
         ShowInTaskbar="False"
         Background="Transparent"
         AllowsTransparency="True">
-    <Border Margin="8" Padding="28,25" Background="#FFFCFCFD" BorderBrush="#FFD9E1EA" BorderThickness="1" CornerRadius="16">
+    <Border Margin="8" Padding="28,25" Background="{Binding SurfaceBrush}" BorderBrush="{Binding BorderBrush}" BorderThickness="1" CornerRadius="16">
         <Border.Effect>
             <DropShadowEffect BlurRadius="26" ShadowDepth="8" Opacity="0.22" Color="#600A1624" />
         </Border.Effect>
@@ -22,15 +22,15 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel>
-                <TextBlock Text="正在准备更新" FontSize="18" FontWeight="SemiBold" Foreground="#FF1E293B" />
-                <TextBlock x:Name="PartVersion" Margin="0,5,0,0" FontSize="12" Foreground="#FF64748B" />
+                <TextBlock Text="正在准备更新" FontSize="18" FontWeight="SemiBold" Foreground="{Binding PrimaryTextBrush}" />
+                <TextBlock x:Name="PartVersion" Margin="0,5,0,0" FontSize="12" Foreground="{Binding SecondaryTextBrush}" />
             </StackPanel>
-            <TextBlock Grid.Row="1" x:Name="PartStatus" Margin="0,27,0,9" FontSize="13" Foreground="#FF334155" />
+            <TextBlock Grid.Row="1" x:Name="PartStatus" Margin="0,27,0,9" FontSize="13" Foreground="{Binding PrimaryTextBrush}" />
             <ProgressBar Grid.Row="2" x:Name="PartProgress" Height="8" Minimum="0" Maximum="100" BorderThickness="0"
-                         Background="#FFE5ECF3" Foreground="#FF1F6FEB" />
-            <TextBlock Grid.Row="3" x:Name="PartDetail" Margin="0,9,0,0" FontSize="11" Foreground="#FF8492A6" />
+                         Background="{Binding ProgressTrackBrush}" Foreground="{Binding AccentBrush}" />
+            <TextBlock Grid.Row="3" x:Name="PartDetail" Margin="0,9,0,0" FontSize="11" Foreground="{Binding SecondaryTextBrush}" />
             <Button Grid.Row="4" x:Name="PartCancelButton" Width="92" Height="34" HorizontalAlignment="Right"
-                    Click="CancelButton_Click" Background="#FFF2F5F8" BorderBrush="#FFD9E1EA" Foreground="#FF334155"
+                    Click="CancelButton_Click" Background="{Binding MutedSurfaceBrush}" BorderBrush="{Binding BorderBrush}" Foreground="{Binding PrimaryTextBrush}"
                     BorderThickness="1" Cursor="Hand" Content="取消下载" />
         </Grid>
     </Border>
