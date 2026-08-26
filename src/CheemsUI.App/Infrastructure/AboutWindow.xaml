@@ -21,10 +21,10 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal">
-                <Border Width="42" Height="42" Background="{Binding AccentBrush}" CornerRadius="13">
-                    <TextBlock Text="C" Foreground="{Binding AccentTextBrush}" FontSize="19" FontWeight="SemiBold"
-                               HorizontalAlignment="Center" VerticalAlignment="Center" />
-                </Border>
+                <Image Width="42" Height="42"
+                       Source="/CheemsUI.App;component/Assets/Branding/head_portrait.png"
+                       Stretch="Uniform"
+                       RenderOptions.BitmapScalingMode="HighQuality" />
                 <StackPanel Margin="13,1,0,0">
                     <TextBlock Text="CheemsUI" FontSize="19" FontWeight="SemiBold" Foreground="{Binding PrimaryTextBrush}" />
                     <TextBlock Text="CSS → WPF component gallery" Margin="0,4,0,0" FontSize="11" Foreground="{Binding SecondaryTextBrush}" />

@@ -7,6 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <StartupObject>CheemsUI.App.Program</StartupObject>
+    <ApplicationIcon>Assets\Branding\head_portrait_64x64.ico</ApplicationIcon>
     <Version>0.0.1</Version>
     <!-- 不把 git 哈希拼进 ProductVersion，保证安装包版本号干净地跟随 <Version> -->
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
@@ -22,6 +23,8 @@
   <!-- 示例源码打包（规矩 M4）：Sources/ 下的 txt 自动作为 Resource -->
   <ItemGroup>
     <Resource Include="Sources\**\*.txt" />
+    <Resource Include="Assets\Branding\head_portrait.png" />
+    <Resource Include="Assets\Branding\head_portrait_64x64.ico" />
   </ItemGroup>
 
   <!-- 录制光标素材：随构建复制到输出目录，替换 Assets\cursor.png 后重新导出即可换光标 -->
@@ -29,6 +32,9 @@
     <Content Include="Assets\cursor.png" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="..\CheemsUI\Resources\Web\VantaBirds\**\*.*"
              Link="Assets\VantaBirds\%(RecursiveDir)%(Filename)%(Extension)"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\CheemsUI\Resources\Web\VantaClouds\**\*.*"
+             Link="Assets\VantaClouds\%(RecursiveDir)%(Filename)%(Extension)"
              CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 

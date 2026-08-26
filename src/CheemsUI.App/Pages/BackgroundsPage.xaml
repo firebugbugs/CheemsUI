@@ -68,11 +68,11 @@
         <StackPanel Margin="0,0,16,16">
             <TextBlock Text="背景 Backgrounds" FontSize="24" FontWeight="Bold"
                        Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
-            <TextBlock Text="选择一张卡片即可应用到整个软件。飞鸟背景直接使用本地 three.js r134 与 Vanta BIRDS，运行时不访问网络。"
+            <TextBlock Text="选择一张卡片即可应用到整个软件。背景直接使用本地 three.js r134 与 Vanta 脚本，运行时不访问网络。"
                        Margin="0,8,0,24" FontSize="13" TextWrapping="Wrap"
                        Foreground="{DynamicResource Cheems.Brush.Text.Secondary}" />
 
-            <WrapPanel Visibility="{Binding IsBirdsVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+            <WrapPanel Visibility="{Binding IsBackgroundsVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
                 <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
                         BorderBrush="#172642" BorderThickness="1">
                     <Grid>
@@ -82,6 +82,21 @@
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
                                 Style="{StaticResource BirdsCodeButtonStyle}"
                                 Click="BirdsCodeButton_Click">
+                            <TextBlock Text="&lt;/&gt;" FontFamily="{DynamicResource Cheems.FontFamily.Mono}"
+                                       FontSize="12" FontWeight="SemiBold" Foreground="White" />
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
+                        BorderBrush="#172642" BorderThickness="1">
+                    <Grid>
+                        <backgrounds:CheemsCloudsBackground ClipRadius="12"
+                                                            ApplyRequested="CloudsBackground_ApplyRequested" />
+                        <Button x:Name="CloudsCodeButton" Margin="0,12,12,0"
+                                HorizontalAlignment="Right" VerticalAlignment="Top"
+                                Style="{StaticResource BirdsCodeButtonStyle}"
+                                Click="CloudsCodeButton_Click">
                             <TextBlock Text="&lt;/&gt;" FontFamily="{DynamicResource Cheems.FontFamily.Mono}"
                                        FontSize="12" FontWeight="SemiBold" Foreground="White" />
                         </Button>

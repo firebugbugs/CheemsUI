@@ -57,13 +57,11 @@
                                                   Opacity="0.22" Color="#FFFFFF" />
                             </Ellipse.Effect>
                         </Ellipse>
-                        <Border Width="72" Height="72" Background="#202124"
-                                BorderBrush="#FFFFFF" BorderThickness="2"
-                                CornerRadius="22"
-                                HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <TextBlock Text="C" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                       FontSize="34" FontWeight="SemiBold" Foreground="White" />
-                        </Border>
+                        <Image Width="80" Height="80"
+                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                               Source="/CheemsUI.App;component/Assets/Branding/head_portrait.png"
+                               Stretch="Uniform"
+                               RenderOptions.BitmapScalingMode="HighQuality" />
                         <Ellipse Width="17" Height="17" Fill="#FFFFFF"
                                  Margin="0,20,26,0" HorizontalAlignment="Right" VerticalAlignment="Top" />
                         <Ellipse Width="9" Height="9" Fill="#77797E"

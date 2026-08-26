@@ -15,6 +15,7 @@ public partial class MainWindow : Window
 {
     private static readonly Color DefaultBackgroundColor = Color.FromRgb(0xE8, 0xE8, 0xE8);
     private static readonly Color BirdsBackgroundColor = Color.FromRgb(0x07, 0x19, 0x2F);
+    private static readonly Color CloudsBackgroundColor = Color.FromRgb(0x68, 0xB8, 0xD7);
     private readonly UpdateService _updateService = new();
     internal WindowThemeViewModel WindowTheme { get; } = new();
 
@@ -22,19 +23,33 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = new MainViewModel();
+        UpdateWindowFrameClip();
     }
 
     public void ApplyBirdsBackground()
     {
+        PartCloudsWindowBackground.Visibility = Visibility.Collapsed;
         PartBirdsWindowBackground.Visibility = Visibility.Visible;
         WindowFrame.Background = Brushes.Transparent;
-        Background = Brushes.Transparent;
+        // WindowFrame 的抗锯齿圆角外侧由 Window 背景承接，不能透明到桌面黑色。
+        Background = new SolidColorBrush(BirdsBackgroundColor);
         ApplyPaletteForBackground(BirdsBackgroundColor);
+    }
+
+    public void ApplyCloudsBackground()
+    {
+        PartBirdsWindowBackground.Visibility = Visibility.Collapsed;
+        PartCloudsWindowBackground.Visibility = Visibility.Visible;
+        WindowFrame.Background = Brushes.Transparent;
+        // 使用 Vanta CLOUDS 的 skyColor，消除圆角抗锯齿像素与透明根窗口混合出的黑边。
+        Background = new SolidColorBrush(CloudsBackgroundColor);
+        ApplyPaletteForBackground(CloudsBackgroundColor);
     }
 
     public void RestoreDefaultBackground()
     {
         PartBirdsWindowBackground.Visibility = Visibility.Collapsed;
+        PartCloudsWindowBackground.Visibility = Visibility.Collapsed;
         ApplyPaletteForBackground(DefaultBackgroundColor);
         WindowFrame.SetResourceReference(BackgroundProperty, "App.Window.Background");
         SetResourceReference(BackgroundProperty, "App.Window.Background");
@@ -137,7 +152,34 @@ public partial class MainWindow : Window
         if (PartBirdsWindowBackground.Visibility == Visibility.Visible)
         {
             PartBirdsWindowBackground.SetPointerPosition(e.GetPosition(PartBirdsWindowBackground));
+            return;
         }
+
+        if (PartCloudsWindowBackground.Visibility == Visibility.Visible)
+        {
+            PartCloudsWindowBackground.SetPointerPosition(e.GetPosition(PartCloudsWindowBackground));
+        }
+    }
+
+    private void WindowFrame_SizeChanged(object sender, SizeChangedEventArgs e) => UpdateWindowFrameClip();
+
+    private void Window_StateChanged(object? sender, EventArgs e) => UpdateWindowFrameClip();
+
+    private void UpdateWindowFrameClip()
+    {
+        if (WindowFrame.ActualWidth <= 0 || WindowFrame.ActualHeight <= 0)
+        {
+            return;
+        }
+
+        var radius = WindowState == WindowState.Maximized ? 0d : 12d;
+        var frameClip = new RectangleGeometry(
+            new Rect(0, 0, WindowFrame.ActualWidth, WindowFrame.ActualHeight), radius, radius);
+
+        // Window 的 Background 位于 WindowFrame 之后；两层必须共享同一裁剪边界，
+        // 否则圆角外侧会露出根背景色。
+        WindowFrame.Clip = frameClip;
+        Clip = frameClip.Clone();
     }
 
     private void UpdateMenuButton_Click(object sender, RoutedEventArgs e)

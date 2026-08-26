@@ -10,15 +10,18 @@
         xmlns:vm="clr-namespace:CheemsUI.App.ViewModels"
         mc:Ignorable="d"
         Title="CheemsUI Demo"
+        Icon="/CheemsUI.App;component/Assets/Branding/head_portrait_64x64.ico"
         Height="720" Width="1120"
         MinHeight="560" MinWidth="840"
         WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
         Background="#E8E8E8"
         WindowStyle="None"
         FontFamily="{DynamicResource Cheems.FontFamily.Default}"
         TextOptions.TextFormattingMode="Display"
         UseLayoutRounding="True"
-        MouseMove="Window_MouseMove">
+        MouseMove="Window_MouseMove"
+        StateChanged="Window_StateChanged">
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome CaptionHeight="44"
                             ResizeBorderThickness="7"
@@ -242,13 +245,10 @@
     </Window.Resources>
 
     <Grid>
-        <backgrounds:CheemsBirdsBackground x:Name="PartBirdsWindowBackground"
-                                           Visibility="Collapsed" ClipRadius="12"
-                                           Cursor="Arrow" />
-
         <Border x:Name="WindowFrame"
                 Background="{DynamicResource App.Window.Background}"
-                BorderBrush="{DynamicResource App.Window.Border}">
+                BorderBrush="{DynamicResource App.Window.Border}"
+                SizeChanged="WindowFrame_SizeChanged">
         <Border.Style>
             <Style TargetType="{x:Type Border}">
                 <Setter Property="CornerRadius" Value="12" />
@@ -263,6 +263,11 @@
             </Style>
         </Border.Style>
         <Grid>
+            <backgrounds:CheemsBirdsBackground x:Name="PartBirdsWindowBackground"
+                                               Visibility="Collapsed" Cursor="Arrow" />
+            <backgrounds:CheemsCloudsBackground x:Name="PartCloudsWindowBackground"
+                                                Visibility="Collapsed" Cursor="Arrow" />
+            <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="44" />
                 <RowDefinition Height="*" />
@@ -274,10 +279,10 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Width="22" Height="22" Background="{DynamicResource App.TitleBar.Icon.Background}" CornerRadius="7">
-                        <TextBlock Text="C" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   FontSize="11" FontWeight="SemiBold" Foreground="White" />
-                    </Border>
+                    <Image Width="24" Height="24"
+                           Source="/CheemsUI.App;component/Assets/Branding/head_portrait.png"
+                           Stretch="Uniform"
+                           RenderOptions.BitmapScalingMode="HighQuality" />
                     <TextBlock Margin="9,0,0,0" VerticalAlignment="Center"
                                Text="CheemsUI" FontSize="12" FontWeight="SemiBold"
                                Foreground="{DynamicResource App.Text.Primary}" />
@@ -435,6 +440,7 @@
                            TextAlignment="Center"
                            TextWrapping="Wrap" />
             </Border>
+            </Grid>
         </Grid>
         </Border>
     </Grid>

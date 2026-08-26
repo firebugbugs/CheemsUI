@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vanta CLOUDS · Offline</title>
+  <style>
+    html, body, #clouds-background { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <div id="clouds-background"></div>
+  <!-- 本页只引用同目录的本地副本；运行时不访问 CDN 或其他网络资源。 -->
+  <script src="three.r134.min.js"></script>
+  <script src="vanta.clouds.min.js"></script>
+  <script>
+    const clouds = VANTA.CLOUDS({
+      el: "#clouds-background",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.00,
+      minWidth: 200.00
+    });
+
+    document.addEventListener("click", function () {
+      if (window.chrome && window.chrome.webview) {
+        window.chrome.webview.postMessage("apply-background");
+      }
+    });
+
+    // WPF 前景覆盖全窗口时，宿主直接调用此函数转发鼠标坐标。
+    window.__cheemsSetPointer = function (x, y) {
+      clouds.triggerMouseMove(x, y);
+    };
+
+    window.addEventListener("beforeunload", function () {
+      clouds.destroy();
+    });
+  </script>
+</body>
+</html>
