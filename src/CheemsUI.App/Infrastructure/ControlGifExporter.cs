@@ -188,7 +188,9 @@ internal sealed class ControlGifExporter
                 }
             }
 
-            AnimatedGifEncoder.Save(filePath, frames, DefaultFramesPerSecond, profile.Duration);
+            // 光标合成完再做统一缩放，光标与控件始终保持相同的视觉比例。
+            var normalizedFrames = GifFrameSizeNormalizer.NormalizeHeights(frames);
+            AnimatedGifEncoder.Save(filePath, normalizedFrames, DefaultFramesPerSecond, profile.Duration);
         }));
     }
 
