@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Riso Dither (offline)</title>
+  <style>html,body,#riso-dither-background{width:100%;height:100%;margin:0;overflow:hidden;background:#0a0e23}#riso-dither-background{position:relative}</style>
+</head>
+<body>
+  <div id="riso-dither-background" data-aifx="dither" aria-hidden="true"></div>
+  <script src="fx/dither/v1.js"></script>
+  <script>document.getElementById('riso-dither-background').addEventListener('click',()=>window.chrome.webview.postMessage('apply-background'));</script>
+</body>
+</html>

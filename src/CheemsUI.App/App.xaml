@@ -118,6 +118,10 @@
                                     <Trigger.EnterActions>
                                         <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
                                             <Storyboard>
+                                                <!-- 覆盖上一次成功态退出动画遗留的 HoldEnd，确保图标不会与勾号重叠。 -->
+                                                <DoubleAnimation Storyboard.TargetName="PartCodeGlyph"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="0" Duration="0:0:0" />
                                                 <DoubleAnimation Storyboard.TargetName="PartCheckGlyph"
                                                                  Storyboard.TargetProperty="Opacity"
                                                                  From="0" To="1" Duration="0:0:0.12" />
@@ -138,7 +142,7 @@
                                         </BeginStoryboard>
                                     </Trigger.EnterActions>
                                     <Trigger.ExitActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetName="PartCheckGlyph"
                                                                  Storyboard.TargetProperty="Opacity"
@@ -154,8 +158,12 @@
                                 <Trigger Property="Tag" Value="Failure">
                                     <Setter TargetName="PartCodeGlyph" Property="Opacity" Value="0" />
                                     <Trigger.EnterActions>
-                                        <BeginStoryboard>
+                                        <BeginStoryboard HandoffBehavior="SnapshotAndReplace">
                                             <Storyboard>
+                                                <!-- 同上：失败状态也必须取代遗留的源码图标动画。 -->
+                                                <DoubleAnimation Storyboard.TargetName="PartCodeGlyph"
+                                                                 Storyboard.TargetProperty="Opacity"
+                                                                 To="0" Duration="0:0:0" />
                                                 <DoubleAnimation Storyboard.TargetName="PartFailureGlyph"
                                                                  Storyboard.TargetProperty="Opacity"
                                                                  From="0" To="1" Duration="0:0:0.12" />

@@ -278,6 +278,10 @@
                     Visibility="Collapsed" Opacity="0.8">
                 <backgrounds:CheemsCellsBackground x:Name="PartCellsWindowBackground" Cursor="Arrow" />
             </Border>
+            <Border x:Name="PartRisoDitherWindowBackgroundOverlay"
+                    Visibility="Collapsed" Opacity="0.8">
+                <backgrounds:CheemsRisoDitherBackground x:Name="PartRisoDitherWindowBackground" Cursor="Arrow" />
+            </Border>
             <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="44" />

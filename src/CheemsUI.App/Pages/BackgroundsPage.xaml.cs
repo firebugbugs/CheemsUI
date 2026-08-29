@@ -11,6 +11,7 @@ public partial class BackgroundsPage : UserControl
     private const string BirdsSourceUri = "/CheemsUI.App;component/Sources/Backgrounds/Birds.xaml.txt";
     private const string CloudsSourceUri = "/CheemsUI.App;component/Sources/Backgrounds/Clouds.xaml.txt";
     private const string CellsSourceUri = "/CheemsUI.App;component/Sources/Backgrounds/Cells.xaml.txt";
+    private const string RisoDitherSourceUri = "/CheemsUI.App;component/Sources/Backgrounds/RisoDither.xaml.txt";
     private readonly Dictionary<Button, int> _copyTokens = [];
     private int _hoverToken;
 
@@ -32,6 +33,11 @@ public partial class BackgroundsPage : UserControl
     private void CellsBackground_ApplyRequested(object? sender, EventArgs e)
     {
         (System.Windows.Window.GetWindow(this) as MainWindow)?.ApplyCellsBackground();
+    }
+
+    private void RisoDitherBackground_ApplyRequested(object? sender, EventArgs e)
+    {
+        (System.Windows.Window.GetWindow(this) as MainWindow)?.ApplyRisoDitherBackground();
     }
 
     private void RestoreBackground_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -85,6 +91,11 @@ public partial class BackgroundsPage : UserControl
         await CopySourceAsync(CellsSourceUri, CellsCodeButton);
     }
 
+    private async void RisoDitherCodeButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        await CopySourceAsync(RisoDitherSourceUri, RisoDitherCodeButton);
+    }
+
     private async Task CopySourceAsync(string sourceUri, Button button)
     {
         var token = _copyTokens.TryGetValue(button, out var currentToken) ? currentToken + 1 : 1;
@@ -112,6 +123,7 @@ public partial class BackgroundsPage : UserControl
         nameof(BirdsCodeButton) => BirdsSourceUri,
         nameof(CloudsCodeButton) => CloudsSourceUri,
         nameof(CellsCodeButton) => CellsSourceUri,
+        nameof(RisoDitherCodeButton) => RisoDitherSourceUri,
         _ => throw new ArgumentOutOfRangeException(nameof(button), "未知的背景源码按钮。")
     };
 

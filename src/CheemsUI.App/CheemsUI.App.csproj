@@ -39,6 +39,9 @@
     <Content Include="..\CheemsUI\Resources\Web\VantaCells\**\*.*"
              Link="Assets\VantaCells\%(RecursiveDir)%(Filename)%(Extension)"
              CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\CheemsUI\Resources\Web\RisoDither\**\*.*"
+             Link="Assets\RisoDither\%(RecursiveDir)%(Filename)%(Extension)"
+             CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

@@ -17,6 +17,7 @@ public partial class MainWindow : Window
     private static readonly Color BirdsBackgroundColor = Color.FromRgb(0x07, 0x19, 0x2F);
     private static readonly Color CloudsBackgroundColor = Color.FromRgb(0x68, 0xB8, 0xD7);
     private static readonly Color CellsBackgroundColor = Color.FromRgb(0xD7, 0xFF, 0x8F);
+    private static readonly Color RisoDitherBackgroundColor = Color.FromRgb(0x0A, 0x0E, 0x23);
     private const double BackgroundOverlayOpacity = 0.8;
     private readonly UpdateService _updateService = new();
     internal WindowThemeViewModel WindowTheme { get; } = new();
@@ -33,6 +34,7 @@ public partial class MainWindow : Window
     {
         PartCloudsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         PartCellsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartRisoDitherWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         PartBirdsWindowBackgroundOverlay.Visibility = Visibility.Visible;
         ApplyPaletteForBackground(BlendWithDefaultBackground(BirdsBackgroundColor), BirdsBackgroundColor);
     }
@@ -41,6 +43,7 @@ public partial class MainWindow : Window
     {
         PartBirdsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         PartCellsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartRisoDitherWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         PartCloudsWindowBackgroundOverlay.Visibility = Visibility.Visible;
         ApplyPaletteForBackground(BlendWithDefaultBackground(CloudsBackgroundColor), CloudsBackgroundColor);
     }
@@ -49,8 +52,18 @@ public partial class MainWindow : Window
     {
         PartBirdsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         PartCloudsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartRisoDitherWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         PartCellsWindowBackgroundOverlay.Visibility = Visibility.Visible;
         ApplyPaletteForBackground(BlendWithDefaultBackground(CellsBackgroundColor), CellsBackgroundColor);
+    }
+
+    public void ApplyRisoDitherBackground()
+    {
+        PartBirdsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartCloudsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartCellsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartRisoDitherWindowBackgroundOverlay.Visibility = Visibility.Visible;
+        ApplyPaletteForBackground(BlendWithDefaultBackground(RisoDitherBackgroundColor), RisoDitherBackgroundColor);
     }
 
     public void RestoreDefaultBackground()
@@ -58,6 +71,7 @@ public partial class MainWindow : Window
         PartBirdsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         PartCloudsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         PartCellsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartRisoDitherWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         ApplyPaletteForBackground(DefaultBackgroundColor);
         WindowFrame.SetResourceReference(BackgroundProperty, "App.Window.Background");
         SetResourceReference(BackgroundProperty, "App.Window.Background");

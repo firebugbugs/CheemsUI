@@ -93,6 +93,21 @@
                     </Grid>
                 </Border>
 
+                <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
+                        BorderBrush="#2C41C4" BorderThickness="1">
+                    <Grid>
+                        <backgrounds:CheemsRisoDitherBackground ClipRadius="12"
+                                                                 ApplyRequested="RisoDitherBackground_ApplyRequested" />
+                        <Button x:Name="RisoDitherCodeButton" Margin="0,12,12,0"
+                                HorizontalAlignment="Right" VerticalAlignment="Top"
+                                Content="&lt;/&gt;" ToolTip="复制 XAML"
+                                Style="{StaticResource Cheems.App.Style.CodeButton}"
+                                MouseEnter="CodeButton_MouseEnter"
+                                MouseLeave="CodeButton_MouseLeave"
+                                Click="RisoDitherCodeButton_Click" />
+                    </Grid>
+                </Border>
+
                 <Button Style="{StaticResource RestoreBackgroundCardStyle}" Click="RestoreBackground_Click">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Text="恢复默认" FontSize="17" FontWeight="SemiBold"
