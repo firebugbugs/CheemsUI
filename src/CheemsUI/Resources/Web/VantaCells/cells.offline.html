@@ -35,6 +35,19 @@
       cells.triggerMouseMove(x, y);
     };
 
+    window.__cheemsUpdate = function (settings) {
+      const color = Number.parseInt(settings.color.slice(1), 16);
+      cells.setOptions({ color1: color, speed: settings.enabled ? settings.speed : 0 });
+      if (settings.enabled && cells.__cheemsPaused) {
+        cells.prevNow = performance.now();
+        cells.req = requestAnimationFrame(cells.animationLoop);
+        cells.__cheemsPaused = false;
+      } else if (!settings.enabled) {
+        cancelAnimationFrame(cells.req);
+        cells.__cheemsPaused = true;
+      }
+    };
+
     window.addEventListener("beforeunload", function () {
       cells.destroy();
     });

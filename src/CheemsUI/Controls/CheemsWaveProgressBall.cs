@@ -8,7 +8,7 @@ namespace CheemsUI;
 /// </summary>
 [TemplatePart(Name = PartWaveOneName, Type = typeof(FrameworkElement))]
 [TemplatePart(Name = PartWaveTwoName, Type = typeof(FrameworkElement))]
-public sealed class CheemsWaveProgressBall : ProgressBar
+public sealed class CheemsWaveProgressBall : CheemsDraggableProgressBar
 {
     private const string PartWaveOneName = "PartWaveOne";
     private const string PartWaveTwoName = "PartWaveTwo";

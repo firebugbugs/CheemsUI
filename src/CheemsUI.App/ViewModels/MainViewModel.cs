@@ -13,6 +13,8 @@ namespace CheemsUI.App.ViewModels;
 /// </summary>
 public class MainViewModel : ObservableObject
 {
+    public BackgroundsViewModel BackgroundSettings { get; } = new();
+
     public ObservableCollection<ControlGroupViewModel> Groups { get; }
 
     public ICollectionView GroupsView { get; }
@@ -105,7 +107,7 @@ public class MainViewModel : ObservableObject
             new("Loaders 加载", new LoadersViewModel(), "loader loading animation 动画 等待"),
             new("Inputs 输入", new InputsViewModel(), "input controls 输入控件"),
             new("Progress 进度", new ProgressViewModel(), "progress bar loading percentage 进度 进度条 百分比"),
-            new("Backgrounds 背景", new BackgroundsViewModel(), "background birds vanta three webgl 飞鸟 鸟群 背景 特效 离线"),
+            new("Backgrounds 背景", BackgroundSettings, "background birds vanta three webgl 飞鸟 鸟群 背景 特效 离线"),
         };
         GroupsView = CollectionViewSource.GetDefaultView(Groups);
         GroupsView.Filter = item => item is ControlGroupViewModel group && group.IsSearchMatch;

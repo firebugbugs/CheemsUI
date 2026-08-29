@@ -2,6 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:backgrounds="clr-namespace:CheemsUI.App.Backgrounds"
+             xmlns:cheems="clr-namespace:CheemsUI;assembly=CheemsUI"
+             xmlns:controls="clr-namespace:CheemsUI.App.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700">
@@ -38,76 +40,54 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="BackgroundSettingLabelStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="Margin" Value="0,0,8,0" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="{DynamicResource Cheems.Brush.Text.Secondary}" />
+        </Style>
+
+        <Style x:Key="BackgroundSettingValueStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{DynamicResource Cheems.Brush.Text.Primary}" />
+        </Style>
+
+        <!-- 卡片设置按钮：极简文本样式（渲染 Content，无背景/边框/焦点框），与源码按钮的观感一致 -->
+        <Style x:Key="BackgroundCardPlainButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Foreground" Value="{DynamicResource Cheems.Brush.Text.Primary}" />
+            <Setter Property="FontFamily" Value="{DynamicResource Cheems.FontFamily.Mono}" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Opacity" Value="0.45" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <ContentPresenter Margin="4,2" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                          RecognizesAccessKey="True" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="1" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.25" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="0,0,16,16">
             <TextBlock Text="背景 Backgrounds" FontSize="24" FontWeight="Bold"
                        Foreground="{DynamicResource App.Text.OnBackground.Primary}" />
-            <TextBlock Text="选择一张卡片即可将背景以 80% 透明度叠加到软件原始浅灰底色上。背景直接使用本地 three.js r134 与 Vanta 脚本，运行时不访问网络。"
+            <TextBlock Text="选择卡片即可应用背景；点击齿轮可在鼠标旁调整该背景，效果会实时同步到预览与窗口。WebGL 资源均固定在本地，运行时不访问网络。"
                        Margin="0,8,0,24" FontSize="13" TextWrapping="Wrap"
                        Foreground="{DynamicResource App.Text.OnBackground.Secondary}" />
 
             <WrapPanel Visibility="{Binding IsBackgroundsVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
-                <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
-                        BorderBrush="#172642" BorderThickness="1">
-                    <Grid>
-                        <backgrounds:CheemsBirdsBackground IsPreview="True" ClipRadius="12"
-                                                           ApplyRequested="BirdsBackground_ApplyRequested" />
-                        <Button x:Name="BirdsCodeButton" Margin="0,12,12,0"
-                                HorizontalAlignment="Right" VerticalAlignment="Top"
-                                Content="&lt;/&gt;" ToolTip="复制 XAML"
-                                Style="{StaticResource Cheems.App.Style.CodeButton}"
-                                MouseEnter="CodeButton_MouseEnter"
-                                MouseLeave="CodeButton_MouseLeave"
-                                Click="BirdsCodeButton_Click" />
-                    </Grid>
-                </Border>
-
-                <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
-                        BorderBrush="#172642" BorderThickness="1">
-                    <Grid>
-                        <backgrounds:CheemsCloudsBackground ClipRadius="12"
-                                                            ApplyRequested="CloudsBackground_ApplyRequested" />
-                        <Button x:Name="CloudsCodeButton" Margin="0,12,12,0"
-                                HorizontalAlignment="Right" VerticalAlignment="Top"
-                                Content="&lt;/&gt;" ToolTip="复制 XAML"
-                                Style="{StaticResource Cheems.App.Style.CodeButton}"
-                                MouseEnter="CodeButton_MouseEnter"
-                                MouseLeave="CodeButton_MouseLeave"
-                                Click="CloudsCodeButton_Click" />
-                    </Grid>
-                </Border>
-
-                <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
-                        BorderBrush="#172642" BorderThickness="1">
-                    <Grid>
-                        <backgrounds:CheemsCellsBackground ClipRadius="12"
-                                                           ApplyRequested="CellsBackground_ApplyRequested" />
-                        <Button x:Name="CellsCodeButton" Margin="0,12,12,0"
-                                HorizontalAlignment="Right" VerticalAlignment="Top"
-                                Content="&lt;/&gt;" ToolTip="复制 XAML"
-                                Style="{StaticResource Cheems.App.Style.CodeButton}"
-                                MouseEnter="CodeButton_MouseEnter"
-                                MouseLeave="CodeButton_MouseLeave"
-                                Click="CellsCodeButton_Click" />
-                    </Grid>
-                </Border>
-
-                <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
-                        BorderBrush="#2C41C4" BorderThickness="1">
-                    <Grid>
-                        <backgrounds:CheemsRisoDitherBackground ClipRadius="12"
-                                                                 ApplyRequested="RisoDitherBackground_ApplyRequested" />
-                        <Button x:Name="RisoDitherCodeButton" Margin="0,12,12,0"
-                                HorizontalAlignment="Right" VerticalAlignment="Top"
-                                Content="&lt;/&gt;" ToolTip="复制 XAML"
-                                Style="{StaticResource Cheems.App.Style.CodeButton}"
-                                MouseEnter="CodeButton_MouseEnter"
-                                MouseLeave="CodeButton_MouseLeave"
-                                Click="RisoDitherCodeButton_Click" />
-                    </Grid>
-                </Border>
-
                 <Button Style="{StaticResource RestoreBackgroundCardStyle}" Click="RestoreBackground_Click">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Text="恢复默认" FontSize="17" FontWeight="SemiBold"
@@ -116,7 +96,273 @@
                                    Foreground="{StaticResource RestoreBackgroundCard.Text.Secondary}" HorizontalAlignment="Center" />
                     </StackPanel>
                 </Button>
+
+                <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
+                        BorderBrush="#172642" BorderThickness="1">
+                    <Grid>
+                        <Border Opacity="{Binding Birds.BackgroundOpacity}">
+                            <backgrounds:CheemsBirdsBackground IsPreview="True" ClipRadius="12"
+                                                               PrimaryColor="{Binding Birds.PrimaryColor}"
+                                                               SecondaryColor="{Binding Birds.BirdsSecondaryColor}"
+                                                               BackgroundColor="{Binding Birds.BirdsBackgroundColor}"
+                                                               BackgroundAlpha="{Binding Birds.BirdsBackgroundAlpha}"
+                                                               AnimationSpeed="{Binding Birds.AnimationSpeed}"
+                                                               IsAnimationEnabled="{Binding Birds.IsAnimationEnabled}"
+                                                               BirdSize="{Binding Birds.BirdsSize}"
+                                                               WingSpan="{Binding Birds.BirdsWingSpan}"
+                                                               SpeedLimit="{Binding Birds.BirdsSpeedLimit}"
+                                                               Separation="{Binding Birds.BirdsSeparation}"
+                                                               Alignment="{Binding Birds.BirdsAlignment}"
+                                                               Cohesion="{Binding Birds.BirdsCohesion}"
+                                                               Quantity="{Binding Birds.BirdsQuantity}"
+                                                               ApplyRequested="BirdsBackground_ApplyRequested" />
+                        </Border>
+                        <StackPanel Margin="0,12,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
+                            <Button Tag="Birds" Content="⚙" ToolTip="调整背景参数"
+                                    Style="{StaticResource BackgroundCardPlainButtonStyle}" Click="SettingsButton_Click" />
+                            <Button x:Name="BirdsCodeButton" Margin="5,0,0,0" Content="&lt;/&gt;" ToolTip="复制 XAML"
+                                    Style="{StaticResource Cheems.App.Style.CodeButton}" MouseEnter="CodeButton_MouseEnter"
+                                    MouseLeave="CodeButton_MouseLeave" Click="BirdsCodeButton_Click" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
+                        BorderBrush="#172642" BorderThickness="1">
+                    <Grid>
+                        <Border Opacity="{Binding Clouds.BackgroundOpacity}">
+                            <backgrounds:CheemsCloudsBackground ClipRadius="12"
+                                                                PrimaryColor="{Binding Clouds.PrimaryColor}"
+                                                                AnimationSpeed="{Binding Clouds.AnimationSpeed}"
+                                                                IsAnimationEnabled="{Binding Clouds.IsAnimationEnabled}"
+                                                                ApplyRequested="CloudsBackground_ApplyRequested" />
+                        </Border>
+                        <StackPanel Margin="0,12,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
+                            <Button Tag="Clouds" Content="⚙" ToolTip="调整背景参数"
+                                    Style="{StaticResource BackgroundCardPlainButtonStyle}" Click="SettingsButton_Click" />
+                            <Button x:Name="CloudsCodeButton" Margin="5,0,0,0" Content="&lt;/&gt;" ToolTip="复制 XAML"
+                                    Style="{StaticResource Cheems.App.Style.CodeButton}" MouseEnter="CodeButton_MouseEnter"
+                                    MouseLeave="CodeButton_MouseLeave" Click="CloudsCodeButton_Click" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
+                        BorderBrush="#172642" BorderThickness="1">
+                    <Grid>
+                        <Border Opacity="{Binding Cells.BackgroundOpacity}">
+                            <backgrounds:CheemsCellsBackground ClipRadius="12"
+                                                               PrimaryColor="{Binding Cells.PrimaryColor}"
+                                                               AnimationSpeed="{Binding Cells.AnimationSpeed}"
+                                                               IsAnimationEnabled="{Binding Cells.IsAnimationEnabled}"
+                                                               ApplyRequested="CellsBackground_ApplyRequested" />
+                        </Border>
+                        <StackPanel Margin="0,12,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
+                            <Button Tag="Cells" Content="⚙" ToolTip="调整背景参数"
+                                    Style="{StaticResource BackgroundCardPlainButtonStyle}" Click="SettingsButton_Click" />
+                            <Button x:Name="CellsCodeButton" Margin="5,0,0,0" Content="&lt;/&gt;" ToolTip="复制 XAML"
+                                    Style="{StaticResource Cheems.App.Style.CodeButton}" MouseEnter="CodeButton_MouseEnter"
+                                    MouseLeave="CodeButton_MouseLeave" Click="CellsCodeButton_Click" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
+                        BorderBrush="#2C41C4" BorderThickness="1">
+                    <Grid>
+                        <Border Opacity="{Binding RisoDither.BackgroundOpacity}">
+                            <backgrounds:CheemsRisoDitherBackground ClipRadius="12"
+                                                                     PrimaryColor="{Binding RisoDither.PrimaryColor}"
+                                                                     AnimationSpeed="{Binding RisoDither.AnimationSpeed}"
+                                                                     IsAnimationEnabled="{Binding RisoDither.IsAnimationEnabled}"
+                                                                     BackgroundAlpha="{Binding RisoDither.RisoBackgroundAlpha}"
+                                                                     PixelSize="{Binding RisoDither.RisoPixelSize}"
+                                                                     Levels="{Binding RisoDither.RisoLevels}"
+                                                                     Scale="{Binding RisoDither.RisoScale}"
+                                                                     Contrast="{Binding RisoDither.RisoContrast}"
+                                                                     FlowAngle="{Binding RisoDither.RisoFlowAngle}"
+                                                                     Detail="{Binding RisoDither.RisoDetail}"
+                                                                     Glow="{Binding RisoDither.RisoGlow}"
+                                                                     ApplyRequested="RisoDitherBackground_ApplyRequested" />
+                        </Border>
+                        <StackPanel Margin="0,12,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
+                            <Button Tag="RisoDither" Content="⚙" ToolTip="调整背景参数"
+                                    Style="{StaticResource BackgroundCardPlainButtonStyle}" Click="SettingsButton_Click" />
+                            <Button x:Name="RisoDitherCodeButton" Margin="5,0,0,0" Content="&lt;/&gt;" ToolTip="复制 XAML"
+                                    Style="{StaticResource Cheems.App.Style.CodeButton}" MouseEnter="CodeButton_MouseEnter"
+                                    MouseLeave="CodeButton_MouseLeave" Click="RisoDitherCodeButton_Click" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
             </WrapPanel>
+
+            <Popup x:Name="SettingsPopup"
+                   Placement="MousePoint"
+                   StaysOpen="False"
+                   AllowsTransparency="True"
+                   PopupAnimation="Fade">
+                <Popup.Resources>
+                    <Style TargetType="{x:Type cheems:CheemsCosmicProgressBar}"
+                           BasedOn="{StaticResource {x:Type cheems:CheemsCosmicProgressBar}}">
+                        <Setter Property="ValueDisplayMode" Value="Value" />
+                        <Setter Property="ValueStringFormat" Value="0.##" />
+                    </Style>
+                </Popup.Resources>
+                <Border Width="320" MaxHeight="560" Margin="12" Padding="16"
+                        Background="{DynamicResource Cheems.Brush.Background.Default}"
+                        BorderBrush="{DynamicResource Cheems.Brush.Border.Default}"
+                        BorderThickness="1" CornerRadius="10">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="3" BlurRadius="14" Opacity="0.24" />
+                    </Border.Effect>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel>
+                            <DockPanel Margin="0,0,0,16">
+                                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                    <TextBlock Text="运行动画" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                    <cheems:CheemsIosStretchSwitch VerticalAlignment="Center"
+                                                                   IsChecked="{Binding IsAnimationEnabled, Mode=TwoWay}" />
+                                </StackPanel>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding DisplayName}" FontSize="16" FontWeight="SemiBold"
+                                               Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                                    <TextBlock Margin="0,3,0,0" Text="参数调整" FontSize="11"
+                                               Foreground="{DynamicResource Cheems.Brush.Text.Secondary}" />
+                                </StackPanel>
+                            </DockPanel>
+
+                            <DockPanel>
+                                <TextBlock Text="强度 / 透明度" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                <TextBlock Text="{Binding BackgroundOpacity, StringFormat={}{0:P0}}" HorizontalAlignment="Right"
+                                           Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                            </DockPanel>
+                            <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0"
+                                                            Minimum="0" Maximum="1" Step="0.05"
+                                                            ValueDisplayMode="Percentage" ValueStringFormat="0"
+                                                            Value="{Binding BackgroundOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                            <DockPanel>
+                                <TextBlock Text="动画速度" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                <TextBlock Text="{Binding AnimationSpeed, StringFormat={}{0:F1}×}" HorizontalAlignment="Right"
+                                           Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                            </DockPanel>
+                            <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0"
+                                                            Minimum="0.02" Maximum="2" Step="0.01"
+                                                            ValueStringFormat="0.0"
+                                                            Value="{Binding AnimationSpeed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                            <TextBlock Text="主色" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                            <controls:ColorPickerBox Margin="0,6,0,14"
+                                                     SelectedColor="{Binding PrimaryColor, Mode=TwoWay}" />
+
+                            <StackPanel Visibility="{Binding SupportsBirdsSettings, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                                <Border Height="1" Margin="0,0,0,14" Background="{DynamicResource Cheems.Brush.Border.Default}" />
+                                <TextBlock Text="背景色（background-color）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                <controls:ColorPickerBox Margin="0,6,0,10" SelectedColor="{Binding BirdsBackgroundColor, Mode=TwoWay}" />
+                                <TextBlock Text="副色（color2）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                <controls:ColorPickerBox Margin="0,6,0,10" SelectedColor="{Binding BirdsSecondaryColor, Mode=TwoWay}" />
+                                <DockPanel><TextBlock Text="背景不透明度（background-alpha）" Style="{StaticResource BackgroundSettingLabelStyle}" /><TextBlock Text="{Binding BirdsBackgroundAlpha, StringFormat={}{0:P0}}" Style="{StaticResource BackgroundSettingValueStyle}" HorizontalAlignment="Right" /></DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0" Minimum="0" Maximum="1" Step="0.01" ValueDisplayMode="Percentage" Value="{Binding BirdsBackgroundAlpha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <DockPanel><TextBlock Text="鸟尺寸（bird-size）" Style="{StaticResource BackgroundSettingLabelStyle}" /><TextBlock Text="{Binding BirdsSize, StringFormat={}{0:F1}}" Style="{StaticResource BackgroundSettingValueStyle}" HorizontalAlignment="Right" /></DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0" Minimum="0.2" Maximum="4" Step="0.1" Value="{Binding BirdsSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <DockPanel><TextBlock Text="翼展（wing-span）" Style="{StaticResource BackgroundSettingLabelStyle}" /><TextBlock Text="{Binding BirdsWingSpan, StringFormat={}{0:F0}}" Style="{StaticResource BackgroundSettingValueStyle}" HorizontalAlignment="Right" /></DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0" Minimum="5" Maximum="80" Step="1" Value="{Binding BirdsWingSpan, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <DockPanel><TextBlock Text="速度上限（speed-limit）" Style="{StaticResource BackgroundSettingLabelStyle}" /><TextBlock Text="{Binding BirdsSpeedLimit, StringFormat={}{0:F1}}" Style="{StaticResource BackgroundSettingValueStyle}" HorizontalAlignment="Right" /></DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0" Minimum="0.1" Maximum="12" Step="0.1" Value="{Binding BirdsSpeedLimit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <DockPanel><TextBlock Text="分离距离（separation）" Style="{StaticResource BackgroundSettingLabelStyle}" /><TextBlock Text="{Binding BirdsSeparation, StringFormat={}{0:F0}}" Style="{StaticResource BackgroundSettingValueStyle}" HorizontalAlignment="Right" /></DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0" Minimum="1" Maximum="80" Step="1" Value="{Binding BirdsSeparation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <DockPanel><TextBlock Text="对齐距离（alignment）" Style="{StaticResource BackgroundSettingLabelStyle}" /><TextBlock Text="{Binding BirdsAlignment, StringFormat={}{0:F0}}" Style="{StaticResource BackgroundSettingValueStyle}" HorizontalAlignment="Right" /></DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0" Minimum="1" Maximum="80" Step="1" Value="{Binding BirdsAlignment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <DockPanel><TextBlock Text="凝聚距离（cohesion）" Style="{StaticResource BackgroundSettingLabelStyle}" /><TextBlock Text="{Binding BirdsCohesion, StringFormat={}{0:F0}}" Style="{StaticResource BackgroundSettingValueStyle}" HorizontalAlignment="Right" /></DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0" Minimum="1" Maximum="80" Step="1" Value="{Binding BirdsCohesion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <DockPanel><TextBlock Text="鸟群数量（quantity）" Style="{StaticResource BackgroundSettingLabelStyle}" /><TextBlock Text="{Binding BirdsQuantity}" Style="{StaticResource BackgroundSettingValueStyle}" HorizontalAlignment="Right" /></DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0" Minimum="1" Maximum="5" Step="1" Value="{Binding BirdsQuantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+
+                            <StackPanel Visibility="{Binding SupportsRisoSettings, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                                <Border Height="1" Margin="0,0,0,14" Background="{DynamicResource Cheems.Brush.Border.Default}" />
+
+                                <DockPanel>
+                                    <TextBlock Text="底色透明度（bg-alpha）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                    <TextBlock Text="{Binding RisoBackgroundAlpha, StringFormat={}{0:P0}}" HorizontalAlignment="Right"
+                                               Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                                </DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0"
+                                                                Minimum="0" Maximum="1" Step="0.01"
+                                                                ValueDisplayMode="Percentage" ValueStringFormat="0"
+                                                                Value="{Binding RisoBackgroundAlpha, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <DockPanel>
+                                    <TextBlock Text="像素尺寸（pixel-size）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                    <TextBlock Text="{Binding RisoPixelSize}" HorizontalAlignment="Right"
+                                               Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                                </DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0"
+                                                                Minimum="1" Maximum="16" Step="1"
+                                                                Value="{Binding RisoPixelSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <DockPanel>
+                                    <TextBlock Text="色阶（levels）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                    <TextBlock Text="{Binding RisoLevels}" HorizontalAlignment="Right"
+                                               Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                                </DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0"
+                                                                Minimum="2" Maximum="16" Step="1"
+                                                                Value="{Binding RisoLevels, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <DockPanel>
+                                    <TextBlock Text="缩放（scale）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                    <TextBlock Text="{Binding RisoScale, StringFormat={}{0:F2}}" HorizontalAlignment="Right"
+                                               Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                                </DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0"
+                                                                Minimum="0.3" Maximum="5" Step="0.01"
+                                                                Value="{Binding RisoScale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <DockPanel>
+                                    <TextBlock Text="对比度（contrast）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                    <TextBlock Text="{Binding RisoContrast, StringFormat={}{0:F2}}" HorizontalAlignment="Right"
+                                               Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                                </DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0"
+                                                                Minimum="0.4" Maximum="2.5" Step="0.01"
+                                                                Value="{Binding RisoContrast, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <DockPanel>
+                                    <TextBlock Text="流向角度（flow-angle）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                    <TextBlock Text="{Binding RisoFlowAngle, StringFormat={}{0:F0}°}" HorizontalAlignment="Right"
+                                               Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                                </DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0"
+                                                                Minimum="0" Maximum="360" Step="1"
+                                                                Value="{Binding RisoFlowAngle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <DockPanel>
+                                    <TextBlock Text="细节（detail）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                    <TextBlock Text="{Binding RisoDetail, StringFormat={}{0:P0}}" HorizontalAlignment="Right"
+                                               Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                                </DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0"
+                                                                Minimum="0" Maximum="1" Step="0.01"
+                                                                ValueDisplayMode="Percentage" ValueStringFormat="0"
+                                                                Value="{Binding RisoDetail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                                <DockPanel>
+                                    <TextBlock Text="辉光（glow）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                    <TextBlock Text="{Binding RisoGlow, StringFormat={}{0:P0}}" HorizontalAlignment="Right"
+                                               Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                                </DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0"
+                                                                Minimum="0" Maximum="1" Step="0.01"
+                                                                ValueDisplayMode="Percentage" ValueStringFormat="0"
+                                                                Value="{Binding RisoGlow, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+            </Popup>
 
             <!-- 与其他控件的 &lt;/&gt; 一致：悬停预览对应源码，点击复制。 -->
             <Popup x:Name="CodePopup"

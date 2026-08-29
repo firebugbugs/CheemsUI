@@ -71,10 +71,10 @@ internal sealed class AdaptiveThemePalette
     public static AdaptiveThemePalette Create(Color source, bool isDark)
     {
         var (hue, saturation, _) = ToHsl(source);
-        return saturation < 0.08 ? CreateNeutral(isDark) : CreateTinted(hue, saturation, isDark);
+        return saturation < 0.08 ? CreateNeutral(isDark) : CreateTinted(source, hue, saturation, isDark);
     }
 
-    private static AdaptiveThemePalette CreateTinted(double hue, double saturation, bool isDark)
+    private static AdaptiveThemePalette CreateTinted(Color source, double hue, double saturation, bool isDark)
     {
         Color Tone(double saturationScale, double lightness) => FromHsl(
             hue,
@@ -90,7 +90,7 @@ internal sealed class AdaptiveThemePalette
             var accent = Tone(0.82, 0.78);
 
             return new AdaptiveThemePalette(
-                windowBorder: Tone(0.38, 0.43),
+                windowBorder: Blend(source, Colors.White, 0.18),
                 sidebarBackground: WithAlpha(Tone(0.38, 0.12), 0xD9),
                 navigationHover: WithAlpha(Tone(0.56, 0.28), 0xB8),
                 navigationSelected: WithAlpha(Tone(0.52, 0.24), 0xD8),
@@ -123,7 +123,7 @@ internal sealed class AdaptiveThemePalette
         var darkAccent = Tone(0.74, 0.29);
 
         return new AdaptiveThemePalette(
-            windowBorder: Tone(0.25, 0.72),
+            windowBorder: Blend(source, Colors.Black, 0.16),
             sidebarBackground: WithAlpha(Tone(0.44, 0.82), 0xCF),
             navigationHover: WithAlpha(Tone(0.46, 0.79), 0xBF),
             navigationSelected: WithAlpha(Tone(0.30, 0.92), 0xE0),
@@ -183,6 +183,12 @@ internal sealed class AdaptiveThemePalette
     }
 
     private static Color WithAlpha(Color color, byte alpha) => Color.FromArgb(alpha, color.R, color.G, color.B);
+
+    private static Color Blend(Color background, Color foreground, double amount) =>
+        Color.FromRgb(
+            (byte)Math.Round(background.R + (foreground.R - background.R) * amount),
+            (byte)Math.Round(background.G + (foreground.G - background.G) * amount),
+            (byte)Math.Round(background.B + (foreground.B - background.B) * amount));
 
     private static (double Hue, double Saturation, double Lightness) ToHsl(Color color)
     {

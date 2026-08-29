@@ -44,13 +44,21 @@
                                                      Viewport2DVisual3D.IsVisualHostMaterial="True" />
                                 </Viewport2DVisual3D.Material>
                                 <Border Width="200" Height="22" Background="Transparent" IsHitTestVisible="False">
-                                    <TextBlock Text="{TemplateBinding Text}"
-                                               VerticalAlignment="Center"
-                                               FontFamily="{DynamicResource Cheems.FontFamily.Default}"
-                                               FontSize="16"
-                                               FontWeight="Black"
-                                               Foreground="{TemplateBinding ProgressBrush}"
-                                               TextTrimming="CharacterEllipsis" />
+                                    <DockPanel LastChildFill="True">
+                                        <TextBlock DockPanel.Dock="Right" Margin="8,0,0,0"
+                                                   Text="{TemplateBinding DisplayText}"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource Cheems.FontFamily.Default}"
+                                                   FontSize="13" FontWeight="Black"
+                                                   Foreground="{TemplateBinding ProgressBrush}" />
+                                        <TextBlock Text="{TemplateBinding Text}"
+                                                   VerticalAlignment="Center"
+                                                   FontFamily="{DynamicResource Cheems.FontFamily.Default}"
+                                                   FontSize="16"
+                                                   FontWeight="Black"
+                                                   Foreground="{TemplateBinding ProgressBrush}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </DockPanel>
                                 </Border>
                             </Viewport2DVisual3D>
                         </Viewport3D>

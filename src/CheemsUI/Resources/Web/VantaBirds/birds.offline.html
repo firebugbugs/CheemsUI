@@ -15,18 +15,42 @@
   <script src="vanta.birds.min.js"></script>
   <script>
     const isPreview = new URLSearchParams(window.location.search).get("preview") === "1";
-    const birds = VANTA.BIRDS({
-      el: "#birds-background",
-      mouseControls: true,
-      touchControls: true,
-      gyroControls: false,
-      minHeight: 200.00,
-      minWidth: 200.00,
-      scale: 1.00,
-      scaleMobile: 1.00,
-      // 卡片预览只需表现风格；全窗口背景仍使用原版默认 quantity: 5。
+    const defaults = {
+      // 保留现有背景的视觉默认值；仅将这些值暴露给 WPF 设置面板。
+      backgroundColor: 0x07190F,
+      backgroundAlpha: 1,
+      color1: 0x8B5CF6,
+      color2: 0x8B5CF6,
+      birdSize: 1,
+      wingSpan: 30,
+      speedLimit: 5,
+      separation: 20,
+      alignment: 20,
+      cohesion: 20,
+      // 卡片预览维持既有的低数量模式；全窗口仍为原版默认数量。
       quantity: isPreview ? 4 : 5
-    });
+    };
+    let birds;
+
+    function createBirds() {
+      birds = VANTA.BIRDS({
+        el: "#birds-background",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: 1.00,
+        scaleMobile: 1.00,
+        ...defaults
+      });
+      // WebView 在高 DPI 屏幕上会按设备像素比创建更大的 WebGL 画布。
+      // 鸟群的计算量随画布分辨率增加，限制为 1 可显著降低桌面端 GPU 压力，视觉差异很小。
+      birds.renderer.setPixelRatio(1);
+      birds.resize();
+    }
+
+    createBirds();
 
     document.addEventListener("click", function () {
       if (window.chrome && window.chrome.webview) {
@@ -47,6 +71,41 @@
     window.__cheemsSetPointer = function (x, y) {
       birds.triggerMouseMove(x, y);
     };
+
+    window.__cheemsUpdate = function (settings) {
+      const nextOptions = {
+        backgroundColor: Number.parseInt(settings.backgroundColor.slice(1), 16),
+        backgroundAlpha: settings.backgroundAlpha,
+        color1: Number.parseInt(settings.primaryColor.slice(1), 16),
+        color2: Number.parseInt(settings.secondaryColor.slice(1), 16),
+        birdSize: settings.birdSize,
+        wingSpan: settings.wingSpan,
+        speedLimit: settings.enabled ? settings.speedLimit * settings.speed : 0,
+        separation: settings.separation,
+        alignment: settings.alignment,
+        cohesion: settings.cohesion,
+        quantity: settings.quantity
+      };
+      const needsRebuild = defaults.birdSize !== nextOptions.birdSize ||
+        defaults.wingSpan !== nextOptions.wingSpan || defaults.quantity !== nextOptions.quantity;
+      Object.assign(defaults, nextOptions);
+      if (needsRebuild) {
+        birds.destroy();
+        createBirds();
+      } else {
+        birds.setOptions(nextOptions);
+      }
+      if (settings.enabled && birds.__cheemsPaused) {
+        birds.prevNow = performance.now();
+        birds.req = requestAnimationFrame(birds.animationLoop);
+        birds.__cheemsPaused = false;
+      } else if (!settings.enabled) {
+        cancelAnimationFrame(birds.req);
+        birds.__cheemsPaused = true;
+      }
+    };
+
+    window.addEventListener("beforeunload", function () { birds.destroy(); });
   </script>
 </body>
 </html>

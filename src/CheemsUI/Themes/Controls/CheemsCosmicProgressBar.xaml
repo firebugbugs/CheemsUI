@@ -54,7 +54,7 @@
 
                                     <!-- progress-bar::before：200%×200%，由外层 Host 做 ripple 缩放。 -->
                                     <Grid x:Name="PartRippleScaleHost" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
-                                        <Grid.RenderTransform><ScaleTransform x:Name="PartRippleScale" ScaleX="0.5" ScaleY="0.5" /></Grid.RenderTransform>
+                                        <Grid.RenderTransform><ScaleTransform ScaleX="0.5" ScaleY="0.5" /></Grid.RenderTransform>
                                         <Ellipse Height="20" HorizontalAlignment="Stretch"
                                                  Fill="{DynamicResource Cheems.Brush.CosmicProgress.Ripple}"
                                                  Opacity="0.7" RenderTransformOrigin="0.5,0.5">
@@ -73,6 +73,7 @@
                                 </Canvas>
 
                                 <TextBlock x:Name="PartProgressText"
+                                           Text="{TemplateBinding DisplayText}"
                                            Canvas.Left="0" Canvas.Top="2"
                                            Width="{Binding ActualWidth, ElementName=PartDragSurface}"
                                            Height="16" TextAlignment="Center"
@@ -90,26 +91,6 @@
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <EventTrigger RoutedEvent="Loaded">
-                            <BeginStoryboard>
-                                <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="PartRippleScale" Storyboard.TargetProperty="ScaleX" From="0.5" To="1.5" Duration="0:0:3" RepeatBehavior="Forever" />
-                                    <DoubleAnimation Storyboard.TargetName="PartRippleScale" Storyboard.TargetProperty="ScaleY" From="0.5" To="1.5" Duration="0:0:3" RepeatBehavior="Forever" />
-                                    <DoubleAnimation Storyboard.TargetName="PartRippleScaleHost" Storyboard.TargetProperty="Opacity" From="0.7" To="0" Duration="0:0:3" RepeatBehavior="Forever" />
-
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleOneTranslate" Storyboard.TargetProperty="X" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="10" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleOneTranslate" Storyboard.TargetProperty="Y" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="-20" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleTwoTranslate" Storyboard.TargetProperty="X" BeginTime="0:0:1" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="10" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleTwoTranslate" Storyboard.TargetProperty="Y" BeginTime="0:0:1" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="-20" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleThreeTranslate" Storyboard.TargetProperty="X" BeginTime="0:0:2" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="10" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleThreeTranslate" Storyboard.TargetProperty="Y" BeginTime="0:0:2" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="-20" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleFourTranslate" Storyboard.TargetProperty="X" BeginTime="0:0:1.5" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="10" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleFourTranslate" Storyboard.TargetProperty="Y" BeginTime="0:0:1.5" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="-20" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleFiveTranslate" Storyboard.TargetProperty="X" BeginTime="0:0:2.5" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="10" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
-                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticleFiveTranslate" Storyboard.TargetProperty="Y" BeginTime="0:0:2.5" Duration="0:0:5" RepeatBehavior="Forever"><SplineDoubleKeyFrame KeyTime="0:0:2.5" Value="-20" KeySpline="0.42,0,0.58,1" /><SplineDoubleKeyFrame KeyTime="0:0:5" Value="0" KeySpline="0.42,0,0.58,1" /></DoubleAnimationUsingKeyFrames>
-                                </Storyboard>
-                            </BeginStoryboard>
-                        </EventTrigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="PartRoot" Property="Opacity" Value="0.5" />
                         </Trigger>

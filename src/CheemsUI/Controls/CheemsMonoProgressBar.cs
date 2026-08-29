@@ -14,7 +14,6 @@ public sealed class CheemsMonoProgressBar : CheemsDraggableProgressBar
     private const string PartProgressTextName = "PartProgressText";
 
     private FrameworkElement? _progressFill;
-    private TextBlock? _progressText;
 
     static CheemsMonoProgressBar()
     {
@@ -32,7 +31,6 @@ public sealed class CheemsMonoProgressBar : CheemsDraggableProgressBar
 
         base.OnApplyTemplate();
         _progressFill = GetTemplateChild(PartProgressFillName) as FrameworkElement;
-        _progressText = GetTemplateChild(PartProgressTextName) as TextBlock;
 
         if (DragSurface is not null)
         {
@@ -69,9 +67,5 @@ public sealed class CheemsMonoProgressBar : CheemsDraggableProgressBar
             _progressFill.Width = DragSurface.ActualWidth * progress;
         }
 
-        if (_progressText is not null)
-        {
-            _progressText.Text = $"{progress * 100:0.#}%";
-        }
     }
 }

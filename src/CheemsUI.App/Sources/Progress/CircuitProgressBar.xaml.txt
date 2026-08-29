@@ -1,5 +1,6 @@
 <!-- CheemsCircuitProgressBar：Uiverse AshtonLiou 3D 沟槽进度条 -->
 <!-- xmlns:cheems="https://cheemsui.com/wpf" -->
+<!-- 设置 ValueDisplayMode="Value" 可显示普通数字；默认 Percentage。 -->
 <cheems:CheemsCircuitProgressBar Value="{Binding ProgressValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   Step="0.1"
                                   Text="LOADING..." />

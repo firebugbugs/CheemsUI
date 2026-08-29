@@ -14,56 +14,38 @@ namespace CheemsUI.App;
 public partial class MainWindow : Window
 {
     private static readonly Color DefaultBackgroundColor = Color.FromRgb(0xE8, 0xE8, 0xE8);
-    private static readonly Color BirdsBackgroundColor = Color.FromRgb(0x07, 0x19, 0x2F);
-    private static readonly Color CloudsBackgroundColor = Color.FromRgb(0x68, 0xB8, 0xD7);
-    private static readonly Color CellsBackgroundColor = Color.FromRgb(0xD7, 0xFF, 0x8F);
-    private static readonly Color RisoDitherBackgroundColor = Color.FromRgb(0x0A, 0x0E, 0x23);
-    private const double BackgroundOverlayOpacity = 0.8;
     private readonly UpdateService _updateService = new();
+    private BackgroundProfileViewModel? _activeBackgroundProfile;
     internal WindowThemeViewModel WindowTheme { get; } = new();
 
     public MainWindow()
     {
         InitializeComponent();
         ApplyPaletteForBackground(DefaultBackgroundColor);
-        DataContext = new MainViewModel();
+        var viewModel = new MainViewModel();
+        viewModel.BackgroundSettings.SettingsChanged += (_, _) => ApplyCurrentBackgroundPalette();
+        DataContext = viewModel;
         UpdateWindowFrameClip();
     }
 
     public void ApplyBirdsBackground()
     {
-        PartCloudsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
-        PartCellsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
-        PartRisoDitherWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
-        PartBirdsWindowBackgroundOverlay.Visibility = Visibility.Visible;
-        ApplyPaletteForBackground(BlendWithDefaultBackground(BirdsBackgroundColor), BirdsBackgroundColor);
+        SetActiveBackground(PartBirdsWindowBackgroundOverlay, GetBackgroundSettings().Birds);
     }
 
     public void ApplyCloudsBackground()
     {
-        PartBirdsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
-        PartCellsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
-        PartRisoDitherWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
-        PartCloudsWindowBackgroundOverlay.Visibility = Visibility.Visible;
-        ApplyPaletteForBackground(BlendWithDefaultBackground(CloudsBackgroundColor), CloudsBackgroundColor);
+        SetActiveBackground(PartCloudsWindowBackgroundOverlay, GetBackgroundSettings().Clouds);
     }
 
     public void ApplyCellsBackground()
     {
-        PartBirdsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
-        PartCloudsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
-        PartRisoDitherWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
-        PartCellsWindowBackgroundOverlay.Visibility = Visibility.Visible;
-        ApplyPaletteForBackground(BlendWithDefaultBackground(CellsBackgroundColor), CellsBackgroundColor);
+        SetActiveBackground(PartCellsWindowBackgroundOverlay, GetBackgroundSettings().Cells);
     }
 
     public void ApplyRisoDitherBackground()
     {
-        PartBirdsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
-        PartCloudsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
-        PartCellsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
-        PartRisoDitherWindowBackgroundOverlay.Visibility = Visibility.Visible;
-        ApplyPaletteForBackground(BlendWithDefaultBackground(RisoDitherBackgroundColor), RisoDitherBackgroundColor);
+        SetActiveBackground(PartRisoDitherWindowBackgroundOverlay, GetBackgroundSettings().RisoDither);
     }
 
     public void RestoreDefaultBackground()
@@ -72,19 +54,20 @@ public partial class MainWindow : Window
         PartCloudsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         PartCellsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         PartRisoDitherWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        _activeBackgroundProfile = null;
         ApplyPaletteForBackground(DefaultBackgroundColor);
         WindowFrame.SetResourceReference(BackgroundProperty, "App.Window.Background");
         SetResourceReference(BackgroundProperty, "App.Window.Background");
     }
 
     /// <summary>
-    /// Applies a hue-aware, contrast-safe palette. Brightness is based on the colour users
-    /// actually see after the background overlay is composited; hue comes from the effect itself.
+    /// Applies a hue-aware, contrast-safe palette from the colour users actually see after
+    /// the background overlay is composited.
     /// </summary>
-    public void ApplyPaletteForBackground(Color backgroundColor, Color? tintSource = null)
+    public void ApplyPaletteForBackground(Color backgroundColor)
     {
         var palette = AdaptiveThemePalette.Create(
-            tintSource ?? backgroundColor,
+            backgroundColor,
             isDark: GetRelativeLuminance(backgroundColor) < 0.42);
 
         WindowTheme.Apply(palette);
@@ -122,10 +105,46 @@ public partial class MainWindow : Window
         Resources[resourceKey] = new SolidColorBrush(color);
     }
 
-    private static Color BlendWithDefaultBackground(Color overlay)
+    private BackgroundsViewModel GetBackgroundSettings() =>
+        ((MainViewModel)DataContext).BackgroundSettings;
+
+    private void SetActiveBackground(FrameworkElement activeOverlay, BackgroundProfileViewModel profile)
     {
-        static byte BlendChannel(byte background, byte foreground) => (byte)Math.Round(
-            background + (foreground - background) * BackgroundOverlayOpacity,
+        FrameworkElement[] overlays =
+        [
+            PartBirdsWindowBackgroundOverlay,
+            PartCloudsWindowBackgroundOverlay,
+            PartCellsWindowBackgroundOverlay,
+            PartRisoDitherWindowBackgroundOverlay
+        ];
+        foreach (var overlay in overlays)
+        {
+            overlay.Visibility = ReferenceEquals(overlay, activeOverlay) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        _activeBackgroundProfile = profile;
+        ApplyCurrentBackgroundPalette();
+    }
+
+    private void ApplyCurrentBackgroundPalette()
+    {
+        if (_activeBackgroundProfile is not { } settings)
+        {
+            return;
+        }
+
+        var effectBackground = settings.SupportsBirdsSettings
+            ? settings.BirdsBackgroundColor
+            : settings.PrimaryColor;
+        var effectOpacity = settings.BackgroundOpacity *
+            (settings.SupportsBirdsSettings ? settings.BirdsBackgroundAlpha : 1d);
+        ApplyPaletteForBackground(BlendWithDefaultBackground(effectBackground, effectOpacity));
+    }
+
+    private static Color BlendWithDefaultBackground(Color overlay, double opacity)
+    {
+        byte BlendChannel(byte background, byte foreground) => (byte)Math.Round(
+            background + (foreground - background) * opacity,
             MidpointRounding.AwayFromZero);
 
         return Color.FromRgb(

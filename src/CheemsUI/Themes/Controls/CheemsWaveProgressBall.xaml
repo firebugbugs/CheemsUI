@@ -67,6 +67,12 @@
                                     </Border.RenderTransform>
                                 </Border>
                             </Canvas>
+
+                            <TextBlock Text="{TemplateBinding DisplayText}"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       FontSize="14" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource Cheems.Brush.WaveProgressBall.Ring}"
+                                       IsHitTestVisible="False" />
                         </Grid>
                     </Viewbox>
 

@@ -34,6 +34,19 @@
       clouds.triggerMouseMove(x, y);
     };
 
+    window.__cheemsUpdate = function (settings) {
+      const color = Number.parseInt(settings.color.slice(1), 16);
+      clouds.setOptions({ cloudColor: color, speed: settings.enabled ? settings.speed : 0 });
+      if (settings.enabled && clouds.__cheemsPaused) {
+        clouds.prevNow = performance.now();
+        clouds.req = requestAnimationFrame(clouds.animationLoop);
+        clouds.__cheemsPaused = false;
+      } else if (!settings.enabled) {
+        cancelAnimationFrame(clouds.req);
+        clouds.__cheemsPaused = true;
+      }
+    };
+
     window.addEventListener("beforeunload", function () {
       clouds.destroy();
     });

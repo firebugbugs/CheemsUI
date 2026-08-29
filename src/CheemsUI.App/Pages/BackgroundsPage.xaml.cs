@@ -3,6 +3,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using CheemsUI.App.Backgrounds;
 using CheemsUI.App.Infrastructure;
+using CheemsUI.App.ViewModels;
 
 namespace CheemsUI.App.Pages;
 
@@ -43,6 +44,22 @@ public partial class BackgroundsPage : UserControl
     private void RestoreBackground_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         (System.Windows.Window.GetWindow(this) as MainWindow)?.RestoreDefaultBackground();
+    }
+
+    private void SettingsButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: string key } button ||
+            DataContext is not BackgroundsViewModel viewModel ||
+            viewModel.GetProfile(key) is not { } profile)
+        {
+            return;
+        }
+
+        // 复用一个 Popup，切换卡片时不会遗留多份参数窗或丢失绑定状态。
+        SettingsPopup.IsOpen = false;
+        SettingsPopup.DataContext = profile;
+        SettingsPopup.PlacementTarget = button;
+        SettingsPopup.IsOpen = true;
     }
 
     private void CodeButton_MouseEnter(object sender, MouseEventArgs e)

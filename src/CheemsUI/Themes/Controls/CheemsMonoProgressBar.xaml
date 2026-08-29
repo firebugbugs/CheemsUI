@@ -33,7 +33,7 @@
                                   Width="0" Height="32"
                                   Background="{DynamicResource Cheems.Brush.MonoProgress.Foreground}">
                                 <!-- progress::after：文字位于当前白色填充区域的中心。 -->
-                                <TextBlock x:Name="PartProgressText"
+                                <TextBlock x:Name="PartProgressText" Text="{TemplateBinding DisplayText}"
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontFamily="{DynamicResource Cheems.FontFamily.Default}"

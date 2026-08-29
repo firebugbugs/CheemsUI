@@ -267,20 +267,50 @@
         </Border.Style>
         <Grid>
             <Border x:Name="PartBirdsWindowBackgroundOverlay"
-                    Visibility="Collapsed" Opacity="0.8">
-                <backgrounds:CheemsBirdsBackground x:Name="PartBirdsWindowBackground" Cursor="Arrow" />
+                    Visibility="Collapsed" Opacity="{Binding BackgroundSettings.Birds.BackgroundOpacity}">
+                <backgrounds:CheemsBirdsBackground x:Name="PartBirdsWindowBackground" Cursor="Arrow"
+                                                   PrimaryColor="{Binding BackgroundSettings.Birds.PrimaryColor}"
+                                                   SecondaryColor="{Binding BackgroundSettings.Birds.BirdsSecondaryColor}"
+                                                   BackgroundColor="{Binding BackgroundSettings.Birds.BirdsBackgroundColor}"
+                                                   BackgroundAlpha="{Binding BackgroundSettings.Birds.BirdsBackgroundAlpha}"
+                                                   AnimationSpeed="{Binding BackgroundSettings.Birds.AnimationSpeed}"
+                                                   IsAnimationEnabled="{Binding BackgroundSettings.Birds.IsAnimationEnabled}"
+                                                   BirdSize="{Binding BackgroundSettings.Birds.BirdsSize}"
+                                                   WingSpan="{Binding BackgroundSettings.Birds.BirdsWingSpan}"
+                                                   SpeedLimit="{Binding BackgroundSettings.Birds.BirdsSpeedLimit}"
+                                                   Separation="{Binding BackgroundSettings.Birds.BirdsSeparation}"
+                                                   Alignment="{Binding BackgroundSettings.Birds.BirdsAlignment}"
+                                                   Cohesion="{Binding BackgroundSettings.Birds.BirdsCohesion}"
+                                                   Quantity="{Binding BackgroundSettings.Birds.BirdsQuantity}" />
             </Border>
             <Border x:Name="PartCloudsWindowBackgroundOverlay"
-                    Visibility="Collapsed" Opacity="0.8">
-                <backgrounds:CheemsCloudsBackground x:Name="PartCloudsWindowBackground" Cursor="Arrow" />
+                    Visibility="Collapsed" Opacity="{Binding BackgroundSettings.Clouds.BackgroundOpacity}">
+                <backgrounds:CheemsCloudsBackground x:Name="PartCloudsWindowBackground" Cursor="Arrow"
+                                                    PrimaryColor="{Binding BackgroundSettings.Clouds.PrimaryColor}"
+                                                    AnimationSpeed="{Binding BackgroundSettings.Clouds.AnimationSpeed}"
+                                                    IsAnimationEnabled="{Binding BackgroundSettings.Clouds.IsAnimationEnabled}" />
             </Border>
             <Border x:Name="PartCellsWindowBackgroundOverlay"
-                    Visibility="Collapsed" Opacity="0.8">
-                <backgrounds:CheemsCellsBackground x:Name="PartCellsWindowBackground" Cursor="Arrow" />
+                    Visibility="Collapsed" Opacity="{Binding BackgroundSettings.Cells.BackgroundOpacity}">
+                <backgrounds:CheemsCellsBackground x:Name="PartCellsWindowBackground" Cursor="Arrow"
+                                                   PrimaryColor="{Binding BackgroundSettings.Cells.PrimaryColor}"
+                                                   AnimationSpeed="{Binding BackgroundSettings.Cells.AnimationSpeed}"
+                                                   IsAnimationEnabled="{Binding BackgroundSettings.Cells.IsAnimationEnabled}" />
             </Border>
             <Border x:Name="PartRisoDitherWindowBackgroundOverlay"
-                    Visibility="Collapsed" Opacity="0.8">
-                <backgrounds:CheemsRisoDitherBackground x:Name="PartRisoDitherWindowBackground" Cursor="Arrow" />
+                    Visibility="Collapsed" Opacity="{Binding BackgroundSettings.RisoDither.BackgroundOpacity}">
+                <backgrounds:CheemsRisoDitherBackground x:Name="PartRisoDitherWindowBackground" Cursor="Arrow"
+                                                        PrimaryColor="{Binding BackgroundSettings.RisoDither.PrimaryColor}"
+                                                        AnimationSpeed="{Binding BackgroundSettings.RisoDither.AnimationSpeed}"
+                                                        IsAnimationEnabled="{Binding BackgroundSettings.RisoDither.IsAnimationEnabled}"
+                                                        BackgroundAlpha="{Binding BackgroundSettings.RisoDither.RisoBackgroundAlpha}"
+                                                        PixelSize="{Binding BackgroundSettings.RisoDither.RisoPixelSize}"
+                                                        Levels="{Binding BackgroundSettings.RisoDither.RisoLevels}"
+                                                        Scale="{Binding BackgroundSettings.RisoDither.RisoScale}"
+                                                        Contrast="{Binding BackgroundSettings.RisoDither.RisoContrast}"
+                                                        FlowAngle="{Binding BackgroundSettings.RisoDither.RisoFlowAngle}"
+                                                        Detail="{Binding BackgroundSettings.RisoDither.RisoDetail}"
+                                                        Glow="{Binding BackgroundSettings.RisoDither.RisoGlow}" />
             </Border>
             <Grid>
             <Grid.RowDefinitions>

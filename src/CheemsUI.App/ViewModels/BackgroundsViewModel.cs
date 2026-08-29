@@ -13,7 +13,38 @@ public sealed class BackgroundsViewModel : SearchablePageViewModel
         ["RisoDither"] = "CheemsRisoDitherBackground Riso Dither AIDesigner WebGL Bayer ordered dither risograph 网点 印刷 抖动 Bayer WebGL 背景 特效 离线"
     })
     {
+        Birds = new("Birds", "Birds 鸟群", "#FF3F81");
+        Clouds = new("Clouds", "Clouds 云层", "#68B8D7");
+        Cells = new("Cells", "Cells 细胞", "#A4E34F");
+        RisoDither = new("RisoDither", "Riso Dither", "#8B5CF6")
+        {
+            RisoBackgroundAlpha = 1,
+            AnimationSpeed = 0.73,
+            RisoPixelSize = 9,
+            RisoLevels = 12,
+            RisoScale = 2.34,
+            RisoContrast = 1.78,
+            RisoFlowAngle = 97,
+            RisoDetail = 0.54,
+            RisoGlow = 0.77
+        };
+        Profiles = [Birds, Clouds, Cells, RisoDither];
+        foreach (var profile in Profiles)
+        {
+            profile.PropertyChanged += (_, _) => SettingsChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
+
+    public event EventHandler? SettingsChanged;
+
+    public BackgroundProfileViewModel Birds { get; }
+    public BackgroundProfileViewModel Clouds { get; }
+    public BackgroundProfileViewModel Cells { get; }
+    public BackgroundProfileViewModel RisoDither { get; }
+    public IReadOnlyList<BackgroundProfileViewModel> Profiles { get; }
+
+    public BackgroundProfileViewModel? GetProfile(string key) =>
+        Profiles.FirstOrDefault(profile => string.Equals(profile.Key, key, StringComparison.Ordinal));
 
     public bool IsBirdsVisible => IsControlVisible("Birds");
 

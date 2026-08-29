@@ -1,2 +1,5 @@
-<!-- 卡片本身就是效果预览；点击后通过 ApplyRequested 应用到软件窗口。 -->
-<backgrounds:CheemsCloudsBackground ApplyRequested="CloudsBackground_ApplyRequested" />
+<backgrounds:CheemsCloudsBackground ClipRadius="12"
+                                    PrimaryColor="#8B5CF6"
+                                    AnimationSpeed="1"
+                                    IsAnimationEnabled="True"
+                                    ApplyRequested="CloudsBackground_ApplyRequested" />

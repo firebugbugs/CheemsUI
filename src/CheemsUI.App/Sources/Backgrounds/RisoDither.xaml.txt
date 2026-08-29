@@ -1,2 +1,13 @@
-<!-- 卡片本身就是效果预览；点击后通过 ApplyRequested 应用到软件窗口。 -->
-<backgrounds:CheemsRisoDitherBackground ApplyRequested="RisoDitherBackground_ApplyRequested" />
+<backgrounds:CheemsRisoDitherBackground ClipRadius="12"
+                                        PrimaryColor="#8B5CF6"
+                                        BackgroundAlpha="1"
+                                        AnimationSpeed="0.73"
+                                        PixelSize="9"
+                                        Levels="12"
+                                        Scale="2.34"
+                                        Contrast="1.78"
+                                        FlowAngle="97"
+                                        Detail="0.54"
+                                        Glow="0.77"
+                                        IsAnimationEnabled="True"
+                                        ApplyRequested="RisoDitherBackground_ApplyRequested" />

@@ -28,11 +28,24 @@ public sealed class CheemsCellsBackground : WebView2CompositionControl
         nameof(ClipRadius), typeof(double), typeof(CheemsCellsBackground),
         new PropertyMetadata(0d, OnClipRadiusChanged));
 
+    public static readonly DependencyProperty PrimaryColorProperty = DependencyProperty.Register(
+        nameof(PrimaryColor), typeof(Color), typeof(CheemsCellsBackground),
+        new PropertyMetadata(Color.FromRgb(0x8B, 0x5C, 0xF6), OnEffectOptionChanged));
+
+    public static readonly DependencyProperty AnimationSpeedProperty = DependencyProperty.Register(
+        nameof(AnimationSpeed), typeof(double), typeof(CheemsCellsBackground),
+        new PropertyMetadata(1d, OnEffectOptionChanged));
+
+    public static readonly DependencyProperty IsAnimationEnabledProperty = DependencyProperty.Register(
+        nameof(IsAnimationEnabled), typeof(bool), typeof(CheemsCellsBackground),
+        new PropertyMetadata(true, OnEffectOptionChanged));
+
     public CheemsCellsBackground()
     {
         Cursor = Cursors.Hand;
         Loaded += OnLoaded;
         Unloaded += OnUnloaded;
+        IsVisibleChanged += OnIsVisibleChanged;
         SizeChanged += (_, _) => UpdateClip();
     }
 
@@ -42,6 +55,12 @@ public sealed class CheemsCellsBackground : WebView2CompositionControl
         get => (double)GetValue(ClipRadiusProperty);
         set => SetValue(ClipRadiusProperty, value);
     }
+
+    public Color PrimaryColor { get => (Color)GetValue(PrimaryColorProperty); set => SetValue(PrimaryColorProperty, value); }
+
+    public double AnimationSpeed { get => (double)GetValue(AnimationSpeedProperty); set => SetValue(AnimationSpeedProperty, value); }
+
+    public bool IsAnimationEnabled { get => (bool)GetValue(IsAnimationEnabledProperty); set => SetValue(IsAnimationEnabledProperty, value); }
 
     private Uri CellsPage => new($"https://{VirtualHostName}/cells.offline.html");
 
@@ -53,7 +72,7 @@ public sealed class CheemsCellsBackground : WebView2CompositionControl
         {
             _initializationTask ??= InitializeAsync();
             await _initializationTask;
-            NavigateToCellsPage();
+            if (IsVisible) NavigateToCellsPage();
         }
         catch (Exception exception)
         {
@@ -66,6 +85,19 @@ public sealed class CheemsCellsBackground : WebView2CompositionControl
         _isLoaded = false;
         _isVantaReady = false;
         CoreWebView2?.NavigateToString("<!doctype html><title>Background paused</title>");
+    }
+
+    private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        if (IsVisible)
+        {
+            NavigateToCellsPage();
+        }
+        else
+        {
+            _isVantaReady = false;
+            CoreWebView2?.NavigateToString("<!doctype html><title>Background paused</title>");
+        }
     }
 
     private async Task InitializeAsync()
@@ -131,6 +163,26 @@ public sealed class CheemsCellsBackground : WebView2CompositionControl
         ((CheemsCellsBackground)dependencyObject).UpdateClip();
     }
 
+    private static void OnEffectOptionChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+    {
+        _ = ((CheemsCellsBackground)dependencyObject).PushSettingsAsync();
+    }
+
+    private async Task PushSettingsAsync()
+    {
+        if (CoreWebView2 is null || !_isVantaReady) return;
+        var color = $"#{PrimaryColor.R:X2}{PrimaryColor.G:X2}{PrimaryColor.B:X2}";
+        var speed = AnimationSpeed.ToString("F3", CultureInfo.InvariantCulture);
+        var enabled = IsAnimationEnabled ? "true" : "false";
+        try
+        {
+            await CoreWebView2.ExecuteScriptAsync($"window.__cheemsUpdate?.({{color:'{color}',speed:{speed},enabled:{enabled}}});");
+        }
+        catch (InvalidOperationException)
+        {
+        }
+    }
+
     private void NavigateToCellsPage()
     {
         _isVantaReady = false;
@@ -164,6 +216,12 @@ public sealed class CheemsCellsBackground : WebView2CompositionControl
             return;
         }
 
+        if (!IsVisible)
+        {
+            CoreWebView2.NavigateToString("<!doctype html><title>Background paused</title>");
+            return;
+        }
+
         try
         {
             var result = await CoreWebView2.ExecuteScriptAsync(
@@ -175,6 +233,7 @@ public sealed class CheemsCellsBackground : WebView2CompositionControl
             }
 
             _isVantaReady = true;
+            await PushSettingsAsync();
         }
         catch (Exception exception)
         {
