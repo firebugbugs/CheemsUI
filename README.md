@@ -23,7 +23,6 @@
   <ProjectReference Include="..\src\CheemsUI\CheemsUI.csproj" />
 </ItemGroup>
 ```
-
 XAML 中统一使用语义命名空间（无需记程序集名），默认样式通过 `ThemeInfo` 自动生效，不需要手动合并任何字典：
 
 ```xml
