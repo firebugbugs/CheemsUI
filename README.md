@@ -4,9 +4,27 @@
 
 [![点击加入 QQ 群：1094431427](https://img.shields.io/badge/QQ%E7%BE%A4-1094431427-12B7F5?logo=tencentqq&logoColor=white)](https://qm.qq.com/q/BWDv2TTZKK)
 
-![](docs/gallery/Loaders/CheemsEarthLoader.gif)
-![](docs/gallery/Loaders/CheemsWashingMachineLoader.gif)
-![](docs/gallery/Loaders/CheemsHamsterWheelLoader.gif)
+<p align="center">
+  <img src="docs/gallery/Loaders/CheemsEarthLoader.gif" height="160" alt="Earth Loader">
+  <img src="docs/gallery/Loaders/CheemsWashingMachineLoader.gif" height="160" alt="Washing Machine Loader">
+  <img src="docs/gallery/Loaders/CheemsHamsterWheelLoader.gif" height="160" alt="Hamster Wheel Loader">
+</p>
+
+<p align="center">
+  <img src="docs/gallery/Inputs/CheemsCheckToggle.gif" height="96" alt="Check Toggle">
+  <img src="docs/gallery/Inputs/CheemsAmPmToggle.gif" height="96" alt="AM PM Toggle">
+  <img src="docs/gallery/Inputs/CheemsDayNightSwitch.gif" height="96" alt="Day Night Switch">
+  <img src="docs/gallery/Inputs/CheemsIosStretchSwitch.gif" height="96" alt="iOS Stretch Switch">
+  <img src="docs/gallery/Inputs/CheemsLedSwitch.gif" height="96" alt="LED Switch">
+</p>
+
+<p align="center">
+  <img src="docs/gallery/Inputs/CheemsMechanicalToggle.gif" height="96" alt="Mechanical Toggle">
+  <img src="docs/gallery/Inputs/CheemsMetalSwitch.gif" height="96" alt="Metal Switch">
+  <img src="docs/gallery/Inputs/CheemsPixelCoinSwitch.gif" height="96" alt="Pixel Coin Switch">
+  <img src="docs/gallery/Inputs/CheemsPixelSwitch.gif" height="96" alt="Pixel Switch">
+  <img src="docs/gallery/Inputs/CheemsScaleSwitch.gif" height="96" alt="Scale Switch">
+</p>
 
 <p align="center">
   <a href="CONTROLS.md">
