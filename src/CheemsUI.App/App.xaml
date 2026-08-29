@@ -24,6 +24,124 @@
                 </Setter>
             </Style>
 
+            <!-- 应用级窄滚动条：保留 ScrollViewer 的原生滚轮、键盘与拖拽语义，仅替换视觉模板。 -->
+            <Style x:Key="Cheems.App.Style.ScrollBar.PageButton" TargetType="{x:Type RepeatButton}">
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="IsTabStop" Value="False" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type RepeatButton}">
+                            <Border Background="Transparent" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="Cheems.App.Style.ScrollBar.Thumb" TargetType="{x:Type Thumb}">
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Thumb}">
+                            <Border x:Name="PartThumb"
+                                    Margin="2"
+                                    Background="{DynamicResource Cheems.Brush.Text.Secondary}"
+                                    CornerRadius="4"
+                                    Opacity="1"
+                                    SnapsToDevicePixels="True" />
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="PartThumb" Property="Margin" Value="1" />
+                                </Trigger>
+                                <Trigger Property="IsDragging" Value="True">
+                                    <Setter TargetName="PartThumb" Property="Margin" Value="1" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="PartThumb" Property="Opacity" Value="1" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="{x:Type ScrollBar}">
+                <!-- 默认是纵向；横向尺寸在模板触发器中交换。 -->
+                <Setter Property="Width" Value="12" />
+                <Setter Property="Height" Value="Auto" />
+                <Setter Property="MinWidth" Value="0" />
+                <Setter Property="MinHeight" Value="0" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="OverridesDefaultStyle" Value="True" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ScrollBar}">
+                            <Grid Background="{TemplateBinding Background}"
+                                  SnapsToDevicePixels="True">
+                                <Border x:Name="PartTrackBackground"
+                                        Margin="4,2"
+                                        Background="{DynamicResource Cheems.Brush.Text.Secondary}"
+                                        CornerRadius="3"
+                                        Opacity="0.08"
+                                        IsHitTestVisible="False" />
+                                <Track x:Name="PART_Track"
+                                       Margin="0"
+                                       Orientation="{TemplateBinding Orientation}"
+                                       IsDirectionReversed="True">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton x:Name="PartDecreaseButton"
+                                                      Style="{StaticResource Cheems.App.Style.ScrollBar.PageButton}"
+                                                      Command="{x:Static ScrollBar.PageUpCommand}"
+                                                      CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb x:Name="PartThumb"
+                                               MinHeight="36"
+                                               MinWidth="0"
+                                               Style="{StaticResource Cheems.App.Style.ScrollBar.Thumb}" />
+                                    </Track.Thumb>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton x:Name="PartIncreaseButton"
+                                                      Style="{StaticResource Cheems.App.Style.ScrollBar.PageButton}"
+                                                      Command="{x:Static ScrollBar.PageDownCommand}"
+                                                      CommandTarget="{Binding RelativeSource={RelativeSource TemplatedParent}}" />
+                                    </Track.IncreaseRepeatButton>
+                                </Track>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="PartTrackBackground" Property="Opacity" Value="0.14" />
+                                </Trigger>
+                                <Trigger Property="Orientation" Value="Horizontal">
+                                    <Setter Property="Width" Value="Auto" />
+                                    <Setter Property="Height" Value="12" />
+                                    <Setter TargetName="PART_Track" Property="IsDirectionReversed" Value="False" />
+                                    <Setter TargetName="PartTrackBackground" Property="Margin" Value="2,4" />
+                                    <Setter TargetName="PartThumb" Property="MinWidth" Value="36" />
+                                    <Setter TargetName="PartThumb" Property="MinHeight" Value="0" />
+                                    <Setter TargetName="PartDecreaseButton" Property="Command" Value="{x:Static ScrollBar.PageLeftCommand}" />
+                                    <Setter TargetName="PartIncreaseButton" Property="Command" Value="{x:Static ScrollBar.PageRightCommand}" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="PartTrackBackground" Property="Opacity" Value="0.04" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Opacity" Value="1" />
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="False">
+                        <Setter Property="Opacity" Value="0.36" />
+                    </Trigger>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.20" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
             <!-- 大、小展示器共用的极简源码按钮：只呈现文字，不绘制背景、边框或状态框。 -->
             <Style x:Key="Cheems.App.Style.CodeButton" TargetType="{x:Type Button}">
                 <Setter Property="Foreground" Value="{DynamicResource Cheems.Brush.Text.Primary}" />
