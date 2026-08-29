@@ -36,6 +36,9 @@
     <Content Include="..\CheemsUI\Resources\Web\VantaClouds\**\*.*"
              Link="Assets\VantaClouds\%(RecursiveDir)%(Filename)%(Extension)"
              CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\CheemsUI\Resources\Web\VantaCells\**\*.*"
+             Link="Assets\VantaCells\%(RecursiveDir)%(Filename)%(Extension)"
+             CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

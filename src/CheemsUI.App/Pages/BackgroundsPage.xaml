@@ -34,41 +34,12 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="BirdsCodeButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="Width" Value="34" />
-            <Setter Property="Height" Value="30" />
-            <Setter Property="Background" Value="#A807192F" />
-            <Setter Property="BorderBrush" Value="#66FFFFFF" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="ToolTip" Value="复制 XAML" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="PartCodeButton" Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="PartCodeButton" Property="Background" Value="#D922466F" />
-                                <Setter TargetName="PartCodeButton" Property="BorderBrush" Value="#CCFFFFFF" />
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="PartCodeButton" Property="Opacity" Value="0.76" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </UserControl.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="0,0,16,16">
             <TextBlock Text="背景 Backgrounds" FontSize="24" FontWeight="Bold"
                        Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
-            <TextBlock Text="选择一张卡片即可应用到整个软件。背景直接使用本地 three.js r134 与 Vanta 脚本，运行时不访问网络。"
+            <TextBlock Text="选择一张卡片即可将背景以 80% 透明度叠加到软件原始浅灰底色上。背景直接使用本地 three.js r134 与 Vanta 脚本，运行时不访问网络。"
                        Margin="0,8,0,24" FontSize="13" TextWrapping="Wrap"
                        Foreground="{DynamicResource Cheems.Brush.Text.Secondary}" />
 
@@ -80,11 +51,9 @@
                                                            ApplyRequested="BirdsBackground_ApplyRequested" />
                         <Button x:Name="BirdsCodeButton" Margin="0,12,12,0"
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
-                                Style="{StaticResource BirdsCodeButtonStyle}"
-                                Click="BirdsCodeButton_Click">
-                            <TextBlock Text="&lt;/&gt;" FontFamily="{DynamicResource Cheems.FontFamily.Mono}"
-                                       FontSize="12" FontWeight="SemiBold" Foreground="White" />
-                        </Button>
+                                Content="&lt;/&gt;" ToolTip="复制 XAML"
+                                Style="{StaticResource Cheems.App.Style.CodeButton}"
+                                Click="BirdsCodeButton_Click" />
                     </Grid>
                 </Border>
 
@@ -95,11 +64,22 @@
                                                             ApplyRequested="CloudsBackground_ApplyRequested" />
                         <Button x:Name="CloudsCodeButton" Margin="0,12,12,0"
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
-                                Style="{StaticResource BirdsCodeButtonStyle}"
-                                Click="CloudsCodeButton_Click">
-                            <TextBlock Text="&lt;/&gt;" FontFamily="{DynamicResource Cheems.FontFamily.Mono}"
-                                       FontSize="12" FontWeight="SemiBold" Foreground="White" />
-                        </Button>
+                                Content="&lt;/&gt;" ToolTip="复制 XAML"
+                                Style="{StaticResource Cheems.App.Style.CodeButton}"
+                                Click="CloudsCodeButton_Click" />
+                    </Grid>
+                </Border>
+
+                <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
+                        BorderBrush="#172642" BorderThickness="1">
+                    <Grid>
+                        <backgrounds:CheemsCellsBackground ClipRadius="12"
+                                                           ApplyRequested="CellsBackground_ApplyRequested" />
+                        <Button x:Name="CellsCodeButton" Margin="0,12,12,0"
+                                HorizontalAlignment="Right" VerticalAlignment="Top"
+                                Content="&lt;/&gt;" ToolTip="复制 XAML"
+                                Style="{StaticResource Cheems.App.Style.CodeButton}"
+                                Click="CellsCodeButton_Click" />
                     </Grid>
                 </Border>
 

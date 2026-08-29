@@ -16,6 +16,8 @@ public partial class MainWindow : Window
     private static readonly Color DefaultBackgroundColor = Color.FromRgb(0xE8, 0xE8, 0xE8);
     private static readonly Color BirdsBackgroundColor = Color.FromRgb(0x07, 0x19, 0x2F);
     private static readonly Color CloudsBackgroundColor = Color.FromRgb(0x68, 0xB8, 0xD7);
+    private static readonly Color CellsBackgroundColor = Color.FromRgb(0xD7, 0xFF, 0x8F);
+    private const double BackgroundOverlayOpacity = 0.8;
     private readonly UpdateService _updateService = new();
     internal WindowThemeViewModel WindowTheme { get; } = new();
 
@@ -28,28 +30,33 @@ public partial class MainWindow : Window
 
     public void ApplyBirdsBackground()
     {
-        PartCloudsWindowBackground.Visibility = Visibility.Collapsed;
-        PartBirdsWindowBackground.Visibility = Visibility.Visible;
-        WindowFrame.Background = Brushes.Transparent;
-        // WindowFrame 的抗锯齿圆角外侧由 Window 背景承接，不能透明到桌面黑色。
-        Background = new SolidColorBrush(BirdsBackgroundColor);
-        ApplyPaletteForBackground(BirdsBackgroundColor);
+        PartCloudsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartCellsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartBirdsWindowBackgroundOverlay.Visibility = Visibility.Visible;
+        ApplyPaletteForBackground(BlendWithDefaultBackground(BirdsBackgroundColor));
     }
 
     public void ApplyCloudsBackground()
     {
-        PartBirdsWindowBackground.Visibility = Visibility.Collapsed;
-        PartCloudsWindowBackground.Visibility = Visibility.Visible;
-        WindowFrame.Background = Brushes.Transparent;
-        // 使用 Vanta CLOUDS 的 skyColor，消除圆角抗锯齿像素与透明根窗口混合出的黑边。
-        Background = new SolidColorBrush(CloudsBackgroundColor);
-        ApplyPaletteForBackground(CloudsBackgroundColor);
+        PartBirdsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartCellsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartCloudsWindowBackgroundOverlay.Visibility = Visibility.Visible;
+        ApplyPaletteForBackground(BlendWithDefaultBackground(CloudsBackgroundColor));
+    }
+
+    public void ApplyCellsBackground()
+    {
+        PartBirdsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartCloudsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartCellsWindowBackgroundOverlay.Visibility = Visibility.Visible;
+        ApplyPaletteForBackground(BlendWithDefaultBackground(CellsBackgroundColor));
     }
 
     public void RestoreDefaultBackground()
     {
-        PartBirdsWindowBackground.Visibility = Visibility.Collapsed;
-        PartCloudsWindowBackground.Visibility = Visibility.Collapsed;
+        PartBirdsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartCloudsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartCellsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         ApplyPaletteForBackground(DefaultBackgroundColor);
         WindowFrame.SetResourceReference(BackgroundProperty, "App.Window.Background");
         SetResourceReference(BackgroundProperty, "App.Window.Background");
@@ -102,7 +109,8 @@ public partial class MainWindow : Window
     private void ApplyDarkPalette()
     {
         WindowTheme.ApplyDark();
-        SetBrushColor("App.Window.Background", Color.FromRgb(0x07, 0x19, 0x2F));
+        // 动态背景只作为默认浅灰底色上的半透明叠层，不能替换底层颜色。
+        SetBrushColor("App.Window.Background", DefaultBackgroundColor);
         SetBrushColor("App.Window.Border", Color.FromRgb(0x5A, 0x70, 0x8B));
         SetBrushColor("App.Sidebar.Background", Color.FromArgb(0xD9, 0x0B, 0x20, 0x3A));
         SetBrushColor("App.Navigation.Hover", Color.FromArgb(0x75, 0x4A, 0x68, 0x8A));
@@ -132,6 +140,18 @@ public partial class MainWindow : Window
         Resources[resourceKey] = new SolidColorBrush(color);
     }
 
+    private static Color BlendWithDefaultBackground(Color overlay)
+    {
+        static byte BlendChannel(byte background, byte foreground) => (byte)Math.Round(
+            background + (foreground - background) * BackgroundOverlayOpacity,
+            MidpointRounding.AwayFromZero);
+
+        return Color.FromRgb(
+            BlendChannel(DefaultBackgroundColor.R, overlay.R),
+            BlendChannel(DefaultBackgroundColor.G, overlay.G),
+            BlendChannel(DefaultBackgroundColor.B, overlay.B));
+    }
+
     private static double GetRelativeLuminance(Color color)
     {
         static double Linearize(byte channel)
@@ -149,15 +169,21 @@ public partial class MainWindow : Window
 
     private void Window_MouseMove(object sender, MouseEventArgs e)
     {
-        if (PartBirdsWindowBackground.Visibility == Visibility.Visible)
+        if (PartBirdsWindowBackgroundOverlay.Visibility == Visibility.Visible)
         {
             PartBirdsWindowBackground.SetPointerPosition(e.GetPosition(PartBirdsWindowBackground));
             return;
         }
 
-        if (PartCloudsWindowBackground.Visibility == Visibility.Visible)
+        if (PartCloudsWindowBackgroundOverlay.Visibility == Visibility.Visible)
         {
             PartCloudsWindowBackground.SetPointerPosition(e.GetPosition(PartCloudsWindowBackground));
+            return;
+        }
+
+        if (PartCellsWindowBackgroundOverlay.Visibility == Visibility.Visible)
+        {
+            PartCellsWindowBackground.SetPointerPosition(e.GetPosition(PartCellsWindowBackground));
         }
     }
 

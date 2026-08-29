@@ -8,7 +8,8 @@ public sealed class BackgroundsViewModel : SearchablePageViewModel
     public BackgroundsViewModel() : base(new Dictionary<string, string>
     {
         ["Birds"] = "CheemsBirdsBackground Vanta BIRDS three.js birds flock flying mouse interactive background WebGL 鸟群 飞鸟 鼠标 交互 背景 特效 离线",
-        ["Clouds"] = "CheemsCloudsBackground Vanta CLOUDS three.js clouds sky mouse touch interactive background WebGL 云层 天空 鼠标 触摸 交互 背景 特效 离线"
+        ["Clouds"] = "CheemsCloudsBackground Vanta CLOUDS three.js clouds sky mouse touch interactive background WebGL 云层 天空 鼠标 触摸 交互 背景 特效 离线",
+        ["Cells"] = "CheemsCellsBackground Vanta CELLS three.js cells organic cellular mouse touch interactive background WebGL 细胞 有机 鼠标 触摸 交互 背景 特效 离线"
     })
     {
     }
@@ -17,12 +18,15 @@ public sealed class BackgroundsViewModel : SearchablePageViewModel
 
     public bool IsCloudsVisible => IsControlVisible("Clouds");
 
-    public bool IsBackgroundsVisible => IsBirdsVisible || IsCloudsVisible;
+    public bool IsCellsVisible => IsControlVisible("Cells");
+
+    public bool IsBackgroundsVisible => IsBirdsVisible || IsCloudsVisible || IsCellsVisible;
 
     protected override void OnSearchFilterChanged()
     {
         OnPropertyChanged(nameof(IsBirdsVisible));
         OnPropertyChanged(nameof(IsCloudsVisible));
+        OnPropertyChanged(nameof(IsCellsVisible));
         OnPropertyChanged(nameof(IsBackgroundsVisible));
     }
 }

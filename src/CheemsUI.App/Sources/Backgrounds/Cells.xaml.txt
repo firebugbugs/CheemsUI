@@ -1,0 +1,2 @@
+<!-- 卡片本身就是效果预览；点击后通过 ApplyRequested 应用到软件窗口。 -->
+<backgrounds:CheemsCellsBackground ApplyRequested="CellsBackground_ApplyRequested" />

@@ -68,39 +68,3 @@ dotnet run --project src/CheemsUI.App
 <img src="docs/gallery/Buttons/CheemsLayered3DButton.gif" width="220">
 
 > 📖 完整控件清单与全部动效实录：**[CONTROLS.md](CONTROLS.md)**
-
-## 主题定制
-
-在 App 级合并主题字典并覆盖语义键，所有控件即时生效（DynamicResource）：
-
-```xml
-<Application.Resources>
-    <ResourceDictionary>
-        <ResourceDictionary.MergedDictionaries>
-            <ResourceDictionary Source="/CheemsUI;component/Themes/Generic.xaml" />
-        </ResourceDictionary.MergedDictionaries>
-
-        <SolidColorBrush x:Key="Cheems.Brush.Primary" Color="#7C5CFF" />
-        <SolidColorBrush x:Key="Cheems.Brush.Accent" Color="#FF6B9E" />
-    </ResourceDictionary>
-</Application.Resources>
-```
-
-常用键：颜色 `Cheems.Brush.Primary` / `Accent` / `Text.*` / `Background.*`，字体 `Cheems.FontFamily.Default` / `Mono` / `Icon`，字号 `Cheems.FontSize.*`。完整清单见 `src/CheemsUI/CheemsKeys.cs` 与 `src/CheemsUI/Themes/Basic/*.xaml`。
-
-## 截图与 GIF 导出
-
-文档所有图片由 Demo 程序的导出模式自动生成，可随时重跑刷新：
-
-```
-CheemsUI.App.exe --export            # 全量导出到 docs/gallery
-CheemsUI.App.exe --export --only=CheemsShineButton,CheemsCheckToggle
-```
-
-全部图库为实录 GIF（24fps，自动按运动最大边界取景）。按钮 GIF 录制「常态 → 悬停 → 按下 0.3s → 抬起停留 0.5s → 离开」、开关 GIF 录制「常态 → 悬停 → 点击打开 → 移开」、输入框 GIF 录制「常态 → 悬停 → 点击聚焦 → 逐字输入 "Cheems"」完整交互，进度条 GIF 录制 0 → 100% 全程 5s，Loader 为循环动画；交互画面中的光标由 `src/CheemsUI.App/Assets/cursor.png` 合成，替换该文件后重新导出即可换光标。
-
-## 交流
-
-QQ 交流群：**1094431427** —— 问题反馈、控件需求、动效讨论都可以进来聊，也欢迎直接提 PR。
-
-![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-1094431427-12B7F5?logo=tencentqq&logoColor=white)

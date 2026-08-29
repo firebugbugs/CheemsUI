@@ -9,6 +9,8 @@ public partial class BackgroundsPage : UserControl
 {
     private const string BirdsSourceUri = "/CheemsUI.App;component/Sources/Backgrounds/Birds.xaml.txt";
     private const string CloudsSourceUri = "/CheemsUI.App;component/Sources/Backgrounds/Clouds.xaml.txt";
+    private const string CellsSourceUri = "/CheemsUI.App;component/Sources/Backgrounds/Cells.xaml.txt";
+    private readonly Dictionary<Button, int> _copyTokens = [];
 
     public BackgroundsPage()
     {
@@ -25,6 +27,11 @@ public partial class BackgroundsPage : UserControl
         (System.Windows.Window.GetWindow(this) as MainWindow)?.ApplyCloudsBackground();
     }
 
+    private void CellsBackground_ApplyRequested(object? sender, EventArgs e)
+    {
+        (System.Windows.Window.GetWindow(this) as MainWindow)?.ApplyCellsBackground();
+    }
+
     private void RestoreBackground_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         (System.Windows.Window.GetWindow(this) as MainWindow)?.RestoreDefaultBackground();
@@ -32,27 +39,38 @@ public partial class BackgroundsPage : UserControl
 
     private async void BirdsCodeButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        BirdsCodeButton.IsEnabled = false;
-
-        var window = System.Windows.Window.GetWindow(this);
-        var ownerHandle = window is null ? IntPtr.Zero : new WindowInteropHelper(window).Handle;
-        var source = SourceCodeService.Load(BirdsSourceUri);
-        var copied = await SourceCodeService.TryCopyToClipboardAsync(source, ownerHandle);
-
-        BirdsCodeButton.ToolTip = copied ? "已复制 XAML" : "复制失败，请重试";
-        BirdsCodeButton.IsEnabled = true;
+        await CopySourceAsync(BirdsSourceUri, BirdsCodeButton);
     }
 
     private async void CloudsCodeButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        CloudsCodeButton.IsEnabled = false;
+        await CopySourceAsync(CloudsSourceUri, CloudsCodeButton);
+    }
+
+    private async void CellsCodeButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        await CopySourceAsync(CellsSourceUri, CellsCodeButton);
+    }
+
+    private async Task CopySourceAsync(string sourceUri, Button button)
+    {
+        var token = _copyTokens.TryGetValue(button, out var currentToken) ? currentToken + 1 : 1;
+        _copyTokens[button] = token;
+        button.IsEnabled = false;
+        button.Tag = "Copying";
 
         var window = System.Windows.Window.GetWindow(this);
         var ownerHandle = window is null ? IntPtr.Zero : new WindowInteropHelper(window).Handle;
-        var source = SourceCodeService.Load(CloudsSourceUri);
+        var source = SourceCodeService.Load(sourceUri);
         var copied = await SourceCodeService.TryCopyToClipboardAsync(source, ownerHandle);
 
-        CloudsCodeButton.ToolTip = copied ? "已复制 XAML" : "复制失败，请重试";
-        CloudsCodeButton.IsEnabled = true;
+        button.Tag = copied ? "Success" : "Failure";
+        button.ToolTip = copied ? "已复制 XAML" : "复制失败，请重试";
+        button.IsEnabled = true;
+        await Task.Delay(1200);
+        if (_copyTokens[button] == token)
+        {
+            button.Tag = null;
+        }
     }
 }

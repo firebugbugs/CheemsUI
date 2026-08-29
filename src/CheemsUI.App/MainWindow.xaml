@@ -263,10 +263,18 @@
             </Style>
         </Border.Style>
         <Grid>
-            <backgrounds:CheemsBirdsBackground x:Name="PartBirdsWindowBackground"
-                                               Visibility="Collapsed" Cursor="Arrow" />
-            <backgrounds:CheemsCloudsBackground x:Name="PartCloudsWindowBackground"
-                                                Visibility="Collapsed" Cursor="Arrow" />
+            <Border x:Name="PartBirdsWindowBackgroundOverlay"
+                    Visibility="Collapsed" Opacity="0.8">
+                <backgrounds:CheemsBirdsBackground x:Name="PartBirdsWindowBackground" Cursor="Arrow" />
+            </Border>
+            <Border x:Name="PartCloudsWindowBackgroundOverlay"
+                    Visibility="Collapsed" Opacity="0.8">
+                <backgrounds:CheemsCloudsBackground x:Name="PartCloudsWindowBackground" Cursor="Arrow" />
+            </Border>
+            <Border x:Name="PartCellsWindowBackgroundOverlay"
+                    Visibility="Collapsed" Opacity="0.8">
+                <backgrounds:CheemsCellsBackground x:Name="PartCellsWindowBackground" Cursor="Arrow" />
+            </Border>
             <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="44" />
