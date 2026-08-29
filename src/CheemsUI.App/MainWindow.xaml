@@ -45,6 +45,8 @@
         <SolidColorBrush x:Key="App.Navigation.Selected" Color="#CCFFFFFF" />
         <SolidColorBrush x:Key="App.Text.Primary" Color="#202124" />
         <SolidColorBrush x:Key="App.Text.Secondary" Color="#74777C" />
+        <SolidColorBrush x:Key="App.Text.OnBackground.Primary" Color="#202124" />
+        <SolidColorBrush x:Key="App.Text.OnBackground.Secondary" Color="#585B5F" />
         <SolidColorBrush x:Key="App.Accent" Color="#202124" />
         <SolidColorBrush x:Key="App.TitleBar.Icon.Background" Color="#202124" />
         <SolidColorBrush x:Key="App.TitleBar.Button.Foreground" Color="#4D4F53" />
@@ -58,6 +60,7 @@
         <SolidColorBrush x:Key="App.Notification.Border" Color="#D6D9DE" />
 
         <!-- 覆盖控件库的基础语义画刷，使每个延迟创建的演示页也能随背景更新。 -->
+        <SolidColorBrush x:Key="Cheems.Brush.Accent" Color="#202124" />
         <SolidColorBrush x:Key="Cheems.Brush.Text.Primary" Color="#2D3436" />
         <SolidColorBrush x:Key="Cheems.Brush.Text.Secondary" Color="#636E72" />
         <SolidColorBrush x:Key="Cheems.Brush.Background.Default" Color="#FFFFFF" />
@@ -293,10 +296,10 @@
                            RenderOptions.BitmapScalingMode="HighQuality" />
                     <TextBlock Margin="9,0,0,0" VerticalAlignment="Center"
                                Text="CheemsUI" FontSize="12" FontWeight="SemiBold"
-                               Foreground="{DynamicResource App.Text.Primary}" />
+                               Foreground="{DynamicResource App.Text.OnBackground.Primary}" />
                     <TextBlock Margin="8,0,0,0" VerticalAlignment="Center"
                                Text="组件展示" FontSize="11"
-                               Foreground="{DynamicResource App.Text.Secondary}" />
+                               Foreground="{DynamicResource App.Text.OnBackground.Secondary}" />
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal">

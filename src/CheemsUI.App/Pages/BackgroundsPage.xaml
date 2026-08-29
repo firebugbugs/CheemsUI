@@ -6,6 +6,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignHeight="500" d:DesignWidth="700">
     <UserControl.Resources>
+        <!-- 恢复卡本身固定为浅灰底，文字不随动态背景换色，始终保证可读性。 -->
+        <SolidColorBrush x:Key="RestoreBackgroundCard.Text.Primary" Color="#202124" />
+        <SolidColorBrush x:Key="RestoreBackgroundCard.Text.Secondary" Color="#74777C" />
+
         <Style x:Key="RestoreBackgroundCardStyle" TargetType="{x:Type Button}">
             <Setter Property="Width" Value="320" />
             <Setter Property="Height" Value="180" />
@@ -38,10 +42,10 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="0,0,16,16">
             <TextBlock Text="背景 Backgrounds" FontSize="24" FontWeight="Bold"
-                       Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                       Foreground="{DynamicResource App.Text.OnBackground.Primary}" />
             <TextBlock Text="选择一张卡片即可将背景以 80% 透明度叠加到软件原始浅灰底色上。背景直接使用本地 three.js r134 与 Vanta 脚本，运行时不访问网络。"
                        Margin="0,8,0,24" FontSize="13" TextWrapping="Wrap"
-                       Foreground="{DynamicResource Cheems.Brush.Text.Secondary}" />
+                       Foreground="{DynamicResource App.Text.OnBackground.Secondary}" />
 
             <WrapPanel Visibility="{Binding IsBackgroundsVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
                 <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
@@ -53,6 +57,8 @@
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
                                 Content="&lt;/&gt;" ToolTip="复制 XAML"
                                 Style="{StaticResource Cheems.App.Style.CodeButton}"
+                                MouseEnter="CodeButton_MouseEnter"
+                                MouseLeave="CodeButton_MouseLeave"
                                 Click="BirdsCodeButton_Click" />
                     </Grid>
                 </Border>
@@ -66,6 +72,8 @@
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
                                 Content="&lt;/&gt;" ToolTip="复制 XAML"
                                 Style="{StaticResource Cheems.App.Style.CodeButton}"
+                                MouseEnter="CodeButton_MouseEnter"
+                                MouseLeave="CodeButton_MouseLeave"
                                 Click="CloudsCodeButton_Click" />
                     </Grid>
                 </Border>
@@ -79,6 +87,8 @@
                                 HorizontalAlignment="Right" VerticalAlignment="Top"
                                 Content="&lt;/&gt;" ToolTip="复制 XAML"
                                 Style="{StaticResource Cheems.App.Style.CodeButton}"
+                                MouseEnter="CodeButton_MouseEnter"
+                                MouseLeave="CodeButton_MouseLeave"
                                 Click="CellsCodeButton_Click" />
                     </Grid>
                 </Border>
@@ -86,12 +96,60 @@
                 <Button Style="{StaticResource RestoreBackgroundCardStyle}" Click="RestoreBackground_Click">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <TextBlock Text="恢复默认" FontSize="17" FontWeight="SemiBold"
-                                   Foreground="{DynamicResource Cheems.Brush.Text.Primary}" HorizontalAlignment="Center" />
+                                   Foreground="{StaticResource RestoreBackgroundCard.Text.Primary}" HorizontalAlignment="Center" />
                         <TextBlock Margin="0,6,0,0" Text="使用软件原始浅灰背景" FontSize="12"
-                                   Foreground="{DynamicResource Cheems.Brush.Text.Secondary}" HorizontalAlignment="Center" />
+                                   Foreground="{StaticResource RestoreBackgroundCard.Text.Secondary}" HorizontalAlignment="Center" />
                     </StackPanel>
                 </Button>
             </WrapPanel>
+
+            <!-- 与其他控件的 &lt;/&gt; 一致：悬停预览对应源码，点击复制。 -->
+            <Popup x:Name="CodePopup"
+                   Placement="Bottom"
+                   HorizontalOffset="-350"
+                   StaysOpen="True"
+                   AllowsTransparency="True"
+                   PopupAnimation="Fade">
+                <Border Width="420"
+                        MaxHeight="360"
+                        Margin="12"
+                        Background="{DynamicResource Cheems.Brush.Background.Default}"
+                        BorderBrush="{DynamicResource Cheems.Brush.Border.Default}"
+                        BorderThickness="1"
+                        CornerRadius="8">
+                    <Border.Effect>
+                        <DropShadowEffect ShadowDepth="2" BlurRadius="10" Opacity="0.18" />
+                    </Border.Effect>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.Row="0"
+                                Background="{DynamicResource Cheems.Brush.Background.Elevated}"
+                                CornerRadius="7,7,0,0"
+                                Padding="12,8"
+                                BorderBrush="{DynamicResource Cheems.Brush.Border.Default}"
+                                BorderThickness="0,0,0,1">
+                            <TextBlock Text="点击 &lt;/&gt; 复制"
+                                       HorizontalAlignment="Right"
+                                       FontSize="11"
+                                       Foreground="{DynamicResource Cheems.Brush.Text.Secondary}" />
+                        </Border>
+
+                        <ScrollViewer Grid.Row="1"
+                                      HorizontalScrollBarVisibility="Auto"
+                                      VerticalScrollBarVisibility="Auto">
+                            <TextBlock x:Name="CodeText"
+                                       FontFamily="{DynamicResource Cheems.FontFamily.Mono}"
+                                       FontSize="12"
+                                       Padding="12"
+                                       Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+            </Popup>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

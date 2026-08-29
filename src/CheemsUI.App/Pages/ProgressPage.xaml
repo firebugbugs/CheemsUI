@@ -6,10 +6,10 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="0,0,16,16">
             <TextBlock Text="进度 Progress" FontSize="24" FontWeight="Bold"
-                       Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                       Foreground="{DynamicResource App.Text.OnBackground.Primary}" />
             <TextBlock Text="拖动进度条可修改完成比例；页面内所有示例共享同一个演示进度值。"
                        Margin="0,8,0,16" FontSize="13"
-                       Foreground="{DynamicResource Cheems.Brush.Text.Secondary}" />
+                       Foreground="{DynamicResource App.Text.OnBackground.Secondary}" />
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,24" VerticalAlignment="Center">
                 <TextBlock Text="演示进度" Margin="0,0,12,0" VerticalAlignment="Center"

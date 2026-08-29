@@ -9,10 +9,10 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="0,0,16,16">
             <TextBlock Text="加载 Loader" FontSize="24" FontWeight="Bold"
-                       Foreground="{DynamicResource Cheems.Brush.Text.Primary}"/>
+                       Foreground="{DynamicResource App.Text.OnBackground.Primary}"/>
             <TextBlock Text="每个加载动画只展示一个原始形态，并使用透明横向小容器；页面空间允许时自动并排。"
                        Margin="0,8,0,24" FontSize="13"
-                       Foreground="{DynamicResource Cheems.Brush.Text.Secondary}" TextWrapping="Wrap"/>
+                       Foreground="{DynamicResource App.Text.OnBackground.Secondary}" TextWrapping="Wrap"/>
 
             <WrapPanel>
                 <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/Typewriter.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsTypewriterVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">

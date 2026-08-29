@@ -13,11 +13,11 @@
             <TextBlock Text="输入 Input"
                        FontSize="24"
                        FontWeight="Bold"
-                       Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                       Foreground="{DynamicResource App.Text.OnBackground.Primary}" />
             <TextBlock Text="输入控件按原生控件语义分类展示；每个控件保留一个代表实例，并在空间允许时自动并排。"
                        Margin="0,8,0,24"
                        FontSize="13"
-                       Foreground="{DynamicResource Cheems.Brush.Text.Secondary}"
+                       Foreground="{DynamicResource App.Text.OnBackground.Secondary}"
                        TextWrapping="Wrap" />
 
             <!-- ToggleButton / CheckBox 语义：具有开、关两种状态的切换控件。 -->

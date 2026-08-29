@@ -13,11 +13,11 @@
             <TextBlock Text="按钮 Button"
                        FontSize="24"
                        FontWeight="Bold"
-                       Foreground="{DynamicResource Cheems.Brush.Text.Primary}" />
+                       Foreground="{DynamicResource App.Text.OnBackground.Primary}" />
             <TextBlock Text="按钮均按原始 HTML/CSS 移植；简单控件使用透明横向展示器，每个控件只保留一个代表实例。"
                        Margin="0,8,0,24"
                        FontSize="13"
-                       Foreground="{DynamicResource Cheems.Brush.Text.Secondary}"
+                       Foreground="{DynamicResource App.Text.OnBackground.Secondary}"
                        TextWrapping="Wrap" />
 
             <WrapPanel>

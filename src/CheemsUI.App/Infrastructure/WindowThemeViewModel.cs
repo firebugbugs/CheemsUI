@@ -28,24 +28,14 @@ internal sealed class WindowThemeViewModel : ObservableObject
     public Brush AccentTextBrush { get => _accentTextBrush; private set => SetProperty(ref _accentTextBrush, value); }
     public Brush ProgressTrackBrush { get => _progressTrackBrush; private set => SetProperty(ref _progressTrackBrush, value); }
 
-    public void ApplyLight()
+    public void Apply(AdaptiveThemePalette palette)
     {
         Apply(
-            surface: Color.FromRgb(0xFC, 0xFC, 0xFD), border: Color.FromRgb(0xD9, 0xE1, 0xEA),
-            primaryText: Color.FromRgb(0x1E, 0x29, 0x3B), secondaryText: Color.FromRgb(0x53, 0x61, 0x74),
-            mutedSurface: Color.FromRgb(0xF2, 0xF5, 0xF8), hover: Color.FromRgb(0xE8, 0xF1, 0xFF),
-            accent: Color.FromRgb(0x1F, 0x6F, 0xEB), accentText: Colors.White,
-            progressTrack: Color.FromRgb(0xE5, 0xEC, 0xF3));
-    }
-
-    public void ApplyDark()
-    {
-        Apply(
-            surface: Color.FromRgb(0x16, 0x2D, 0x49), border: Color.FromRgb(0x75, 0x91, 0xAF),
-            primaryText: Color.FromRgb(0xF4, 0xF7, 0xFB), secondaryText: Color.FromRgb(0xC0, 0xCE, 0xDD),
-            mutedSurface: Color.FromRgb(0x20, 0x3B, 0x59), hover: Color.FromRgb(0x36, 0x50, 0x6E),
-            accent: Color.FromRgb(0x93, 0xD7, 0xFF), accentText: Color.FromRgb(0x0B, 0x20, 0x3A),
-            progressTrack: Color.FromRgb(0x0B, 0x20, 0x3A));
+            surface: palette.Surface, border: palette.Border,
+            primaryText: palette.PrimaryText, secondaryText: palette.SecondaryText,
+            mutedSurface: palette.ElevatedSurface, hover: palette.NavigationHover,
+            accent: palette.Accent, accentText: palette.AccentText,
+            progressTrack: palette.ProgressTrack);
     }
 
     private void Apply(Color surface, Color border, Color primaryText, Color secondaryText, Color mutedSurface,
