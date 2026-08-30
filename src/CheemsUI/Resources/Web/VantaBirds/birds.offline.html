@@ -31,6 +31,33 @@
       quantity: isPreview ? 4 : 5
     };
     let birds;
+    let previewFrozen = false;
+
+    function freezePreview(effect, host) {
+      if (!isPreview) return;
+      setTimeout(function () {
+        requestAnimationFrame(function () {
+          if (previewFrozen || !effect.renderer) return;
+          try {
+            effect.renderer.render(effect.scene, effect.camera);
+            const image = new Image();
+            image.src = effect.renderer.domElement.toDataURL("image/png");
+            image.style.cssText = "width:100%;height:100%;display:block;object-fit:cover";
+            const renderer = effect.renderer;
+            effect.destroy();
+            renderer.dispose?.();
+            renderer.forceContextLoss?.();
+            host.replaceChildren(image);
+            previewFrozen = true;
+            window.chrome?.webview?.postMessage("preview-frozen");
+          } catch (_) {
+            cancelAnimationFrame(effect.req);
+            effect.__cheemsPaused = true;
+            window.chrome?.webview?.postMessage("preview-frozen");
+          }
+        });
+      }, 1000);
+    }
 
     function createBirds() {
       birds = VANTA.BIRDS({
@@ -48,6 +75,7 @@
       // 鸟群的计算量随画布分辨率增加，限制为 1 可显著降低桌面端 GPU 压力，视觉差异很小。
       birds.renderer.setPixelRatio(1);
       birds.resize();
+      freezePreview(birds, document.getElementById("birds-background"));
     }
 
     createBirds();
@@ -73,6 +101,7 @@
     };
 
     window.__cheemsUpdate = function (settings) {
+      if (previewFrozen) return;
       const nextOptions = {
         backgroundColor: Number.parseInt(settings.backgroundColor.slice(1), 16),
         backgroundAlpha: settings.backgroundAlpha,

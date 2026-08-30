@@ -1,0 +1,10 @@
+<backgrounds:CheemsDotsBackground ClipRadius="12"
+                                  PrimaryColor="#FF8820"
+                                  SecondaryColor="#FF8820"
+                                  BackgroundColor="#222222"
+                                  DotSize="3"
+                                  Spacing="35"
+                                  ShowLines="True"
+                                  AnimationSpeed="1"
+                                  IsAnimationEnabled="True"
+                                  ApplyRequested="DotsBackground_ApplyRequested" />

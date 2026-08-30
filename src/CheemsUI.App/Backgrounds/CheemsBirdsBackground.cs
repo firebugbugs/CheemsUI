@@ -14,12 +14,13 @@ namespace CheemsUI.App.Backgrounds;
 /// <summary>
 /// 使用本地 three.js r134 与 Vanta BIRDS 原版脚本的离线背景层。
 /// </summary>
-public sealed class CheemsBirdsBackground : WebView2CompositionControl
+public sealed class CheemsBirdsBackground : WebView2CompositionControl, IStaticPreviewWebView
 {
     private const string VirtualHostName = "birds.cheemsui.local";
     private Task? _initializationTask;
     private bool _isLoaded;
     private bool _isVantaReady;
+    private bool _isReleased;
     private long _lastPointerMessageTimestamp;
     private readonly DispatcherTimer _settingsUpdateTimer;
 
@@ -27,6 +28,7 @@ public sealed class CheemsBirdsBackground : WebView2CompositionControl
     /// 用户点击鸟群卡片时触发；页面可将当前效果应用到整个软件窗口。
     /// </summary>
     public event EventHandler? ApplyRequested;
+    public event EventHandler? PreviewFrozen;
 
     public static readonly DependencyProperty IsPreviewProperty = DependencyProperty.Register(
         nameof(IsPreview), typeof(bool), typeof(CheemsBirdsBackground),
@@ -113,10 +115,12 @@ public sealed class CheemsBirdsBackground : WebView2CompositionControl
 
         try
         {
-            _initializationTask ??= InitializeAsync();
-            await _initializationTask;
-
-            if (IsVisible) NavigateToBirdsPage();
+            if (IsVisible)
+            {
+                _initializationTask ??= InitializeAsync();
+                await _initializationTask;
+                NavigateToBirdsPage();
+            }
         }
         catch (Exception exception)
         {
@@ -131,19 +135,34 @@ public sealed class CheemsBirdsBackground : WebView2CompositionControl
         _settingsUpdateTimer.Stop();
 
         // Vanta 的 requestAnimationFrame 在空白页中不存在，避免页面离开后继续渲染。
-        CoreWebView2?.NavigateToString("<!doctype html><title>Background paused</title>");
+        if (!IsPreview)
+        {
+            CoreWebView2?.NavigateToString("<!doctype html><title>Background paused</title>");
+        }
     }
 
-    private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+    private async void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-        if (IsVisible)
+        if (IsVisible && _isLoaded)
         {
-            NavigateToBirdsPage();
+            try
+            {
+                _initializationTask ??= InitializeAsync();
+                await _initializationTask;
+                NavigateToBirdsPage();
+            }
+            catch (Exception exception)
+            {
+                ErrorLog.Write(exception);
+            }
         }
         else
         {
             _isVantaReady = false;
-            CoreWebView2?.NavigateToString("<!doctype html><title>Background paused</title>");
+            if (!IsPreview)
+            {
+                CoreWebView2?.NavigateToString("<!doctype html><title>Background paused</title>");
+            }
         }
     }
 
@@ -167,9 +186,14 @@ public sealed class CheemsBirdsBackground : WebView2CompositionControl
 
     private void OnWebMessageReceived(object? sender, CoreWebView2WebMessageReceivedEventArgs e)
     {
-        if (e.TryGetWebMessageAsString() == "apply-background")
+        switch (e.TryGetWebMessageAsString())
         {
-            ApplyRequested?.Invoke(this, EventArgs.Empty);
+            case "apply-background":
+                ApplyRequested?.Invoke(this, EventArgs.Empty);
+                break;
+            case "preview-frozen":
+                PreviewFrozen?.Invoke(this, EventArgs.Empty);
+                break;
         }
     }
 
@@ -221,6 +245,7 @@ public sealed class CheemsBirdsBackground : WebView2CompositionControl
 
     private void QueueSettingsPush()
     {
+        if (_isReleased) return;
         _settingsUpdateTimer.Stop();
         _settingsUpdateTimer.Start();
     }
@@ -233,7 +258,11 @@ public sealed class CheemsBirdsBackground : WebView2CompositionControl
 
     private async Task PushSettingsAsync()
     {
-        if (CoreWebView2 is null || !_isVantaReady) return;
+        if (_isReleased || !_isVantaReady) return;
+        CoreWebView2? coreWebView;
+        try { coreWebView = CoreWebView2; }
+        catch (ObjectDisposedException) { return; }
+        if (coreWebView is null) return;
         var primaryColor = $"#{PrimaryColor.R:X2}{PrimaryColor.G:X2}{PrimaryColor.B:X2}";
         var secondaryColor = $"#{SecondaryColor.R:X2}{SecondaryColor.G:X2}{SecondaryColor.B:X2}";
         var backgroundColor = $"#{BackgroundColor.R:X2}{BackgroundColor.G:X2}{BackgroundColor.B:X2}";
@@ -250,11 +279,19 @@ public sealed class CheemsBirdsBackground : WebView2CompositionControl
         var effectiveQuantity = IsPreview && Quantity == 5 ? 4 : Quantity;
         try
         {
-            await CoreWebView2.ExecuteScriptAsync($"window.__cheemsUpdate?.({{primaryColor:'{primaryColor}',secondaryColor:'{secondaryColor}',backgroundColor:'{backgroundColor}',backgroundAlpha:{backgroundAlpha},birdSize:{birdSize},wingSpan:{wingSpan},speedLimit:{speedLimit},separation:{separation},alignment:{alignment},cohesion:{cohesion},quantity:{effectiveQuantity},speed:{speed},enabled:{enabled}}});");
+            await coreWebView.ExecuteScriptAsync($"window.__cheemsUpdate?.({{primaryColor:'{primaryColor}',secondaryColor:'{secondaryColor}',backgroundColor:'{backgroundColor}',backgroundAlpha:{backgroundAlpha},birdSize:{birdSize},wingSpan:{wingSpan},speedLimit:{speedLimit},separation:{separation},alignment:{alignment},cohesion:{cohesion},quantity:{effectiveQuantity},speed:{speed},enabled:{enabled}}});");
         }
         catch (InvalidOperationException)
         {
         }
+    }
+
+    void IStaticPreviewWebView.ReleasePreview()
+    {
+        _isReleased = true;
+        _isVantaReady = false;
+        _settingsUpdateTimer.Stop();
+        Dispose();
     }
 
     private void NavigateToBirdsPage()
@@ -290,7 +327,7 @@ public sealed class CheemsBirdsBackground : WebView2CompositionControl
             return;
         }
 
-        if (!IsVisible)
+        if (!IsVisible && !IsPreview)
         {
             CoreWebView2.NavigateToString("<!doctype html><title>Background paused</title>");
             return;

@@ -36,10 +36,11 @@ v=clamp((v-.58)*u_contrast+.40,0.,1.);v=mix(v,v*v*(3.-2.*v),.6);float bay=u_matr
   [['u_bg','#0a0e23'],['u_c0','#2c41c4'],['u_c1','#8b5cf6'],['u_c2','#ff7ab6'],['u_c3','#ffe3c2']].forEach(([name, hex]) => color(name, hex));
   [['u_speed',.3],['u_px',4],['u_levels',6],['u_scale',1.5],['u_contrast',1.2],['u_angle',Math.PI/6],['u_detail',.4],['u_glow',.5],['u_matrix',8],['u_bg_alpha',1]].forEach(([name, value]) => gl.uniform1f(uniform(name), value));
   const resize = () => { const dpr = Math.min(devicePixelRatio || 1, 1.5), width = Math.max(1, Math.round(host.clientWidth * dpr)), height = Math.max(1, Math.round(host.clientHeight * dpr)); if (gl.canvas.width !== width || gl.canvas.height !== height) { gl.canvas.width = width; gl.canvas.height = height; gl.viewport(0, 0, width, height); gl.uniform2f(uniform('u_res'), width, height); } };
-  new ResizeObserver(resize).observe(host); resize();
-  let frame, animationEnabled = true, elapsed = 0, previous = performance.now();
+  const resizeObserver = new ResizeObserver(resize); resizeObserver.observe(host); resize();
+  let frame, animationEnabled = true, elapsed = 0, previous = performance.now(), previewFrozen = false;
   const draw = now => { resize(); elapsed += animationEnabled ? (now - previous) / 1000 : 0; previous = now; gl.uniform1f(uniform('u_time'), elapsed); gl.drawArrays(gl.TRIANGLES, 0, 3); frame = animationEnabled ? requestAnimationFrame(draw) : null; };
   window.__cheemsUpdate = settings => {
+    if (previewFrozen) return;
     color('u_c1', settings.color);
     gl.uniform1f(uniform('u_speed'), settings.speed);
     gl.uniform1f(uniform('u_bg_alpha'), settings.backgroundAlpha);
@@ -61,5 +62,30 @@ v=clamp((v-.58)*u_contrast+.40,0.,1.);v=mix(v,v*v*(3.-2.*v),.6);float bay=u_matr
     }
   };
   frame = requestAnimationFrame(draw);
+  if (window.__cheemsPreview) {
+    setTimeout(() => requestAnimationFrame(() => {
+      if (previewFrozen) return;
+      try {
+        resize();
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+        gl.finish();
+        const image = new Image();
+        image.src = gl.canvas.toDataURL('image/png');
+        image.style.cssText = 'width:100%;height:100%;display:block;object-fit:cover';
+        if (frame !== null) cancelAnimationFrame(frame);
+        frame = null;
+        resizeObserver.disconnect();
+        host.replaceChildren(image);
+        gl.getExtension('WEBGL_lose_context')?.loseContext();
+        previewFrozen = true;
+        window.chrome?.webview?.postMessage('preview-frozen');
+      } catch (_) {
+        if (frame !== null) cancelAnimationFrame(frame);
+        frame = null;
+        animationEnabled = false;
+        window.chrome?.webview?.postMessage('preview-frozen');
+      }
+    }), 1000);
+  }
   addEventListener('pagehide', () => cancelAnimationFrame(frame), { once: true });
 })();

@@ -15,6 +15,7 @@
   <script src="vanta.clouds.min.js"></script>
   <script>
     const isPreview = new URLSearchParams(location.search).has("preview");
+    let previewFrozen = false;
     const clouds = VANTA.CLOUDS({
       el: "#clouds-background",
       mouseControls: true,
@@ -26,6 +27,31 @@
       scale: isPreview ? 6.00 : 3.00,
       scaleMobile: isPreview ? 6.00 : 3.00
     });
+
+    if (isPreview) {
+      setTimeout(function () {
+        requestAnimationFrame(function () {
+          if (previewFrozen || !clouds.renderer) return;
+          try {
+            clouds.renderer.render(clouds.scene, clouds.camera);
+            const image = new Image();
+            image.src = clouds.renderer.domElement.toDataURL("image/png");
+            image.style.cssText = "width:100%;height:100%;display:block;object-fit:cover";
+            const renderer = clouds.renderer;
+            clouds.destroy();
+            renderer.dispose?.();
+            renderer.forceContextLoss?.();
+            document.getElementById("clouds-background").replaceChildren(image);
+            previewFrozen = true;
+            window.chrome?.webview?.postMessage("preview-frozen");
+          } catch (_) {
+            cancelAnimationFrame(clouds.req);
+            clouds.__cheemsPaused = true;
+            window.chrome?.webview?.postMessage("preview-frozen");
+          }
+        });
+      }, 1000);
+    }
 
     document.addEventListener("click", function () {
       if (window.chrome && window.chrome.webview) {
@@ -48,6 +74,7 @@
     }
 
     window.__cheemsUpdate = function (settings) {
+      if (previewFrozen) return;
       const parseColor = value => Number.parseInt(value.slice(1), 16);
       const renderScaleChanged = clouds.options.scale !== settings.renderScale;
       clouds.setOptions({

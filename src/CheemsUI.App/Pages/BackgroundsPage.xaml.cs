@@ -1,9 +1,14 @@
+using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 using CheemsUI.App.Backgrounds;
 using CheemsUI.App.Infrastructure;
 using CheemsUI.App.ViewModels;
+using Microsoft.Web.WebView2.Core;
+using Microsoft.Web.WebView2.Wpf;
 
 namespace CheemsUI.App.Pages;
 
@@ -11,6 +16,7 @@ public partial class BackgroundsPage : UserControl
 {
     private const string BirdsSourceUri = "/CheemsUI.App;component/Sources/Backgrounds/Birds.xaml.txt";
     private const string CloudsSourceUri = "/CheemsUI.App;component/Sources/Backgrounds/Clouds.xaml.txt";
+    private const string DotsSourceUri = "/CheemsUI.App;component/Sources/Backgrounds/Dots.xaml.txt";
     private const string CellsSourceUri = "/CheemsUI.App;component/Sources/Backgrounds/Cells.xaml.txt";
     private const string RisoDitherSourceUri = "/CheemsUI.App;component/Sources/Backgrounds/RisoDither.xaml.txt";
     private readonly Dictionary<Button, int> _copyTokens = [];
@@ -36,9 +42,80 @@ public partial class BackgroundsPage : UserControl
         (System.Windows.Window.GetWindow(this) as MainWindow)?.ApplyCellsBackground();
     }
 
+    private void DotsBackground_ApplyRequested(object? sender, EventArgs e)
+    {
+        (System.Windows.Window.GetWindow(this) as MainWindow)?.ApplyDotsBackground();
+    }
+
     private void RisoDitherBackground_ApplyRequested(object? sender, EventArgs e)
     {
         (System.Windows.Window.GetWindow(this) as MainWindow)?.ApplyRisoDitherBackground();
+    }
+
+    private async void BackgroundPreview_Frozen(object? sender, EventArgs e)
+    {
+        if (sender is not WebView2CompositionControl background || background.CoreWebView2 is null)
+        {
+            return;
+        }
+
+        var target = sender switch
+        {
+            CheemsBirdsBackground => BirdsPreviewImage,
+            CheemsCloudsBackground => CloudsPreviewImage,
+            CheemsDotsBackground => DotsPreviewImage,
+            CheemsCellsBackground => CellsPreviewImage,
+            CheemsRisoDitherBackground => RisoDitherPreviewImage,
+            _ => null
+        };
+        if (target is null || target.Source is not null)
+        {
+            return;
+        }
+
+        try
+        {
+            // 等待 data URL 图片完成一次浏览器合成，避免刚替换 canvas 时截到空白帧。
+            await Task.Delay(50);
+            using var stream = new MemoryStream();
+            await background.CoreWebView2.CapturePreviewAsync(
+                CoreWebView2CapturePreviewImageFormat.Png, stream);
+            stream.Position = 0;
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.StreamSource = stream;
+            bitmap.EndInit();
+            bitmap.Freeze();
+
+            target.Source = bitmap;
+            target.Visibility = System.Windows.Visibility.Visible;
+            background.Visibility = System.Windows.Visibility.Collapsed;
+            ((IStaticPreviewWebView)background).ReleasePreview();
+        }
+        catch (Exception exception)
+        {
+            ErrorLog.Write(exception);
+        }
+    }
+
+    private void StaticPreview_Click(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is not FrameworkElement { Tag: string key } ||
+            System.Windows.Window.GetWindow(this) is not MainWindow window)
+        {
+            return;
+        }
+
+        switch (key)
+        {
+            case "Birds": window.ApplyBirdsBackground(); break;
+            case "Clouds": window.ApplyCloudsBackground(); break;
+            case "Dots": window.ApplyDotsBackground(); break;
+            case "Cells": window.ApplyCellsBackground(); break;
+            case "RisoDither": window.ApplyRisoDitherBackground(); break;
+        }
+        e.Handled = true;
     }
 
     private void RestoreBackground_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -108,6 +185,11 @@ public partial class BackgroundsPage : UserControl
         await CopySourceAsync(CellsSourceUri, CellsCodeButton);
     }
 
+    private async void DotsCodeButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        await CopySourceAsync(DotsSourceUri, DotsCodeButton);
+    }
+
     private async void RisoDitherCodeButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         await CopySourceAsync(RisoDitherSourceUri, RisoDitherCodeButton);
@@ -139,6 +221,7 @@ public partial class BackgroundsPage : UserControl
     {
         nameof(BirdsCodeButton) => BirdsSourceUri,
         nameof(CloudsCodeButton) => CloudsSourceUri,
+        nameof(DotsCodeButton) => DotsSourceUri,
         nameof(CellsCodeButton) => CellsSourceUri,
         nameof(RisoDitherCodeButton) => RisoDitherSourceUri,
         _ => throw new ArgumentOutOfRangeException(nameof(button), "未知的背景源码按钮。")

@@ -10,15 +10,21 @@ using Microsoft.Web.WebView2.Wpf;
 namespace CheemsUI.App.Backgrounds;
 
 /// <summary>使用固定本地 WebGL 着色器的离线 Riso Dither 背景层。</summary>
-public sealed class CheemsRisoDitherBackground : WebView2CompositionControl
+public sealed class CheemsRisoDitherBackground : WebView2CompositionControl, IStaticPreviewWebView
 {
     private const string VirtualHostName = "riso-dither.cheemsui.local";
     private Task? _initializationTask;
     private bool _isReady;
     private bool _isLoaded;
+    private bool _isReleased;
 
     /// <summary>用户点击预览时触发，用于将同一背景应用到窗口。</summary>
     public event EventHandler? ApplyRequested;
+    public event EventHandler? PreviewFrozen;
+
+    public static readonly DependencyProperty IsPreviewProperty = DependencyProperty.Register(
+        nameof(IsPreview), typeof(bool), typeof(CheemsRisoDitherBackground),
+        new PropertyMetadata(false, OnPageOptionChanged));
 
     public static readonly DependencyProperty ClipRadiusProperty = DependencyProperty.Register(
         nameof(ClipRadius), typeof(double), typeof(CheemsRisoDitherBackground),
@@ -84,6 +90,12 @@ public sealed class CheemsRisoDitherBackground : WebView2CompositionControl
         set => SetValue(ClipRadiusProperty, value);
     }
 
+    public bool IsPreview
+    {
+        get => (bool)GetValue(IsPreviewProperty);
+        set => SetValue(IsPreviewProperty, value);
+    }
+
     public Color PrimaryColor { get => (Color)GetValue(PrimaryColorProperty); set => SetValue(PrimaryColorProperty, value); }
 
     public double AnimationSpeed { get => (double)GetValue(AnimationSpeedProperty); set => SetValue(AnimationSpeedProperty, value); }
@@ -106,16 +118,19 @@ public sealed class CheemsRisoDitherBackground : WebView2CompositionControl
 
     public double Glow { get => (double)GetValue(GlowProperty); set => SetValue(GlowProperty, value); }
 
-    private Uri Page => new($"https://{VirtualHostName}/riso-dither.offline.html");
+    private Uri Page => new($"https://{VirtualHostName}/riso-dither.offline.html{(IsPreview ? "?preview=1" : string.Empty)}");
 
     private async void OnLoaded(object sender, RoutedEventArgs e)
     {
         _isLoaded = true;
         try
         {
-            _initializationTask ??= InitializeAsync();
-            await _initializationTask;
-            if (IsVisible) NavigateToPage();
+            if (IsVisible)
+            {
+                _initializationTask ??= InitializeAsync();
+                await _initializationTask;
+                NavigateToPage();
+            }
         }
         catch (Exception exception)
         {
@@ -127,19 +142,34 @@ public sealed class CheemsRisoDitherBackground : WebView2CompositionControl
     {
         _isLoaded = false;
         _isReady = false;
-        CoreWebView2?.NavigateToString("<!doctype html><title>Background paused</title>");
+        if (!IsPreview)
+        {
+            CoreWebView2?.NavigateToString("<!doctype html><title>Background paused</title>");
+        }
     }
 
-    private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+    private async void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-        if (IsVisible)
+        if (IsVisible && _isLoaded)
         {
-            NavigateToPage();
+            try
+            {
+                _initializationTask ??= InitializeAsync();
+                await _initializationTask;
+                NavigateToPage();
+            }
+            catch (Exception exception)
+            {
+                ErrorLog.Write(exception);
+            }
         }
         else
         {
             _isReady = false;
-            CoreWebView2?.NavigateToString("<!doctype html><title>Background paused</title>");
+            if (!IsPreview)
+            {
+                CoreWebView2?.NavigateToString("<!doctype html><title>Background paused</title>");
+            }
         }
     }
 
@@ -160,15 +190,25 @@ public sealed class CheemsRisoDitherBackground : WebView2CompositionControl
 
     private void OnWebMessageReceived(object? sender, CoreWebView2WebMessageReceivedEventArgs e)
     {
-        if (e.TryGetWebMessageAsString() == "apply-background")
+        switch (e.TryGetWebMessageAsString())
         {
-            ApplyRequested?.Invoke(this, EventArgs.Empty);
+            case "apply-background":
+                ApplyRequested?.Invoke(this, EventArgs.Empty);
+                break;
+            case "preview-frozen":
+                PreviewFrozen?.Invoke(this, EventArgs.Empty);
+                break;
         }
     }
 
     private static void OnClipRadiusChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
     {
         ((CheemsRisoDitherBackground)dependencyObject).UpdateClip();
+    }
+
+    private static void OnPageOptionChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
+    {
+        ((CheemsRisoDitherBackground)dependencyObject).NavigateToPage();
     }
 
     private static void OnEffectOptionChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
@@ -178,7 +218,11 @@ public sealed class CheemsRisoDitherBackground : WebView2CompositionControl
 
     private async Task PushSettingsAsync()
     {
-        if (CoreWebView2 is null || !_isReady) return;
+        if (_isReleased || !_isReady) return;
+        CoreWebView2? coreWebView;
+        try { coreWebView = CoreWebView2; }
+        catch (ObjectDisposedException) { return; }
+        if (coreWebView is null) return;
         var color = $"#{PrimaryColor.R:X2}{PrimaryColor.G:X2}{PrimaryColor.B:X2}";
         var speed = AnimationSpeed.ToString("F3", CultureInfo.InvariantCulture);
         var backgroundAlpha = BackgroundAlpha.ToString("F3", CultureInfo.InvariantCulture);
@@ -190,7 +234,7 @@ public sealed class CheemsRisoDitherBackground : WebView2CompositionControl
         var enabled = IsAnimationEnabled ? "true" : "false";
         try
         {
-            await CoreWebView2.ExecuteScriptAsync(
+            await coreWebView.ExecuteScriptAsync(
                 $"window.__cheemsUpdate?.({{color:'{color}',backgroundAlpha:{backgroundAlpha},speed:{speed}," +
                 $"pixelSize:{PixelSize},levels:{Levels},scale:{scale},contrast:{contrast},flowAngle:{flowAngle}," +
                 $"detail:{detail},glow:{glow},enabled:{enabled}}});");
@@ -198,6 +242,13 @@ public sealed class CheemsRisoDitherBackground : WebView2CompositionControl
         catch (InvalidOperationException)
         {
         }
+    }
+
+    void IStaticPreviewWebView.ReleasePreview()
+    {
+        _isReleased = true;
+        _isReady = false;
+        Dispose();
     }
 
     private void NavigateToPage()
@@ -212,7 +263,7 @@ public sealed class CheemsRisoDitherBackground : WebView2CompositionControl
     private async void OnNavigationCompleted(object? sender, CoreWebView2NavigationCompletedEventArgs e)
     {
         if (!e.IsSuccess || CoreWebView2?.Source != Page.AbsoluteUri) return;
-        if (!IsVisible)
+        if (!IsVisible && !IsPreview)
         {
             CoreWebView2.NavigateToString("<!doctype html><title>Background paused</title>");
             return;

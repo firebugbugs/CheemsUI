@@ -14,7 +14,7 @@
         Height="720" Width="1120"
         MinHeight="560" MinWidth="840"
         WindowStartupLocation="CenterScreen"
-        AllowsTransparency="True"
+        AllowsTransparency="False"
         Background="#E8E8E8"
         WindowStyle="None"
         FontFamily="{DynamicResource Cheems.FontFamily.Default}"
@@ -301,6 +301,18 @@
                                                    PrimaryColor="{Binding BackgroundSettings.Cells.PrimaryColor}"
                                                    AnimationSpeed="{Binding BackgroundSettings.Cells.AnimationSpeed}"
                                                    IsAnimationEnabled="{Binding BackgroundSettings.Cells.IsAnimationEnabled}" />
+            </Border>
+            <Border x:Name="PartDotsWindowBackgroundOverlay"
+                    Visibility="Collapsed" Opacity="{Binding BackgroundSettings.Dots.BackgroundOpacity}">
+                <backgrounds:CheemsDotsBackground x:Name="PartDotsWindowBackground" Cursor="Arrow"
+                                                  PrimaryColor="{Binding BackgroundSettings.Dots.PrimaryColor}"
+                                                  SecondaryColor="{Binding BackgroundSettings.Dots.DotsSecondaryColor}"
+                                                  BackgroundColor="{Binding BackgroundSettings.Dots.DotsBackgroundColor}"
+                                                  DotSize="{Binding BackgroundSettings.Dots.DotsSize}"
+                                                  Spacing="{Binding BackgroundSettings.Dots.DotsSpacing}"
+                                                  ShowLines="{Binding BackgroundSettings.Dots.DotsShowLines}"
+                                                  AnimationSpeed="{Binding BackgroundSettings.Dots.AnimationSpeed}"
+                                                  IsAnimationEnabled="{Binding BackgroundSettings.Dots.IsAnimationEnabled}" />
             </Border>
             <Border x:Name="PartRisoDitherWindowBackgroundOverlay"
                     Visibility="Collapsed" Opacity="{Binding BackgroundSettings.RisoDither.BackgroundOpacity}">

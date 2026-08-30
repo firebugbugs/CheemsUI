@@ -14,12 +14,13 @@ namespace CheemsUI.App.Backgrounds;
 /// <summary>
 /// 使用本地 three.js r134 与 Vanta CLOUDS 原版脚本的离线背景层。
 /// </summary>
-public sealed class CheemsCloudsBackground : WebView2CompositionControl
+public sealed class CheemsCloudsBackground : WebView2CompositionControl, IStaticPreviewWebView
 {
     private const string VirtualHostName = "clouds.cheemsui.local";
     private Task? _initializationTask;
     private bool _isLoaded;
     private bool _isVantaReady;
+    private bool _isReleased;
     private long _lastPointerMessageTimestamp;
     private readonly DispatcherTimer _settingsUpdateTimer;
 
@@ -27,6 +28,7 @@ public sealed class CheemsCloudsBackground : WebView2CompositionControl
     /// 用户点击云层卡片时触发；页面可将当前效果应用到整个软件窗口。
     /// </summary>
     public event EventHandler? ApplyRequested;
+    public event EventHandler? PreviewFrozen;
 
     public static readonly DependencyProperty ClipRadiusProperty = DependencyProperty.Register(
         nameof(ClipRadius), typeof(double), typeof(CheemsCloudsBackground),
@@ -113,10 +115,12 @@ public sealed class CheemsCloudsBackground : WebView2CompositionControl
 
         try
         {
-            _initializationTask ??= InitializeAsync();
-            await _initializationTask;
-
-            if (IsVisible) NavigateToCloudsPage();
+            if (IsVisible)
+            {
+                _initializationTask ??= InitializeAsync();
+                await _initializationTask;
+                NavigateToCloudsPage();
+            }
         }
         catch (Exception exception)
         {
@@ -131,19 +135,34 @@ public sealed class CheemsCloudsBackground : WebView2CompositionControl
         _settingsUpdateTimer.Stop();
 
         // Vanta 的 requestAnimationFrame 在空白页中不存在，避免页面离开后继续渲染。
-        CoreWebView2?.NavigateToString("<!doctype html><title>Background paused</title>");
+        if (!IsPreview)
+        {
+            CoreWebView2?.NavigateToString("<!doctype html><title>Background paused</title>");
+        }
     }
 
-    private void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+    private async void OnIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
     {
-        if (IsVisible)
+        if (IsVisible && _isLoaded)
         {
-            NavigateToCloudsPage();
+            try
+            {
+                _initializationTask ??= InitializeAsync();
+                await _initializationTask;
+                NavigateToCloudsPage();
+            }
+            catch (Exception exception)
+            {
+                ErrorLog.Write(exception);
+            }
         }
         else
         {
             _isVantaReady = false;
-            CoreWebView2?.NavigateToString("<!doctype html><title>Background paused</title>");
+            if (!IsPreview)
+            {
+                CoreWebView2?.NavigateToString("<!doctype html><title>Background paused</title>");
+            }
         }
     }
 
@@ -167,9 +186,14 @@ public sealed class CheemsCloudsBackground : WebView2CompositionControl
 
     private void OnWebMessageReceived(object? sender, CoreWebView2WebMessageReceivedEventArgs e)
     {
-        if (e.TryGetWebMessageAsString() == "apply-background")
+        switch (e.TryGetWebMessageAsString())
         {
-            ApplyRequested?.Invoke(this, EventArgs.Empty);
+            case "apply-background":
+                ApplyRequested?.Invoke(this, EventArgs.Empty);
+                break;
+            case "preview-frozen":
+                PreviewFrozen?.Invoke(this, EventArgs.Empty);
+                break;
         }
     }
 
@@ -220,6 +244,7 @@ public sealed class CheemsCloudsBackground : WebView2CompositionControl
 
     private void QueueSettingsPush()
     {
+        if (_isReleased) return;
         _settingsUpdateTimer.Stop();
         _settingsUpdateTimer.Start();
     }
@@ -232,7 +257,11 @@ public sealed class CheemsCloudsBackground : WebView2CompositionControl
 
     private async Task PushSettingsAsync()
     {
-        if (CoreWebView2 is null || !_isVantaReady) return;
+        if (_isReleased || !_isVantaReady) return;
+        CoreWebView2? coreWebView;
+        try { coreWebView = CoreWebView2; }
+        catch (ObjectDisposedException) { return; }
+        if (coreWebView is null) return;
         static string ToHex(Color color) => $"#{color.R:X2}{color.G:X2}{color.B:X2}";
         var cloudColor = ToHex(PrimaryColor);
         var skyColor = ToHex(SkyColor);
@@ -247,7 +276,7 @@ public sealed class CheemsCloudsBackground : WebView2CompositionControl
         var renderScale = IsPreview ? 6 : IsFullScreen ? 5 : 3;
         try
         {
-            await CoreWebView2.ExecuteScriptAsync(
+            await coreWebView.ExecuteScriptAsync(
                 $"window.__cheemsUpdate?.({{skyColor:'{skyColor}',cloudColor:'{cloudColor}'," +
                 $"cloudShadowColor:'{cloudShadowColor}',sunColor:'{sunColor}',sunGlareColor:'{sunGlareColor}'," +
                 $"sunlightColor:'{sunlightColor}',speed:{speed},enabled:{enabled},renderScale:{renderScale}}});");
@@ -255,6 +284,14 @@ public sealed class CheemsCloudsBackground : WebView2CompositionControl
         catch (InvalidOperationException)
         {
         }
+    }
+
+    void IStaticPreviewWebView.ReleasePreview()
+    {
+        _isReleased = true;
+        _isVantaReady = false;
+        _settingsUpdateTimer.Stop();
+        Dispose();
     }
 
     private void NavigateToCloudsPage()
@@ -290,7 +327,7 @@ public sealed class CheemsCloudsBackground : WebView2CompositionControl
             return;
         }
 
-        if (!IsVisible)
+        if (!IsVisible && !IsPreview)
         {
             CoreWebView2.NavigateToString("<!doctype html><title>Background paused</title>");
             return;

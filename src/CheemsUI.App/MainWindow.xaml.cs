@@ -17,10 +17,15 @@ public partial class MainWindow : Window
 {
     private const int WmGetMinMaxInfo = 0x0024;
     private const uint MonitorDefaultToNearest = 0x00000002;
+    private const int DwmWindowCornerPreference = 33;
+    private const int DwmBorderColor = 34;
+    private const uint DwmCornerRound = 2;
+    private const uint DwmColorNone = 0xFFFFFFFE;
     private static readonly Color DefaultBackgroundColor = Color.FromRgb(0xE8, 0xE8, 0xE8);
     private readonly UpdateService _updateService = new();
     private BackgroundProfileViewModel? _activeBackgroundProfile;
     private HwndSource? _windowSource;
+    private IntPtr _windowHandle;
     internal WindowThemeViewModel WindowTheme { get; } = new();
 
     public MainWindow()
@@ -37,7 +42,10 @@ public partial class MainWindow : Window
     {
         base.OnSourceInitialized(e);
         _windowSource = (HwndSource)PresentationSource.FromVisual(this);
+        _windowHandle = _windowSource.Handle;
         _windowSource.AddHook(WindowMessageHook);
+        ApplyNativeWindowAppearance();
+        UpdateWindowFrameClip();
     }
 
     private IntPtr WindowMessageHook(IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -82,6 +90,11 @@ public partial class MainWindow : Window
         SetActiveBackground(PartCellsWindowBackgroundOverlay, GetBackgroundSettings().Cells);
     }
 
+    public void ApplyDotsBackground()
+    {
+        SetActiveBackground(PartDotsWindowBackgroundOverlay, GetBackgroundSettings().Dots);
+    }
+
     public void ApplyRisoDitherBackground()
     {
         SetActiveBackground(PartRisoDitherWindowBackgroundOverlay, GetBackgroundSettings().RisoDither);
@@ -91,6 +104,7 @@ public partial class MainWindow : Window
     {
         PartBirdsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         PartCloudsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartDotsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         PartCellsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         PartRisoDitherWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         _activeBackgroundProfile = null;
@@ -153,6 +167,7 @@ public partial class MainWindow : Window
         [
             PartBirdsWindowBackgroundOverlay,
             PartCloudsWindowBackgroundOverlay,
+            PartDotsWindowBackgroundOverlay,
             PartCellsWindowBackgroundOverlay,
             PartRisoDitherWindowBackgroundOverlay
         ];
@@ -176,7 +191,9 @@ public partial class MainWindow : Window
             ? settings.BirdsBackgroundColor
             : settings.SupportsCloudsSettings
                 ? settings.CloudsSkyColor
-                : settings.PrimaryColor;
+                : settings.SupportsDotsSettings
+                    ? settings.DotsBackgroundColor
+                    : settings.PrimaryColor;
         var effectOpacity = settings.BackgroundOpacity *
             (settings.SupportsBirdsSettings ? settings.BirdsBackgroundAlpha : 1d);
         ApplyPaletteForBackground(BlendWithDefaultBackground(effectBackground, effectOpacity));
@@ -223,6 +240,12 @@ public partial class MainWindow : Window
             return;
         }
 
+        if (PartDotsWindowBackgroundOverlay.Visibility == Visibility.Visible)
+        {
+            PartDotsWindowBackground.SetPointerPosition(e.GetPosition(PartDotsWindowBackground));
+            return;
+        }
+
         if (PartCellsWindowBackgroundOverlay.Visibility == Visibility.Visible)
         {
             PartCellsWindowBackground.SetPointerPosition(e.GetPosition(PartCellsWindowBackground));
@@ -235,6 +258,7 @@ public partial class MainWindow : Window
     {
         UpdateWindowFrameClip();
         PartCloudsWindowBackground.IsFullScreen = WindowState == WindowState.Maximized;
+        PartDotsWindowBackground.IsFullScreen = WindowState == WindowState.Maximized;
     }
 
     private void UpdateWindowFrameClip()
@@ -252,6 +276,55 @@ public partial class MainWindow : Window
         // 否则圆角外侧会露出根背景色。
         WindowFrame.Clip = frameClip;
         Clip = frameClip.Clone();
+        ApplyNativeWindowRegion(radius);
+    }
+
+    private void ApplyNativeWindowAppearance()
+    {
+        if (_windowHandle == IntPtr.Zero)
+        {
+            return;
+        }
+
+        // Windows 11：保留系统阴影和圆角策略，但关闭系统额外描边，界面只显示自己的边框。
+        var cornerPreference = DwmCornerRound;
+        _ = DwmSetWindowAttribute(
+            _windowHandle, DwmWindowCornerPreference, ref cornerPreference, Marshal.SizeOf<uint>());
+        var borderColor = DwmColorNone;
+        _ = DwmSetWindowAttribute(
+            _windowHandle, DwmBorderColor, ref borderColor, Marshal.SizeOf<uint>());
+    }
+
+    private void ApplyNativeWindowRegion(double radius)
+    {
+        if (_windowHandle == IntPtr.Zero)
+        {
+            return;
+        }
+
+        if (WindowState == WindowState.Maximized)
+        {
+            // 最大化由 WM_GETMINMAXINFO 限制在工作区，使用矩形 HWND，不能覆盖任务栏。
+            _ = SetWindowRgn(_windowHandle, IntPtr.Zero, true);
+            return;
+        }
+
+        var dpi = VisualTreeHelper.GetDpi(this);
+        var width = Math.Max(1, (int)Math.Ceiling(ActualWidth * dpi.DpiScaleX));
+        var height = Math.Max(1, (int)Math.Ceiling(ActualHeight * dpi.DpiScaleY));
+        var diameterX = Math.Max(1, (int)Math.Round(radius * 2 * dpi.DpiScaleX));
+        var diameterY = Math.Max(1, (int)Math.Round(radius * 2 * dpi.DpiScaleY));
+        var region = CreateRoundRectRgn(0, 0, width + 1, height + 1, diameterX, diameterY);
+        if (region == IntPtr.Zero)
+        {
+            return;
+        }
+
+        // SetWindowRgn 成功后区域所有权转交给 Windows；失败时才由当前进程释放。
+        if (SetWindowRgn(_windowHandle, region, true) == 0)
+        {
+            _ = DeleteObject(region);
+        }
     }
 
     private void UpdateMenuButton_Click(object sender, RoutedEventArgs e)
@@ -346,6 +419,7 @@ public partial class MainWindow : Window
     {
         _windowSource?.RemoveHook(WindowMessageHook);
         _windowSource = null;
+        _windowHandle = IntPtr.Zero;
 
         if (DataContext is MainViewModel viewModel)
         {
@@ -361,6 +435,21 @@ public partial class MainWindow : Window
 
     [DllImport("user32.dll")]
     private static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint flags);
+
+    [DllImport("gdi32.dll")]
+    private static extern IntPtr CreateRoundRectRgn(
+        int left, int top, int right, int bottom, int ellipseWidth, int ellipseHeight);
+
+    [DllImport("user32.dll")]
+    private static extern int SetWindowRgn(IntPtr hwnd, IntPtr region, [MarshalAs(UnmanagedType.Bool)] bool redraw);
+
+    [DllImport("gdi32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool DeleteObject(IntPtr objectHandle);
+
+    [DllImport("dwmapi.dll")]
+    private static extern int DwmSetWindowAttribute(
+        IntPtr hwnd, int attribute, ref uint attributeValue, int attributeSize);
 
     [StructLayout(LayoutKind.Sequential)]
     private struct NativePoint

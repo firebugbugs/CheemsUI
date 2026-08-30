@@ -8,6 +8,7 @@
 </head>
 <body>
   <div id="riso-dither-background" data-aifx="dither" aria-hidden="true"></div>
+  <script>window.__cheemsPreview = new URLSearchParams(location.search).has('preview');</script>
   <script src="fx/dither/v1.js"></script>
   <script>document.getElementById('riso-dither-background').addEventListener('click',()=>window.chrome.webview.postMessage('apply-background'));</script>
 </body>

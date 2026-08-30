@@ -100,6 +100,9 @@
                 <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
                         BorderBrush="#172642" BorderThickness="1">
                     <Grid>
+                        <Image x:Name="BirdsPreviewImage" Visibility="Collapsed" Stretch="Fill"
+                               Opacity="{Binding Birds.BackgroundOpacity}" Tag="Birds"
+                               Cursor="Hand" MouseLeftButtonUp="StaticPreview_Click" />
                         <Border Opacity="{Binding Birds.BackgroundOpacity}">
                             <backgrounds:CheemsBirdsBackground IsPreview="True" ClipRadius="12"
                                                                PrimaryColor="{Binding Birds.PrimaryColor}"
@@ -115,6 +118,7 @@
                                                                Alignment="{Binding Birds.BirdsAlignment}"
                                                                Cohesion="{Binding Birds.BirdsCohesion}"
                                                                Quantity="{Binding Birds.BirdsQuantity}"
+                                                               PreviewFrozen="BackgroundPreview_Frozen"
                                                                ApplyRequested="BirdsBackground_ApplyRequested" />
                         </Border>
                         <StackPanel Margin="0,12,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
@@ -128,8 +132,40 @@
                 </Border>
 
                 <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
+                        BorderBrush="#4A321F" BorderThickness="1">
+                    <Grid>
+                        <Image x:Name="DotsPreviewImage" Visibility="Collapsed" Stretch="Fill"
+                               Opacity="{Binding Dots.BackgroundOpacity}" Tag="Dots"
+                               Cursor="Hand" MouseLeftButtonUp="StaticPreview_Click" />
+                        <Border Opacity="{Binding Dots.BackgroundOpacity}">
+                            <backgrounds:CheemsDotsBackground IsPreview="True" ClipRadius="12"
+                                                              PrimaryColor="{Binding Dots.PrimaryColor}"
+                                                              SecondaryColor="{Binding Dots.DotsSecondaryColor}"
+                                                              BackgroundColor="{Binding Dots.DotsBackgroundColor}"
+                                                              DotSize="{Binding Dots.DotsSize}"
+                                                              Spacing="{Binding Dots.DotsSpacing}"
+                                                              ShowLines="{Binding Dots.DotsShowLines}"
+                                                              AnimationSpeed="{Binding Dots.AnimationSpeed}"
+                                                              IsAnimationEnabled="{Binding Dots.IsAnimationEnabled}"
+                                                              PreviewFrozen="BackgroundPreview_Frozen"
+                                                              ApplyRequested="DotsBackground_ApplyRequested" />
+                        </Border>
+                        <StackPanel Margin="0,12,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
+                            <Button Tag="Dots" Content="⚙" ToolTip="调整背景参数"
+                                    Style="{StaticResource BackgroundCardPlainButtonStyle}" Click="SettingsButton_Click" />
+                            <Button x:Name="DotsCodeButton" Margin="5,0,0,0" Content="&lt;/&gt;" ToolTip="复制 XAML"
+                                    Style="{StaticResource Cheems.App.Style.CodeButton}" MouseEnter="CodeButton_MouseEnter"
+                                    MouseLeave="CodeButton_MouseLeave" Click="DotsCodeButton_Click" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
                         BorderBrush="#172642" BorderThickness="1">
                     <Grid>
+                        <Image x:Name="CloudsPreviewImage" Visibility="Collapsed" Stretch="Fill"
+                               Opacity="{Binding Clouds.BackgroundOpacity}" Tag="Clouds"
+                               Cursor="Hand" MouseLeftButtonUp="StaticPreview_Click" />
                         <Border Opacity="{Binding Clouds.BackgroundOpacity}">
                             <backgrounds:CheemsCloudsBackground IsPreview="True" ClipRadius="12"
                                                                 PrimaryColor="{Binding Clouds.PrimaryColor}"
@@ -140,6 +176,7 @@
                                                                 SunlightColor="{Binding Clouds.CloudsSunlightColor}"
                                                                 AnimationSpeed="{Binding Clouds.AnimationSpeed}"
                                                                 IsAnimationEnabled="{Binding Clouds.IsAnimationEnabled}"
+                                                                PreviewFrozen="BackgroundPreview_Frozen"
                                                                 ApplyRequested="CloudsBackground_ApplyRequested" />
                         </Border>
                         <StackPanel Margin="0,12,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
@@ -155,11 +192,15 @@
                 <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
                         BorderBrush="#172642" BorderThickness="1">
                     <Grid>
+                        <Image x:Name="CellsPreviewImage" Visibility="Collapsed" Stretch="Fill"
+                               Opacity="{Binding Cells.BackgroundOpacity}" Tag="Cells"
+                               Cursor="Hand" MouseLeftButtonUp="StaticPreview_Click" />
                         <Border Opacity="{Binding Cells.BackgroundOpacity}">
-                            <backgrounds:CheemsCellsBackground ClipRadius="12"
+                            <backgrounds:CheemsCellsBackground IsPreview="True" ClipRadius="12"
                                                                PrimaryColor="{Binding Cells.PrimaryColor}"
                                                                AnimationSpeed="{Binding Cells.AnimationSpeed}"
                                                                IsAnimationEnabled="{Binding Cells.IsAnimationEnabled}"
+                                                               PreviewFrozen="BackgroundPreview_Frozen"
                                                                ApplyRequested="CellsBackground_ApplyRequested" />
                         </Border>
                         <StackPanel Margin="0,12,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
@@ -175,8 +216,11 @@
                 <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
                         BorderBrush="#2C41C4" BorderThickness="1">
                     <Grid>
+                        <Image x:Name="RisoDitherPreviewImage" Visibility="Collapsed" Stretch="Fill"
+                               Opacity="{Binding RisoDither.BackgroundOpacity}" Tag="RisoDither"
+                               Cursor="Hand" MouseLeftButtonUp="StaticPreview_Click" />
                         <Border Opacity="{Binding RisoDither.BackgroundOpacity}">
-                            <backgrounds:CheemsRisoDitherBackground ClipRadius="12"
+                            <backgrounds:CheemsRisoDitherBackground IsPreview="True" ClipRadius="12"
                                                                      PrimaryColor="{Binding RisoDither.PrimaryColor}"
                                                                      AnimationSpeed="{Binding RisoDither.AnimationSpeed}"
                                                                      IsAnimationEnabled="{Binding RisoDither.IsAnimationEnabled}"
@@ -188,6 +232,7 @@
                                                                      FlowAngle="{Binding RisoDither.RisoFlowAngle}"
                                                                      Detail="{Binding RisoDither.RisoDetail}"
                                                                      Glow="{Binding RisoDither.RisoGlow}"
+                                                                     PreviewFrozen="BackgroundPreview_Frozen"
                                                                      ApplyRequested="RisoDitherBackground_ApplyRequested" />
                         </Border>
                         <StackPanel Margin="0,12,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
@@ -297,6 +342,23 @@
                                 <controls:ColorPickerBox Margin="0,6,0,10" SelectedColor="{Binding CloudsSunGlareColor, Mode=TwoWay}" />
                                 <TextBlock Text="日光色（sunlight-color）" Style="{StaticResource BackgroundSettingLabelStyle}" />
                                 <controls:ColorPickerBox Margin="0,6,0,10" SelectedColor="{Binding CloudsSunlightColor, Mode=TwoWay}" />
+                            </StackPanel>
+
+                            <StackPanel Visibility="{Binding SupportsDotsSettings, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                                <Border Height="1" Margin="0,0,0,14" Background="{DynamicResource Cheems.Brush.Border.Default}" />
+                                <TextBlock Text="背景色（background-color）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                <controls:ColorPickerBox Margin="0,6,0,10" SelectedColor="{Binding DotsBackgroundColor, Mode=TwoWay}" />
+                                <TextBlock Text="副色（color2）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                <controls:ColorPickerBox Margin="0,6,0,10" SelectedColor="{Binding DotsSecondaryColor, Mode=TwoWay}" />
+                                <DockPanel Margin="0,0,0,8">
+                                    <TextBlock Text="显示连线（show-lines）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                    <cheems:CheemsIosStretchSwitch HorizontalAlignment="Right"
+                                                                   IsChecked="{Binding DotsShowLines, Mode=TwoWay}" />
+                                </DockPanel>
+                                <DockPanel><TextBlock Text="点尺寸（size）" Style="{StaticResource BackgroundSettingLabelStyle}" /><TextBlock Text="{Binding DotsSize, StringFormat={}{0:F1}}" Style="{StaticResource BackgroundSettingValueStyle}" HorizontalAlignment="Right" /></DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0" Minimum="1" Maximum="10" Step="0.1" Value="{Binding DotsSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                <DockPanel><TextBlock Text="点阵间距（spacing）" Style="{StaticResource BackgroundSettingLabelStyle}" /><TextBlock Text="{Binding DotsSpacing, StringFormat={}{0:F0}}" Style="{StaticResource BackgroundSettingValueStyle}" HorizontalAlignment="Right" /></DockPanel>
+                                <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0" Minimum="10" Maximum="100" Step="1" Value="{Binding DotsSpacing, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </StackPanel>
 
                             <StackPanel Visibility="{Binding SupportsRisoSettings, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">

@@ -8,6 +8,9 @@
     <UseWPF>true</UseWPF>
     <StartupObject>CheemsUI.App.Program</StartupObject>
     <ApplicationIcon>Assets\Branding\head_portrait_64x64.ico</ApplicationIcon>
+    <AssemblyTitle>CheemsUI</AssemblyTitle>
+    <Product>CheemsUI</Product>
+    <Description>CheemsUI 组件展示</Description>
     <Version>0.0.1</Version>
     <!-- 不把 git 哈希拼进 ProductVersion，保证安装包版本号干净地跟随 <Version> -->
     <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
@@ -38,6 +41,9 @@
              CopyToOutputDirectory="PreserveNewest" />
     <Content Include="..\CheemsUI\Resources\Web\VantaCells\**\*.*"
              Link="Assets\VantaCells\%(RecursiveDir)%(Filename)%(Extension)"
+             CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\CheemsUI\Resources\Web\VantaDots\**\*.*"
+             Link="Assets\VantaDots\%(RecursiveDir)%(Filename)%(Extension)"
              CopyToOutputDirectory="PreserveNewest" />
     <Content Include="..\CheemsUI\Resources\Web\RisoDither\**\*.*"
              Link="Assets\RisoDither\%(RecursiveDir)%(Filename)%(Extension)"

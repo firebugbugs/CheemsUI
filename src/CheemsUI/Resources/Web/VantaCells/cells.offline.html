@@ -14,6 +14,8 @@
   <script src="three.r134.min.js"></script>
   <script src="vanta.cells.min.js"></script>
   <script>
+    const isPreview = new URLSearchParams(location.search).has("preview");
+    let previewFrozen = false;
     const cells = VANTA.CELLS({
       el: "#cells-background",
       mouseControls: true,
@@ -23,6 +25,31 @@
       minWidth: 200.00,
       scale: 1.00
     });
+
+    if (isPreview) {
+      setTimeout(function () {
+        requestAnimationFrame(function () {
+          if (previewFrozen || !cells.renderer) return;
+          try {
+            cells.renderer.render(cells.scene, cells.camera);
+            const image = new Image();
+            image.src = cells.renderer.domElement.toDataURL("image/png");
+            image.style.cssText = "width:100%;height:100%;display:block;object-fit:cover";
+            const renderer = cells.renderer;
+            cells.destroy();
+            renderer.dispose?.();
+            renderer.forceContextLoss?.();
+            document.getElementById("cells-background").replaceChildren(image);
+            previewFrozen = true;
+            window.chrome?.webview?.postMessage("preview-frozen");
+          } catch (_) {
+            cancelAnimationFrame(cells.req);
+            cells.__cheemsPaused = true;
+            window.chrome?.webview?.postMessage("preview-frozen");
+          }
+        });
+      }, 1000);
+    }
 
     document.addEventListener("click", function () {
       if (window.chrome && window.chrome.webview) {
@@ -36,6 +63,7 @@
     };
 
     window.__cheemsUpdate = function (settings) {
+      if (previewFrozen) return;
       const color = Number.parseInt(settings.color.slice(1), 16);
       cells.setOptions({ color1: color, speed: settings.enabled ? settings.speed : 0 });
       if (settings.enabled && cells.__cheemsPaused) {

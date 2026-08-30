@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vanta DOTS · Offline</title>
+  <style>
+    html, body, #dots-background { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <div id="dots-background"></div>
+  <script src="three.r134.min.js"></script>
+  <script src="vanta.dots.min.js"></script>
+  <script>
+    const isPreview = new URLSearchParams(location.search).has("preview");
+    const defaults = {
+      color: 0xFF8820,
+      color2: 0xFF8820,
+      backgroundColor: 0x222222,
+      size: 3,
+      spacing: 35,
+      showLines: true,
+      speed: 1,
+      renderScale: isPreview ? 2 : 1
+    };
+    let dots;
+    let previewFrozen = false;
+
+    function freezePreview(effect, host) {
+      if (!isPreview) return;
+      setTimeout(function () {
+        requestAnimationFrame(function () {
+          if (previewFrozen || !effect.renderer) return;
+          try {
+            effect.renderer.render(effect.scene, effect.camera);
+            const image = new Image();
+            image.src = effect.renderer.domElement.toDataURL("image/png");
+            image.style.cssText = "width:100%;height:100%;display:block;object-fit:cover";
+            const renderer = effect.renderer;
+            effect.destroy();
+            renderer.dispose?.();
+            renderer.forceContextLoss?.();
+            host.replaceChildren(image);
+            previewFrozen = true;
+            window.chrome?.webview?.postMessage("preview-frozen");
+          } catch (_) {
+            cancelAnimationFrame(effect.req);
+            effect.__cheemsPaused = true;
+            window.chrome?.webview?.postMessage("preview-frozen");
+          }
+        });
+      }, 1000);
+    }
+
+    function installSpeedControl(effect) {
+      const originalUpdate = effect.onUpdate.bind(effect);
+      let previousBaseTime = effect.t || 0;
+      let visualTime = previousBaseTime;
+      effect.onUpdate = function () {
+        const baseTime = this.t || 0;
+        visualTime += (baseTime - previousBaseTime) * defaults.speed;
+        previousBaseTime = baseTime;
+        this.t = visualTime;
+        originalUpdate();
+        this.t = baseTime;
+      };
+    }
+
+    function createDots() {
+      dots = VANTA.DOTS({
+        el: "#dots-background",
+        mouseControls: true,
+        touchControls: true,
+        gyroControls: false,
+        minHeight: 200.00,
+        minWidth: 200.00,
+        scale: defaults.renderScale,
+        scaleMobile: defaults.renderScale,
+        color: defaults.color,
+        color2: defaults.color2,
+        backgroundColor: defaults.backgroundColor,
+        size: defaults.size,
+        spacing: defaults.spacing,
+        showLines: defaults.showLines
+      });
+      installSpeedControl(dots);
+      freezePreview(dots, document.getElementById("dots-background"));
+    }
+
+    createDots();
+
+    document.addEventListener("click", function () {
+      window.chrome?.webview?.postMessage("apply-background");
+    });
+
+    if (window.chrome?.webview) {
+      window.chrome.webview.addEventListener("message", function (event) {
+        const message = event.data;
+        if (message?.type === "pointer") {
+          dots.triggerMouseMove(message.x, message.y);
+        }
+      });
+    }
+
+    window.__cheemsSetPointer = function (x, y) {
+      dots.triggerMouseMove(x, y);
+    };
+
+    window.__cheemsUpdate = function (settings) {
+      if (previewFrozen) return;
+      const parseColor = value => Number.parseInt(value.slice(1), 16);
+      const next = {
+        color: parseColor(settings.primaryColor),
+        color2: parseColor(settings.secondaryColor),
+        backgroundColor: parseColor(settings.backgroundColor),
+        size: settings.size,
+        spacing: settings.spacing,
+        showLines: settings.showLines,
+        speed: settings.speed,
+        renderScale: settings.renderScale
+      };
+      const needsRebuild = defaults.color !== next.color || defaults.color2 !== next.color2 ||
+        defaults.size !== next.size || defaults.spacing !== next.spacing ||
+        defaults.showLines !== next.showLines;
+      const scaleChanged = defaults.renderScale !== next.renderScale;
+      Object.assign(defaults, next);
+
+      if (needsRebuild) {
+        dots.destroy();
+        createDots();
+      } else {
+        dots.setOptions({
+          backgroundColor: defaults.backgroundColor,
+          scale: defaults.renderScale,
+          scaleMobile: defaults.renderScale
+        });
+        if (scaleChanged) dots.resize();
+      }
+
+      if (settings.enabled && dots.__cheemsPaused) {
+        dots.prevNow = performance.now();
+        dots.req = requestAnimationFrame(dots.animationLoop);
+        dots.__cheemsPaused = false;
+      } else if (!settings.enabled) {
+        cancelAnimationFrame(dots.req);
+        dots.__cheemsPaused = true;
+      }
+    };
+
+    window.addEventListener("beforeunload", function () { dots.destroy(); });
+  </script>
+</body>
+</html>

@@ -39,6 +39,11 @@ public sealed class BackgroundProfileViewModel : ObservableObject
     private Color _cloudsSunColor = Color.FromRgb(0xFF, 0x99, 0x19);
     private Color _cloudsSunGlareColor = Color.FromRgb(0xFF, 0x66, 0x33);
     private Color _cloudsSunlightColor = Color.FromRgb(0xFF, 0x99, 0x33);
+    private Color _dotsSecondaryColor = Color.FromRgb(0xFF, 0x88, 0x20);
+    private Color _dotsBackgroundColor = Color.FromRgb(0x22, 0x22, 0x22);
+    private double _dotsSize = 3;
+    private double _dotsSpacing = 35;
+    private bool _dotsShowLines = true;
     public BackgroundProfileViewModel(string key, string displayName, string primaryColor)
     {
         Key = key;
@@ -58,6 +63,8 @@ public sealed class BackgroundProfileViewModel : ObservableObject
     public bool SupportsBirdsSettings => string.Equals(Key, "Birds", StringComparison.Ordinal);
 
     public bool SupportsCloudsSettings => string.Equals(Key, "Clouds", StringComparison.Ordinal);
+
+    public bool SupportsDotsSettings => string.Equals(Key, "Dots", StringComparison.Ordinal);
 
     public double BackgroundOpacity
     {
@@ -220,6 +227,12 @@ public sealed class BackgroundProfileViewModel : ObservableObject
     public Color CloudsSunColor { get => _cloudsSunColor; set => SetProperty(ref _cloudsSunColor, value); }
     public Color CloudsSunGlareColor { get => _cloudsSunGlareColor; set => SetProperty(ref _cloudsSunGlareColor, value); }
     public Color CloudsSunlightColor { get => _cloudsSunlightColor; set => SetProperty(ref _cloudsSunlightColor, value); }
+
+    public Color DotsSecondaryColor { get => _dotsSecondaryColor; set => SetProperty(ref _dotsSecondaryColor, value); }
+    public Color DotsBackgroundColor { get => _dotsBackgroundColor; set => SetProperty(ref _dotsBackgroundColor, value); }
+    public double DotsSize { get => _dotsSize; set => SetProperty(ref _dotsSize, Math.Clamp(value, 1, 10)); }
+    public double DotsSpacing { get => _dotsSpacing; set => SetProperty(ref _dotsSpacing, Math.Clamp(value, 10, 100)); }
+    public bool DotsShowLines { get => _dotsShowLines; set => SetProperty(ref _dotsShowLines, value); }
 
     private static bool TryParseColor(string value, out Color color)
     {
