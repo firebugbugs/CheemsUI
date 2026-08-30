@@ -1,5 +1,10 @@
 <backgrounds:CheemsCloudsBackground ClipRadius="12"
-                                    PrimaryColor="#8B5CF6"
+                                    PrimaryColor="#FFFFFF"
+                                    SkyColor="#68B8D7"
+                                    CloudShadowColor="#183550"
+                                    SunColor="#FF9919"
+                                    SunGlareColor="#FF6633"
+                                    SunlightColor="#FF9933"
                                     AnimationSpeed="1"
                                     IsAnimationEnabled="True"
                                     ApplyRequested="CloudsBackground_ApplyRequested" />

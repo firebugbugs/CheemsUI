@@ -11,12 +11,14 @@ namespace CheemsUI;
 [TemplatePart(Name = PartViewportName, Type = typeof(Canvas))]
 [TemplatePart(Name = PartProgressGroupName, Type = typeof(FrameworkElement))]
 [TemplatePart(Name = PartProgressTextName, Type = typeof(TextBlock))]
+[TemplatePart(Name = PartSurfaceName, Type = typeof(CheemsCosmicProgressSurface))]
 public sealed class CheemsCosmicProgressBar : CheemsDraggableProgressBar
 {
     private const string PartViewportName = PartDragSurfaceName;
     private const string PartProgressGroupName = "PartProgressGroup";
     private const string PartProgressTextName = "PartProgressText";
     private const string PartRippleScaleHostName = "PartRippleScaleHost";
+    private const string PartSurfaceName = "PartSurface";
     private static readonly string[] ParticleNames =
     {
         "PartParticleOne", "PartParticleTwo", "PartParticleThree", "PartParticleFour", "PartParticleFive"
@@ -29,6 +31,7 @@ public sealed class CheemsCosmicProgressBar : CheemsDraggableProgressBar
     private readonly FrameworkElement?[] _particles = new FrameworkElement?[5];
     private Canvas? _viewport;
     private FrameworkElement? _progressGroup;
+    private CheemsCosmicProgressSurface? _surface;
     private RectangleGeometry? _viewportClip;
 
     static CheemsCosmicProgressBar()
@@ -48,6 +51,7 @@ public sealed class CheemsCosmicProgressBar : CheemsDraggableProgressBar
         base.OnApplyTemplate();
         _viewport = GetTemplateChild(PartViewportName) as Canvas;
         _progressGroup = GetTemplateChild(PartProgressGroupName) as FrameworkElement;
+        _surface = GetTemplateChild(PartSurfaceName) as CheemsCosmicProgressSurface;
         for (var index = 0; index < ParticleNames.Length; index++)
         {
             _particles[index] = GetTemplateChild(ParticleNames[index]) as FrameworkElement;
@@ -97,9 +101,18 @@ public sealed class CheemsCosmicProgressBar : CheemsDraggableProgressBar
             _viewportClip.RadiusY = height / 2;
         }
 
+        var progress = CalculateProgress();
+        if (_surface is not null)
+        {
+            _surface.Progress = progress;
+        }
+
         if (_progressGroup is not null)
         {
-            _progressGroup.Width = width * CalculateProgress();
+            Canvas.SetLeft(_progressGroup, 0);
+            Canvas.SetTop(_progressGroup, 0);
+            _progressGroup.Height = height;
+            _progressGroup.Width = width * progress;
         }
 
         for (var index = 0; index < _particles.Length; index++)

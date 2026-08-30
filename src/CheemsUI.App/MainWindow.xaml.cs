@@ -1,7 +1,9 @@
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Input;
+using System.Windows.Interop;
+using System.Windows.Media;
 using CheemsUI.App.Infrastructure;
 using CheemsUI.App.Infrastructure.Updates;
 using CheemsUI.App.ViewModels;
@@ -13,9 +15,12 @@ namespace CheemsUI.App;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private const int WmGetMinMaxInfo = 0x0024;
+    private const uint MonitorDefaultToNearest = 0x00000002;
     private static readonly Color DefaultBackgroundColor = Color.FromRgb(0xE8, 0xE8, 0xE8);
     private readonly UpdateService _updateService = new();
     private BackgroundProfileViewModel? _activeBackgroundProfile;
+    private HwndSource? _windowSource;
     internal WindowThemeViewModel WindowTheme { get; } = new();
 
     public MainWindow()
@@ -26,6 +31,40 @@ public partial class MainWindow : Window
         viewModel.BackgroundSettings.SettingsChanged += (_, _) => ApplyCurrentBackgroundPalette();
         DataContext = viewModel;
         UpdateWindowFrameClip();
+    }
+
+    protected override void OnSourceInitialized(EventArgs e)
+    {
+        base.OnSourceInitialized(e);
+        _windowSource = (HwndSource)PresentationSource.FromVisual(this);
+        _windowSource.AddHook(WindowMessageHook);
+    }
+
+    private IntPtr WindowMessageHook(IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
+    {
+        if (message != WmGetMinMaxInfo)
+        {
+            return IntPtr.Zero;
+        }
+
+        var monitor = MonitorFromWindow(hwnd, MonitorDefaultToNearest);
+        var monitorInfo = new MonitorInfo { Size = Marshal.SizeOf<MonitorInfo>() };
+        if (monitor == IntPtr.Zero || !GetMonitorInfo(monitor, ref monitorInfo))
+        {
+            return IntPtr.Zero;
+        }
+
+        var minMaxInfo = Marshal.PtrToStructure<MinMaxInfo>(lParam);
+        var workArea = monitorInfo.WorkArea;
+        var monitorArea = monitorInfo.MonitorArea;
+        minMaxInfo.MaxPosition.X = workArea.Left - monitorArea.Left;
+        minMaxInfo.MaxPosition.Y = workArea.Top - monitorArea.Top;
+        minMaxInfo.MaxSize.X = workArea.Right - workArea.Left;
+        minMaxInfo.MaxSize.Y = workArea.Bottom - workArea.Top;
+        minMaxInfo.MaxTrackSize = minMaxInfo.MaxSize;
+        Marshal.StructureToPtr(minMaxInfo, lParam, false);
+        handled = true;
+        return IntPtr.Zero;
     }
 
     public void ApplyBirdsBackground()
@@ -135,7 +174,9 @@ public partial class MainWindow : Window
 
         var effectBackground = settings.SupportsBirdsSettings
             ? settings.BirdsBackgroundColor
-            : settings.PrimaryColor;
+            : settings.SupportsCloudsSettings
+                ? settings.CloudsSkyColor
+                : settings.PrimaryColor;
         var effectOpacity = settings.BackgroundOpacity *
             (settings.SupportsBirdsSettings ? settings.BirdsBackgroundAlpha : 1d);
         ApplyPaletteForBackground(BlendWithDefaultBackground(effectBackground, effectOpacity));
@@ -190,7 +231,11 @@ public partial class MainWindow : Window
 
     private void WindowFrame_SizeChanged(object sender, SizeChangedEventArgs e) => UpdateWindowFrameClip();
 
-    private void Window_StateChanged(object? sender, EventArgs e) => UpdateWindowFrameClip();
+    private void Window_StateChanged(object? sender, EventArgs e)
+    {
+        UpdateWindowFrameClip();
+        PartCloudsWindowBackground.IsFullScreen = WindowState == WindowState.Maximized;
+    }
 
     private void UpdateWindowFrameClip()
     {
@@ -299,11 +344,56 @@ public partial class MainWindow : Window
 
     protected override void OnClosed(EventArgs e)
     {
+        _windowSource?.RemoveHook(WindowMessageHook);
+        _windowSource = null;
+
         if (DataContext is MainViewModel viewModel)
         {
             viewModel.CancelGifExport();
         }
 
         base.OnClosed(e);
+    }
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool GetMonitorInfo(IntPtr monitor, ref MonitorInfo monitorInfo);
+
+    [DllImport("user32.dll")]
+    private static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint flags);
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct NativePoint
+    {
+        public int X;
+        public int Y;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct MinMaxInfo
+    {
+        public NativePoint Reserved;
+        public NativePoint MaxSize;
+        public NativePoint MaxPosition;
+        public NativePoint MinTrackSize;
+        public NativePoint MaxTrackSize;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct NativeRect
+    {
+        public int Left;
+        public int Top;
+        public int Right;
+        public int Bottom;
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+    private struct MonitorInfo
+    {
+        public int Size;
+        public NativeRect MonitorArea;
+        public NativeRect WorkArea;
+        public uint Flags;
     }
 }

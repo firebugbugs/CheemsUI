@@ -14,13 +14,17 @@
   <script src="three.r134.min.js"></script>
   <script src="vanta.clouds.min.js"></script>
   <script>
+    const isPreview = new URLSearchParams(location.search).has("preview");
     const clouds = VANTA.CLOUDS({
       el: "#clouds-background",
       mouseControls: true,
       touchControls: true,
       gyroControls: false,
       minHeight: 200.00,
-      minWidth: 200.00
+      minWidth: 200.00,
+      // 使用 Vanta 自己的渲染缩放机制；只改变内部着色分辨率，不改变效果参数。
+      scale: isPreview ? 6.00 : 3.00,
+      scaleMobile: isPreview ? 6.00 : 3.00
     });
 
     document.addEventListener("click", function () {
@@ -34,9 +38,32 @@
       clouds.triggerMouseMove(x, y);
     };
 
+    if (window.chrome && window.chrome.webview) {
+      window.chrome.webview.addEventListener("message", function (event) {
+        const message = event.data;
+        if (message && message.type === "pointer") {
+          clouds.triggerMouseMove(message.x, message.y);
+        }
+      });
+    }
+
     window.__cheemsUpdate = function (settings) {
-      const color = Number.parseInt(settings.color.slice(1), 16);
-      clouds.setOptions({ cloudColor: color, speed: settings.enabled ? settings.speed : 0 });
+      const parseColor = value => Number.parseInt(value.slice(1), 16);
+      const renderScaleChanged = clouds.options.scale !== settings.renderScale;
+      clouds.setOptions({
+        skyColor: parseColor(settings.skyColor),
+        cloudColor: parseColor(settings.cloudColor),
+        cloudShadowColor: parseColor(settings.cloudShadowColor),
+        sunColor: parseColor(settings.sunColor),
+        sunGlareColor: parseColor(settings.sunGlareColor),
+        sunlightColor: parseColor(settings.sunlightColor),
+        speed: settings.enabled ? settings.speed : 0,
+        scale: settings.renderScale,
+        scaleMobile: settings.renderScale
+      });
+      if (renderScaleChanged) {
+        clouds.resize();
+      }
       if (settings.enabled && clouds.__cheemsPaused) {
         clouds.prevNow = performance.now();
         clouds.req = requestAnimationFrame(clouds.animationLoop);

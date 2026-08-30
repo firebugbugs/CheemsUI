@@ -131,8 +131,13 @@
                         BorderBrush="#172642" BorderThickness="1">
                     <Grid>
                         <Border Opacity="{Binding Clouds.BackgroundOpacity}">
-                            <backgrounds:CheemsCloudsBackground ClipRadius="12"
+                            <backgrounds:CheemsCloudsBackground IsPreview="True" ClipRadius="12"
                                                                 PrimaryColor="{Binding Clouds.PrimaryColor}"
+                                                                SkyColor="{Binding Clouds.CloudsSkyColor}"
+                                                                CloudShadowColor="{Binding Clouds.CloudsShadowColor}"
+                                                                SunColor="{Binding Clouds.CloudsSunColor}"
+                                                                SunGlareColor="{Binding Clouds.CloudsSunGlareColor}"
+                                                                SunlightColor="{Binding Clouds.CloudsSunlightColor}"
                                                                 AnimationSpeed="{Binding Clouds.AnimationSpeed}"
                                                                 IsAnimationEnabled="{Binding Clouds.IsAnimationEnabled}"
                                                                 ApplyRequested="CloudsBackground_ApplyRequested" />
@@ -278,6 +283,20 @@
                                 <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0" Minimum="1" Maximum="80" Step="1" Value="{Binding BirdsCohesion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 <DockPanel><TextBlock Text="鸟群数量（quantity）" Style="{StaticResource BackgroundSettingLabelStyle}" /><TextBlock Text="{Binding BirdsQuantity}" Style="{StaticResource BackgroundSettingValueStyle}" HorizontalAlignment="Right" /></DockPanel>
                                 <cheems:CheemsCosmicProgressBar Width="Auto" Height="60" Margin="0,-2,0,0" Minimum="1" Maximum="5" Step="1" Value="{Binding BirdsQuantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+
+                            <StackPanel Visibility="{Binding SupportsCloudsSettings, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                                <Border Height="1" Margin="0,0,0,14" Background="{DynamicResource Cheems.Brush.Border.Default}" />
+                                <TextBlock Text="天空色（sky-color）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                <controls:ColorPickerBox Margin="0,6,0,10" SelectedColor="{Binding CloudsSkyColor, Mode=TwoWay}" />
+                                <TextBlock Text="云层阴影（cloud-shadow-color）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                <controls:ColorPickerBox Margin="0,6,0,10" SelectedColor="{Binding CloudsShadowColor, Mode=TwoWay}" />
+                                <TextBlock Text="太阳色（sun-color）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                <controls:ColorPickerBox Margin="0,6,0,10" SelectedColor="{Binding CloudsSunColor, Mode=TwoWay}" />
+                                <TextBlock Text="太阳眩光（sun-glare-color）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                <controls:ColorPickerBox Margin="0,6,0,10" SelectedColor="{Binding CloudsSunGlareColor, Mode=TwoWay}" />
+                                <TextBlock Text="日光色（sunlight-color）" Style="{StaticResource BackgroundSettingLabelStyle}" />
+                                <controls:ColorPickerBox Margin="0,6,0,10" SelectedColor="{Binding CloudsSunlightColor, Mode=TwoWay}" />
                             </StackPanel>
 
                             <StackPanel Visibility="{Binding SupportsRisoSettings, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">

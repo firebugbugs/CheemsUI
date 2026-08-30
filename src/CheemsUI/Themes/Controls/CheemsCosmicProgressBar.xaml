@@ -21,19 +21,16 @@
                     <!-- 300×20 本体；四周 Margin 为 0 8px 20px rgba(...,.5) 预留空间。 -->
                     <Grid x:Name="PartRoot" Background="Transparent">
                         <Grid Margin="20,8,20,32" Height="20" VerticalAlignment="Top">
-                            <Border CornerRadius="10"
-                                    Background="{DynamicResource Cheems.Brush.CosmicProgress.Track}">
-                                <Border.Effect>
+                            <!-- 轨道与进度先合成为一个画刷，外轮廓只进行一次圆角抗锯齿。 -->
+                            <local:CheemsCosmicProgressSurface x:Name="PartSurface"
+                                                               TrackBrush="{DynamicResource Cheems.Brush.CosmicProgress.Track}"
+                                                               ProgressBrush="{DynamicResource Cheems.Brush.CosmicProgress.Bar}">
+                                <local:CheemsCosmicProgressSurface.Effect>
                                     <DropShadowEffect Color="{StaticResource Cheems.Color.CosmicProgress.Shadow}"
                                                       Opacity="0.5" BlurRadius="20"
                                                       ShadowDepth="8" Direction="270" />
-                                </Border.Effect>
-                            </Border>
-
-                            <Border CornerRadius="10"
-                                    Background="{DynamicResource Cheems.Brush.CosmicProgress.Track}"
-                                    BorderBrush="{DynamicResource Cheems.Brush.CosmicProgress.Border}"
-                                    BorderThickness="1" />
+                                </local:CheemsCosmicProgressSurface.Effect>
+                            </local:CheemsCosmicProgressSurface>
 
                             <Canvas x:Name="PartDragSurface" Height="20">
                                 <!-- 两个 CSS progress-bar 外发光层，实体部分由最上层进度主体覆盖。 -->

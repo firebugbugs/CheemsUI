@@ -34,6 +34,11 @@ public sealed class BackgroundProfileViewModel : ObservableObject
     private double _birdsAlignment = 20;
     private double _birdsCohesion = 20;
     private int _birdsQuantity = 5;
+    private Color _cloudsSkyColor = Color.FromRgb(0x68, 0xB8, 0xD7);
+    private Color _cloudsShadowColor = Color.FromRgb(0x18, 0x35, 0x50);
+    private Color _cloudsSunColor = Color.FromRgb(0xFF, 0x99, 0x19);
+    private Color _cloudsSunGlareColor = Color.FromRgb(0xFF, 0x66, 0x33);
+    private Color _cloudsSunlightColor = Color.FromRgb(0xFF, 0x99, 0x33);
     public BackgroundProfileViewModel(string key, string displayName, string primaryColor)
     {
         Key = key;
@@ -51,6 +56,8 @@ public sealed class BackgroundProfileViewModel : ObservableObject
     public bool SupportsRisoSettings => string.Equals(Key, "RisoDither", StringComparison.Ordinal);
 
     public bool SupportsBirdsSettings => string.Equals(Key, "Birds", StringComparison.Ordinal);
+
+    public bool SupportsCloudsSettings => string.Equals(Key, "Clouds", StringComparison.Ordinal);
 
     public double BackgroundOpacity
     {
@@ -207,6 +214,12 @@ public sealed class BackgroundProfileViewModel : ObservableObject
     public double BirdsCohesion { get => _birdsCohesion; set => SetProperty(ref _birdsCohesion, Math.Clamp(value, 1, 80)); }
     // Vanta BIRDS 把 quantity 当作纹理边长指数；5 已对应 1,024 只鸟，继续增大会急剧掉帧。
     public int BirdsQuantity { get => _birdsQuantity; set => SetProperty(ref _birdsQuantity, Math.Clamp(value, 1, 5)); }
+
+    public Color CloudsSkyColor { get => _cloudsSkyColor; set => SetProperty(ref _cloudsSkyColor, value); }
+    public Color CloudsShadowColor { get => _cloudsShadowColor; set => SetProperty(ref _cloudsShadowColor, value); }
+    public Color CloudsSunColor { get => _cloudsSunColor; set => SetProperty(ref _cloudsSunColor, value); }
+    public Color CloudsSunGlareColor { get => _cloudsSunGlareColor; set => SetProperty(ref _cloudsSunGlareColor, value); }
+    public Color CloudsSunlightColor { get => _cloudsSunlightColor; set => SetProperty(ref _cloudsSunlightColor, value); }
 
     private static bool TryParseColor(string value, out Color color)
     {

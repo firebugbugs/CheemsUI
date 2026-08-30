@@ -14,7 +14,7 @@ public sealed class BackgroundsViewModel : SearchablePageViewModel
     })
     {
         Birds = new("Birds", "Birds 鸟群", "#FF3F81");
-        Clouds = new("Clouds", "Clouds 云层", "#68B8D7");
+        Clouds = new("Clouds", "Clouds 云层", "#FFFFFF");
         Cells = new("Cells", "Cells 细胞", "#A4E34F");
         RisoDither = new("RisoDither", "Riso Dither", "#8B5CF6")
         {

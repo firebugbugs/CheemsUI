@@ -287,6 +287,11 @@
                     Visibility="Collapsed" Opacity="{Binding BackgroundSettings.Clouds.BackgroundOpacity}">
                 <backgrounds:CheemsCloudsBackground x:Name="PartCloudsWindowBackground" Cursor="Arrow"
                                                     PrimaryColor="{Binding BackgroundSettings.Clouds.PrimaryColor}"
+                                                    SkyColor="{Binding BackgroundSettings.Clouds.CloudsSkyColor}"
+                                                    CloudShadowColor="{Binding BackgroundSettings.Clouds.CloudsShadowColor}"
+                                                    SunColor="{Binding BackgroundSettings.Clouds.CloudsSunColor}"
+                                                    SunGlareColor="{Binding BackgroundSettings.Clouds.CloudsSunGlareColor}"
+                                                    SunlightColor="{Binding BackgroundSettings.Clouds.CloudsSunlightColor}"
                                                     AnimationSpeed="{Binding BackgroundSettings.Clouds.AnimationSpeed}"
                                                     IsAnimationEnabled="{Binding BackgroundSettings.Clouds.IsAnimationEnabled}" />
             </Border>
