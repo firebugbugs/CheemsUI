@@ -85,7 +85,7 @@ v=clamp((v-.58)*u_contrast+.40,0.,1.);v=mix(v,v*v*(3.-2.*v),.6);float bay=u_matr
         animationEnabled = false;
         window.chrome?.webview?.postMessage('preview-frozen');
       }
-    }), 1000);
+}), 200);
   }
   addEventListener('pagehide', () => cancelAnimationFrame(frame), { once: true });
 })();

@@ -11,6 +11,10 @@
         <!-- 恢复卡本身固定为浅灰底，文字不随动态背景换色，始终保证可读性。 -->
         <SolidColorBrush x:Key="RestoreBackgroundCard.Text.Primary" Color="#202124" />
         <SolidColorBrush x:Key="RestoreBackgroundCard.Text.Secondary" Color="#74777C" />
+        <!-- 320×180 卡片扣除 1 DIP 边框后的内容区。Border 的 ClipToBounds 只会矩形裁剪，
+             因此由内容层使用与外框同心的圆角几何，避免静态预览从四角溢出。 -->
+        <RectangleGeometry x:Key="BackgroundCardContentClip"
+                           Rect="0,0,318,178" RadiusX="11" RadiusY="11" />
 
         <Style x:Key="RestoreBackgroundCardStyle" TargetType="{x:Type Button}">
             <Setter Property="Width" Value="320" />
@@ -51,6 +55,19 @@
         <Style x:Key="BackgroundSettingValueStyle" TargetType="{x:Type TextBlock}">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Foreground" Value="{DynamicResource Cheems.Brush.Text.Primary}" />
+        </Style>
+
+        <Style x:Key="BackgroundPreviewPlaceholderStyle" TargetType="{x:Type Border}">
+            <Setter Property="Background" Value="{DynamicResource Cheems.Brush.Background.Elevated}" />
+            <Setter Property="Panel.ZIndex" Value="1" />
+        </Style>
+
+        <Style x:Key="BackgroundPreviewPlaceholderTextStyle" TargetType="{x:Type TextBlock}">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="{DynamicResource Cheems.Brush.Text.Secondary}" />
+            <Setter Property="Text" Value="正在生成预览…" />
         </Style>
 
         <!-- 卡片设置按钮：极简文本样式（渲染 Content，无背景/边框/焦点框），与源码按钮的观感一致 -->
@@ -99,7 +116,7 @@
 
                 <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
                         BorderBrush="#172642" BorderThickness="1">
-                    <Grid>
+                    <Grid Clip="{StaticResource BackgroundCardContentClip}">
                         <Image x:Name="BirdsPreviewImage" Visibility="Collapsed" Stretch="Fill"
                                Opacity="{Binding Birds.BackgroundOpacity}" Tag="Birds"
                                Cursor="Hand" MouseLeftButtonUp="StaticPreview_Click" />
@@ -121,6 +138,10 @@
                                                                PreviewFrozen="BackgroundPreview_Frozen"
                                                                ApplyRequested="BirdsBackground_ApplyRequested" />
                         </Border>
+                        <Border x:Name="BirdsPreviewPlaceholder"
+                                Style="{StaticResource BackgroundPreviewPlaceholderStyle}">
+                            <TextBlock Style="{StaticResource BackgroundPreviewPlaceholderTextStyle}" />
+                        </Border>
                         <StackPanel Margin="0,12,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
                             <Button Tag="Birds" Content="⚙" ToolTip="调整背景参数"
                                     Style="{StaticResource BackgroundCardPlainButtonStyle}" Click="SettingsButton_Click" />
@@ -133,7 +154,7 @@
 
                 <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
                         BorderBrush="#4A321F" BorderThickness="1">
-                    <Grid>
+                    <Grid Clip="{StaticResource BackgroundCardContentClip}">
                         <Image x:Name="DotsPreviewImage" Visibility="Collapsed" Stretch="Fill"
                                Opacity="{Binding Dots.BackgroundOpacity}" Tag="Dots"
                                Cursor="Hand" MouseLeftButtonUp="StaticPreview_Click" />
@@ -150,6 +171,10 @@
                                                               PreviewFrozen="BackgroundPreview_Frozen"
                                                               ApplyRequested="DotsBackground_ApplyRequested" />
                         </Border>
+                        <Border x:Name="DotsPreviewPlaceholder"
+                                Style="{StaticResource BackgroundPreviewPlaceholderStyle}">
+                            <TextBlock Style="{StaticResource BackgroundPreviewPlaceholderTextStyle}" />
+                        </Border>
                         <StackPanel Margin="0,12,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
                             <Button Tag="Dots" Content="⚙" ToolTip="调整背景参数"
                                     Style="{StaticResource BackgroundCardPlainButtonStyle}" Click="SettingsButton_Click" />
@@ -162,7 +187,7 @@
 
                 <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
                         BorderBrush="#172642" BorderThickness="1">
-                    <Grid>
+                    <Grid Clip="{StaticResource BackgroundCardContentClip}">
                         <Image x:Name="CloudsPreviewImage" Visibility="Collapsed" Stretch="Fill"
                                Opacity="{Binding Clouds.BackgroundOpacity}" Tag="Clouds"
                                Cursor="Hand" MouseLeftButtonUp="StaticPreview_Click" />
@@ -179,6 +204,10 @@
                                                                 PreviewFrozen="BackgroundPreview_Frozen"
                                                                 ApplyRequested="CloudsBackground_ApplyRequested" />
                         </Border>
+                        <Border x:Name="CloudsPreviewPlaceholder"
+                                Style="{StaticResource BackgroundPreviewPlaceholderStyle}">
+                            <TextBlock Style="{StaticResource BackgroundPreviewPlaceholderTextStyle}" />
+                        </Border>
                         <StackPanel Margin="0,12,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
                             <Button Tag="Clouds" Content="⚙" ToolTip="调整背景参数"
                                     Style="{StaticResource BackgroundCardPlainButtonStyle}" Click="SettingsButton_Click" />
@@ -191,7 +220,7 @@
 
                 <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
                         BorderBrush="#172642" BorderThickness="1">
-                    <Grid>
+                    <Grid Clip="{StaticResource BackgroundCardContentClip}">
                         <Image x:Name="CellsPreviewImage" Visibility="Collapsed" Stretch="Fill"
                                Opacity="{Binding Cells.BackgroundOpacity}" Tag="Cells"
                                Cursor="Hand" MouseLeftButtonUp="StaticPreview_Click" />
@@ -202,6 +231,10 @@
                                                                IsAnimationEnabled="{Binding Cells.IsAnimationEnabled}"
                                                                PreviewFrozen="BackgroundPreview_Frozen"
                                                                ApplyRequested="CellsBackground_ApplyRequested" />
+                        </Border>
+                        <Border x:Name="CellsPreviewPlaceholder"
+                                Style="{StaticResource BackgroundPreviewPlaceholderStyle}">
+                            <TextBlock Style="{StaticResource BackgroundPreviewPlaceholderTextStyle}" />
                         </Border>
                         <StackPanel Margin="0,12,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
                             <Button Tag="Cells" Content="⚙" ToolTip="调整背景参数"
@@ -215,7 +248,7 @@
 
                 <Border Width="320" Height="180" Margin="0,0,20,20" CornerRadius="12" ClipToBounds="True"
                         BorderBrush="#2C41C4" BorderThickness="1">
-                    <Grid>
+                    <Grid Clip="{StaticResource BackgroundCardContentClip}">
                         <Image x:Name="RisoDitherPreviewImage" Visibility="Collapsed" Stretch="Fill"
                                Opacity="{Binding RisoDither.BackgroundOpacity}" Tag="RisoDither"
                                Cursor="Hand" MouseLeftButtonUp="StaticPreview_Click" />
@@ -234,6 +267,10 @@
                                                                      Glow="{Binding RisoDither.RisoGlow}"
                                                                      PreviewFrozen="BackgroundPreview_Frozen"
                                                                      ApplyRequested="RisoDitherBackground_ApplyRequested" />
+                        </Border>
+                        <Border x:Name="RisoDitherPreviewPlaceholder"
+                                Style="{StaticResource BackgroundPreviewPlaceholderStyle}">
+                            <TextBlock Style="{StaticResource BackgroundPreviewPlaceholderTextStyle}" />
                         </Border>
                         <StackPanel Margin="0,12,12,0" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
                             <Button Tag="RisoDither" Content="⚙" ToolTip="调整背景参数"

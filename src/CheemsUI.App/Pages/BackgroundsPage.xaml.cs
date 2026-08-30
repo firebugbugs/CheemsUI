@@ -59,16 +59,16 @@ public partial class BackgroundsPage : UserControl
             return;
         }
 
-        var target = sender switch
+        var (target, placeholder) = sender switch
         {
-            CheemsBirdsBackground => BirdsPreviewImage,
-            CheemsCloudsBackground => CloudsPreviewImage,
-            CheemsDotsBackground => DotsPreviewImage,
-            CheemsCellsBackground => CellsPreviewImage,
-            CheemsRisoDitherBackground => RisoDitherPreviewImage,
-            _ => null
+            CheemsBirdsBackground => (BirdsPreviewImage, BirdsPreviewPlaceholder),
+            CheemsCloudsBackground => (CloudsPreviewImage, CloudsPreviewPlaceholder),
+            CheemsDotsBackground => (DotsPreviewImage, DotsPreviewPlaceholder),
+            CheemsCellsBackground => (CellsPreviewImage, CellsPreviewPlaceholder),
+            CheemsRisoDitherBackground => (RisoDitherPreviewImage, RisoDitherPreviewPlaceholder),
+            _ => ((Image?)null, (FrameworkElement?)null)
         };
-        if (target is null || target.Source is not null)
+        if (target is null || placeholder is null || target.Source is not null)
         {
             return;
         }
@@ -91,6 +91,7 @@ public partial class BackgroundsPage : UserControl
             target.Source = bitmap;
             target.Visibility = System.Windows.Visibility.Visible;
             background.Visibility = System.Windows.Visibility.Collapsed;
+            placeholder.Visibility = System.Windows.Visibility.Collapsed;
             ((IStaticPreviewWebView)background).ReleasePreview();
         }
         catch (Exception exception)
