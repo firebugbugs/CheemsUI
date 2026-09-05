@@ -108,7 +108,7 @@ public class MainViewModel : ObservableObject
             new("Inputs 输入", new InputsViewModel(), "input controls 输入控件"),
             new("Displays 显示", new DisplaysViewModel(), "display clock time flip 数字 显示 时钟 时间 翻页"),
             new("Progress 进度", new ProgressViewModel(), "progress bar loading percentage 进度 进度条 百分比"),
-            new("Backgrounds 背景", BackgroundSettings, "background birds vanta three webgl 飞鸟 鸟群 背景 特效 离线"),
+            new("Backgrounds 背景", BackgroundSettings, "background birds vanta three webgl cubes matrix 飞鸟 鸟群 立方体 数字雨 静态 几何 背景 特效 离线"),
         };
         GroupsView = CollectionViewSource.GetDefaultView(Groups);
         GroupsView.Filter = item => item is ControlGroupViewModel group && group.IsSearchMatch;

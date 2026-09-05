@@ -44,6 +44,7 @@ public sealed class BackgroundProfileViewModel : ObservableObject
     private double _dotsSize = 3;
     private double _dotsSpacing = 35;
     private bool _dotsShowLines = true;
+    private double _cubesTileSize = 150;
     public BackgroundProfileViewModel(string key, string displayName, string primaryColor)
     {
         Key = key;
@@ -65,6 +66,16 @@ public sealed class BackgroundProfileViewModel : ObservableObject
     public bool SupportsCloudsSettings => string.Equals(Key, "Clouds", StringComparison.Ordinal);
 
     public bool SupportsDotsSettings => string.Equals(Key, "Dots", StringComparison.Ordinal);
+
+    public bool SupportsCubesSettings => string.Equals(Key, "Cubes", StringComparison.Ordinal);
+
+    public bool SupportsMatrixSettings => string.Equals(Key, "Matrix", StringComparison.Ordinal);
+
+    /// <summary>静态背景没有动画；为假时设置弹层隐藏“运行动画”与“动画速度”。</summary>
+    public bool SupportsAnimationSettings => !SupportsCubesSettings;
+
+    /// <summary>源码只开放尺寸调节的背景不允许改主色；为假时设置弹层隐藏“主色”取色器。</summary>
+    public bool SupportsPrimaryColor => !SupportsCubesSettings && !SupportsMatrixSettings;
 
     public double BackgroundOpacity
     {
@@ -233,6 +244,9 @@ public sealed class BackgroundProfileViewModel : ObservableObject
     public double DotsSize { get => _dotsSize; set => SetProperty(ref _dotsSize, Math.Clamp(value, 1, 10)); }
     public double DotsSpacing { get => _dotsSpacing; set => SetProperty(ref _dotsSpacing, Math.Clamp(value, 10, 100)); }
     public bool DotsShowLines { get => _dotsShowLines; set => SetProperty(ref _dotsShowLines, value); }
+
+    // 源码 CSS 变量 --s；四色拼贴保持原值，只开放瓦片尺寸。
+    public double CubesTileSize { get => _cubesTileSize; set => SetProperty(ref _cubesTileSize, Math.Clamp(value, 60, 300)); }
 
     private static bool TryParseColor(string value, out Color color)
     {

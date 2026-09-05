@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:infra="clr-namespace:CheemsUI.App.Infrastructure"
         xmlns:backgrounds="clr-namespace:CheemsUI.App.Backgrounds"
+        xmlns:cheems="https://cheemsui.com/wpf"
         xmlns:pages="clr-namespace:CheemsUI.App.Pages"
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:vm="clr-namespace:CheemsUI.App.ViewModels"
@@ -330,6 +331,17 @@
                                                         Detail="{Binding BackgroundSettings.RisoDither.RisoDetail}"
                                                         Glow="{Binding BackgroundSettings.RisoDither.RisoGlow}" />
             </Border>
+            <Border x:Name="PartCubesWindowBackgroundOverlay"
+                    Visibility="Collapsed" Opacity="{Binding BackgroundSettings.Cubes.BackgroundOpacity}">
+                <cheems:CheemsCubesBackground x:Name="PartCubesWindowBackground" Cursor="Arrow" IsHitTestVisible="False"
+                                              TileSize="{Binding BackgroundSettings.Cubes.CubesTileSize}" />
+            </Border>
+            <Border x:Name="PartMatrixWindowBackgroundOverlay"
+                    Visibility="Collapsed" Opacity="{Binding BackgroundSettings.Matrix.BackgroundOpacity}">
+                <cheems:CheemsMatrixRainBackground x:Name="PartMatrixWindowBackground" Cursor="Arrow" IsHitTestVisible="False"
+                                                  AnimationSpeed="{Binding BackgroundSettings.Matrix.AnimationSpeed}"
+                                                  IsAnimationEnabled="{Binding BackgroundSettings.Matrix.IsAnimationEnabled}" />
+            </Border>
             <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="44" />
@@ -480,10 +492,11 @@
             </Grid>
         </Border>
 
-        <ContentControl Grid.Column="1" Margin="20,18,28,22"
+        <!-- 页面宿主：code-behind 在独立调度轮次按需新建页面（不缓存，加载耗时允许），
+             确保导航点击与高亮即时渲染；旧页面在新页面构建完成前保持显示。 -->
+        <ContentControl x:Name="PartPageHost" Grid.Column="1" Margin="20,18,28,22"
                         HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="Stretch"
-                        Content="{Binding SelectedGroup.PageViewModel}" />
+                        VerticalContentAlignment="Stretch" />
             </Grid>
 
             <!-- 全局提示层：当前页面的 BaseViewModel 控制文本与三秒可见期。 -->

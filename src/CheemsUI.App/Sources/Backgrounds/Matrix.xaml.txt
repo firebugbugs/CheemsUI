@@ -1,0 +1,7 @@
+<!-- xmlns:cheems="https://cheemsui.com/wpf" -->
+<!-- Uiverse whoisyourdeadie Matrix 数字雨动态背景：纯 CSS 动画的原生 WPF 等价实现 -->
+<cheems:CheemsMatrixRainBackground IsPreview="True"
+                                   ClipRadius="12"
+                                   AnimationSpeed="1"
+                                   IsAnimationEnabled="True"
+                                   ApplyRequested="MatrixBackground_ApplyRequested" />

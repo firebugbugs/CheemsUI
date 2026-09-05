@@ -1,0 +1,6 @@
+<!-- xmlns:cheems="https://cheemsui.com/wpf" -->
+<!-- Uiverse csemszepp 立方体拼贴静态背景：四层硬色标 conic-gradient 的原生 WPF 扇形还原 -->
+<cheems:CheemsCubesBackground TileSize="150"
+                              IsPreview="True"
+                              ClipRadius="12"
+                              ApplyRequested="CubesBackground_ApplyRequested" />

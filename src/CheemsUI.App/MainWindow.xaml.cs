@@ -1,10 +1,12 @@
 using System.Runtime.InteropServices;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 using CheemsUI.App.Infrastructure;
 using CheemsUI.App.Infrastructure.Updates;
 using CheemsUI.App.ViewModels;
@@ -35,8 +37,48 @@ public partial class MainWindow : Window
         ApplyPaletteForBackground(DefaultBackgroundColor);
         var viewModel = new MainViewModel();
         viewModel.BackgroundSettings.SettingsChanged += (_, _) => ApplyCurrentBackgroundPalette();
+        viewModel.PropertyChanged += OnMainViewModelPropertyChanged;
         DataContext = viewModel;
+        UpdatePageHost();
         UpdateWindowFrameClip();
+    }
+
+    private void OnMainViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(MainViewModel.SelectedGroup))
+        {
+            // 页面构建推迟到下一调度轮次：点击反馈与导航高亮先渲染，不被整页 XAML 构建挤占。
+            Dispatcher.BeginInvoke(DispatcherPriority.Background, UpdatePageHost);
+        }
+    }
+
+    /// <summary>
+    /// 按需新建页面（不做实例缓存，切换即重建，页面加载耗时是允许的）。
+    /// 关键是导航不被卡住：构建始终在独立调度轮次执行，期间旧页面保持显示，
+    /// WebView 等重资源由各页面自行在占位层下错峰初始化。
+    /// </summary>
+    private void UpdatePageHost()
+    {
+        if (DataContext is not MainViewModel { SelectedGroup.PageViewModel: { } pageViewModel })
+        {
+            return;
+        }
+
+        // 快速连续切换时，只挂载最后一帧选中的页面，过期回调直接丢弃。
+        if (DataContext is MainViewModel current &&
+            !ReferenceEquals(current.SelectedGroup?.PageViewModel, pageViewModel))
+        {
+            return;
+        }
+
+        var page = (FrameworkElement)((DataTemplate)TryFindResource(new DataTemplateKey(pageViewModel.GetType()))!).LoadContent();
+        // 直接 LoadContent 不会像 ContentPresenter 那样自动注入 DataContext，必须显式指定，
+        // 否则页面继承窗口的 MainViewModel，页内绑定与事件处理（如背景设置弹层）全部失效。
+        page.DataContext = pageViewModel;
+        if (DataContext is MainViewModel latest && ReferenceEquals(latest.SelectedGroup?.PageViewModel, pageViewModel))
+        {
+            PartPageHost.Content = page;
+        }
     }
 
     private void TitleAvatar_MouseEnter(object sender, MouseEventArgs e)
@@ -142,6 +184,16 @@ public partial class MainWindow : Window
         SetActiveBackground(PartRisoDitherWindowBackgroundOverlay, GetBackgroundSettings().RisoDither);
     }
 
+    public void ApplyCubesBackground()
+    {
+        SetActiveBackground(PartCubesWindowBackgroundOverlay, GetBackgroundSettings().Cubes);
+    }
+
+    public void ApplyMatrixBackground()
+    {
+        SetActiveBackground(PartMatrixWindowBackgroundOverlay, GetBackgroundSettings().Matrix);
+    }
+
     public void RestoreDefaultBackground()
     {
         PartBirdsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
@@ -149,6 +201,8 @@ public partial class MainWindow : Window
         PartDotsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         PartCellsWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         PartRisoDitherWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartCubesWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
+        PartMatrixWindowBackgroundOverlay.Visibility = Visibility.Collapsed;
         _activeBackgroundProfile = null;
         ApplyPaletteForBackground(DefaultBackgroundColor);
         WindowFrame.SetResourceReference(BackgroundProperty, "App.Window.Background");
@@ -211,7 +265,9 @@ public partial class MainWindow : Window
             PartCloudsWindowBackgroundOverlay,
             PartDotsWindowBackgroundOverlay,
             PartCellsWindowBackgroundOverlay,
-            PartRisoDitherWindowBackgroundOverlay
+            PartRisoDitherWindowBackgroundOverlay,
+            PartCubesWindowBackgroundOverlay,
+            PartMatrixWindowBackgroundOverlay
         ];
         foreach (var overlay in overlays)
         {
@@ -235,7 +291,9 @@ public partial class MainWindow : Window
                 ? settings.CloudsSkyColor
                 : settings.SupportsDotsSettings
                     ? settings.DotsBackgroundColor
-                    : settings.PrimaryColor;
+                    : settings.SupportsMatrixSettings
+                        ? Color.FromRgb(0, 0, 0)
+                        : settings.PrimaryColor;
         var effectOpacity = settings.BackgroundOpacity *
             (settings.SupportsBirdsSettings ? settings.BirdsBackgroundAlpha : 1d);
         ApplyPaletteForBackground(BlendWithDefaultBackground(effectBackground, effectOpacity));
