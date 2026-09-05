@@ -29,3 +29,6 @@ logs/
 
 # Inno Setup 打包目录（本地构建产物，不上远程）
 /installer/
+
+# 内部转换规则文档（仅本地使用，不上远程）
+/CSS_TO_WPF_CONVERSION_RULES.md
