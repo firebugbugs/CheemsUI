@@ -63,6 +63,33 @@
                                                          Value="{Binding ProgressValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     </infra:CompactShowcaseControl.Demo>
                 </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Progress/FlightProgressBar.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsFlightProgressVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsFlightProgressBar Origin="New York" Destination="Madrid"
+                                                        Value="{Binding ProgressValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Progress/GlowSlider.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsGlowSliderVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsGlowSlider GlowColor="#1FE0A0" Step="0.1"
+                                                Value="{Binding ProgressValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Progress/SlidingValueSlider.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsSlidingValueSliderVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <cheems:CheemsSlidingValueSlider Step="1"
+                                                        Value="{Binding ProgressValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
             </WrapPanel>
         </StackPanel>
     </ScrollViewer>

@@ -34,6 +34,7 @@
         <DataTemplate DataType="{x:Type vm:ButtonsViewModel}"><pages:ButtonsPage /></DataTemplate>
         <DataTemplate DataType="{x:Type vm:LoadersViewModel}"><pages:LoadersPage /></DataTemplate>
         <DataTemplate DataType="{x:Type vm:InputsViewModel}"><pages:InputsPage /></DataTemplate>
+        <DataTemplate DataType="{x:Type vm:DisplaysViewModel}"><pages:DisplaysPage /></DataTemplate>
         <DataTemplate DataType="{x:Type vm:ProgressViewModel}"><pages:ProgressPage /></DataTemplate>
         <DataTemplate DataType="{x:Type vm:BackgroundsViewModel}"><pages:BackgroundsPage /></DataTemplate>
 
@@ -341,10 +342,21 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Image Width="24" Height="24"
-                           Source="/CheemsUI.App;component/Assets/Branding/head_portrait.png"
-                           Stretch="Uniform"
-                           RenderOptions.BitmapScalingMode="HighQuality" />
+                    <Grid x:Name="TitleAvatar" Width="24" Height="24"
+                          Background="Transparent" RenderTransformOrigin="0.5,0.5"
+                          MouseEnter="TitleAvatar_MouseEnter"
+                          MouseLeave="TitleAvatar_MouseLeave"
+                          shell:WindowChrome.IsHitTestVisibleInChrome="True">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform x:Name="TitleAvatarScale" />
+                                <RotateTransform x:Name="TitleAvatarRotate" />
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <Image Source="/CheemsUI.App;component/Assets/Branding/head_portrait.png"
+                               Stretch="Uniform"
+                               RenderOptions.BitmapScalingMode="HighQuality" />
+                    </Grid>
                     <TextBlock Margin="9,0,0,0" VerticalAlignment="Center"
                                Text="CheemsUI" FontSize="12" FontWeight="SemiBold"
                                Foreground="{DynamicResource App.Text.OnBackground.Primary}" />

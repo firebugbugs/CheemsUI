@@ -1,0 +1,183 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CheemsUI">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Colors.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Brushes.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type local:CheemsTrafficLightSwitch}">
+        <Setter Property="Width" Value="266" />
+        <Setter Property="Height" Value="104" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CheemsTrafficLightSwitch}">
+                    <Viewbox Stretch="Uniform">
+                        <Canvas x:Name="PartRoot" Width="266" Height="104">
+                            <!-- .back: positioned behind the three fixed radio labels. -->
+                            <Border Width="265.6" Height="104" CornerRadius="52"
+                                    Background="{StaticResource Cheems.Brush.TrafficLight.Back}">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="{StaticResource Cheems.Color.TrafficLight.Black}"
+                                                      Direction="270" ShadowDepth="7" BlurRadius="13" Opacity="0.3" />
+                                </Border.Effect>
+                            </Border>
+                            <Border Width="265.6" Height="104" CornerRadius="52"
+                                    Background="{StaticResource Cheems.Brush.TrafficLight.Back}">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="{StaticResource Cheems.Color.TrafficLight.Black}"
+                                                      Direction="270" ShadowDepth="2" BlurRadius="2" Opacity="0.4" />
+                                </Border.Effect>
+                            </Border>
+                            <Border Width="265.6" Height="103" CornerRadius="52"
+                                    BorderThickness="0,0,0,1"
+                                    BorderBrush="{StaticResource Cheems.Brush.TrafficLight.Black}" />
+
+                            <!-- .switch: red -->
+                            <Canvas Canvas.Left="17.32" Canvas.Top="17.8" Width="70" Height="70">
+                                <Ellipse Width="70" Height="70" Fill="{StaticResource Cheems.Brush.TrafficLight.Black}">
+                                    <Ellipse.Effect>
+                                        <DropShadowEffect Color="{StaticResource Cheems.Color.TrafficLight.Black}"
+                                                          ShadowDepth="0" BlurRadius="10" Opacity="0.2" />
+                                    </Ellipse.Effect>
+                                </Ellipse>
+                                <Ellipse Width="68" Height="68" Margin="1"
+                                         Fill="{StaticResource Cheems.Brush.TrafficLight.Black}"
+                                         Stroke="{StaticResource Cheems.Brush.TrafficLight.Ring}" StrokeThickness="5" />
+                                <Grid Canvas.Left="7.5" Canvas.Top="7.5" Width="55" Height="55">
+                                    <Ellipse Fill="{StaticResource Cheems.Brush.TrafficLight.RedBase}" />
+                                    <Ellipse x:Name="PartRedLight" Opacity="0">
+                                        <Ellipse.Fill>
+                                            <RadialGradientBrush>
+                                                <GradientStop Offset="0" Color="{StaticResource Cheems.Color.TrafficLight.RedGlowCenter}" />
+                                                <GradientStop Offset="0.566" Color="{StaticResource Cheems.Color.TrafficLight.RedGlowMiddle}" />
+                                                <GradientStop Offset="0.78" Color="{StaticResource Cheems.Color.TrafficLight.RedGlowSoft}" />
+                                                <GradientStop Offset="0.92" Color="{StaticResource Cheems.Color.TrafficLight.RedGlowEdge}" />
+                                                <GradientStop Offset="1" Color="{StaticResource Cheems.Color.TrafficLight.Transparent}" />
+                                            </RadialGradientBrush>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                    <Ellipse>
+                                        <Ellipse.Fill>
+                                            <DrawingBrush TileMode="Tile" Viewport="0,0,10,10" ViewportUnits="Absolute"
+                                                          Viewbox="0,0,10,10" ViewboxUnits="Absolute">
+                                                <DrawingBrush.Drawing>
+                                                    <GeometryDrawing Geometry="M0,0 H10 V10 H0 Z">
+                                                        <GeometryDrawing.Brush>
+                                                            <RadialGradientBrush>
+                                                                <!-- CSS radial-gradient uses farthest-corner: 30/70% × √2. -->
+                                                                <GradientStop Offset="0.4243" Color="{StaticResource Cheems.Color.TrafficLight.Transparent}" />
+                                                                <GradientStop Offset="0.9899" Color="{StaticResource Cheems.Color.TrafficLight.RedDots}" />
+                                                            </RadialGradientBrush>
+                                                        </GeometryDrawing.Brush>
+                                                    </GeometryDrawing>
+                                                </DrawingBrush.Drawing>
+                                            </DrawingBrush>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                </Grid>
+                            </Canvas>
+
+                            <!-- .switch1: yellow; checked in the source markup. -->
+                            <Canvas Canvas.Left="97.32" Canvas.Top="17.8" Width="70" Height="70">
+                                <Ellipse Width="70" Height="70" Fill="{StaticResource Cheems.Brush.TrafficLight.Black}">
+                                    <Ellipse.Effect>
+                                        <DropShadowEffect Color="{StaticResource Cheems.Color.TrafficLight.Black}"
+                                                          ShadowDepth="0" BlurRadius="10" Opacity="0.2" />
+                                    </Ellipse.Effect>
+                                </Ellipse>
+                                <Ellipse Width="68" Height="68" Margin="1"
+                                         Fill="{StaticResource Cheems.Brush.TrafficLight.Black}"
+                                         Stroke="{StaticResource Cheems.Brush.TrafficLight.Ring}" StrokeThickness="5" />
+                                <Grid Canvas.Left="7.5" Canvas.Top="7.5" Width="55" Height="55">
+                                    <Ellipse Fill="{StaticResource Cheems.Brush.TrafficLight.YellowBase}" />
+                                    <Ellipse x:Name="PartYellowLight" Opacity="0">
+                                        <Ellipse.Fill>
+                                            <RadialGradientBrush>
+                                                <GradientStop Offset="0" Color="{StaticResource Cheems.Color.TrafficLight.YellowGlowCenter}" />
+                                                <GradientStop Offset="0.566" Color="{StaticResource Cheems.Color.TrafficLight.YellowGlowMiddle}" />
+                                                <GradientStop Offset="0.78" Color="{StaticResource Cheems.Color.TrafficLight.YellowGlowSoft}" />
+                                                <GradientStop Offset="0.92" Color="{StaticResource Cheems.Color.TrafficLight.YellowGlowEdge}" />
+                                                <GradientStop Offset="1" Color="{StaticResource Cheems.Color.TrafficLight.Transparent}" />
+                                            </RadialGradientBrush>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                    <Ellipse>
+                                        <Ellipse.Fill>
+                                            <DrawingBrush TileMode="Tile" Viewport="0,0,10,10" ViewportUnits="Absolute"
+                                                          Viewbox="0,0,10,10" ViewboxUnits="Absolute">
+                                                <DrawingBrush.Drawing>
+                                                    <GeometryDrawing Geometry="M0,0 H10 V10 H0 Z">
+                                                        <GeometryDrawing.Brush>
+                                                            <RadialGradientBrush>
+                                                                <GradientStop Offset="0.4243" Color="{StaticResource Cheems.Color.TrafficLight.Transparent}" />
+                                                                <GradientStop Offset="0.9899" Color="{StaticResource Cheems.Color.TrafficLight.YellowDots}" />
+                                                            </RadialGradientBrush>
+                                                        </GeometryDrawing.Brush>
+                                                    </GeometryDrawing>
+                                                </DrawingBrush.Drawing>
+                                            </DrawingBrush>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                </Grid>
+                            </Canvas>
+
+                            <!-- .switch2: green -->
+                            <Canvas Canvas.Left="177.32" Canvas.Top="17.8" Width="70" Height="70">
+                                <Ellipse Width="70" Height="70" Fill="{StaticResource Cheems.Brush.TrafficLight.Black}">
+                                    <Ellipse.Effect>
+                                        <DropShadowEffect Color="{StaticResource Cheems.Color.TrafficLight.Black}"
+                                                          ShadowDepth="0" BlurRadius="10" Opacity="0.2" />
+                                    </Ellipse.Effect>
+                                </Ellipse>
+                                <Ellipse Width="68" Height="68" Margin="1"
+                                         Fill="{StaticResource Cheems.Brush.TrafficLight.Black}"
+                                         Stroke="{StaticResource Cheems.Brush.TrafficLight.Ring}" StrokeThickness="5" />
+                                <Grid Canvas.Left="7.5" Canvas.Top="7.5" Width="55" Height="55">
+                                    <Ellipse Fill="{StaticResource Cheems.Brush.TrafficLight.GreenBase}" />
+                                    <Ellipse x:Name="PartGreenLight" Opacity="0">
+                                        <Ellipse.Fill>
+                                            <RadialGradientBrush>
+                                                <GradientStop Offset="0" Color="{StaticResource Cheems.Color.TrafficLight.GreenGlowCenter}" />
+                                                <GradientStop Offset="0.566" Color="{StaticResource Cheems.Color.TrafficLight.GreenGlowMiddle}" />
+                                                <GradientStop Offset="0.78" Color="{StaticResource Cheems.Color.TrafficLight.GreenGlowSoft}" />
+                                                <GradientStop Offset="0.92" Color="{StaticResource Cheems.Color.TrafficLight.GreenGlowEdge}" />
+                                                <GradientStop Offset="1" Color="{StaticResource Cheems.Color.TrafficLight.Transparent}" />
+                                            </RadialGradientBrush>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                    <Ellipse>
+                                        <Ellipse.Fill>
+                                            <DrawingBrush TileMode="Tile" Viewport="0,0,10,10" ViewportUnits="Absolute"
+                                                          Viewbox="0,0,10,10" ViewboxUnits="Absolute">
+                                                <DrawingBrush.Drawing>
+                                                    <GeometryDrawing Geometry="M0,0 H10 V10 H0 Z">
+                                                        <GeometryDrawing.Brush>
+                                                            <RadialGradientBrush>
+                                                                <GradientStop Offset="0.4243" Color="{StaticResource Cheems.Color.TrafficLight.Transparent}" />
+                                                                <GradientStop Offset="0.9899" Color="{StaticResource Cheems.Color.TrafficLight.GreenDots}" />
+                                                            </RadialGradientBrush>
+                                                        </GeometryDrawing.Brush>
+                                                    </GeometryDrawing>
+                                                </DrawingBrush.Drawing>
+                                            </DrawingBrush>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                </Grid>
+                            </Canvas>
+                        </Canvas>
+                    </Viewbox>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PartRoot" Property="Opacity" Value="0.5" />
+                            <Setter Property="Cursor" Value="No" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

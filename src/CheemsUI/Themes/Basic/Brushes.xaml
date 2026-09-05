@@ -149,6 +149,37 @@
     <SolidColorBrush x:Key="Cheems.Brush.LeafButton.HoverBorder" Color="{StaticResource Cheems.Color.LeafButton.HoverBorder}" />
     <SolidColorBrush x:Key="Cheems.Brush.LeafButton.Text" Color="{StaticResource Cheems.Color.LeafButton.Text}" />
 
+    <!-- 控件级：CheemsCreepyButton -->
+    <SolidColorBrush x:Key="Cheems.Brush.CreepyButton.Base" Color="{StaticResource Cheems.Color.CreepyButton.Base}" />
+    <SolidColorBrush x:Key="Cheems.Brush.CreepyButton.Text" Color="{StaticResource Cheems.Color.CreepyButton.Text}" />
+    <SolidColorBrush x:Key="Cheems.Brush.CreepyButton.Focus" Color="{StaticResource Cheems.Color.CreepyButton.Focus}" />
+    <SolidColorBrush x:Key="Cheems.Brush.CreepyButton.Cover" Color="{StaticResource Cheems.Color.CreepyButton.Cover}" />
+    <SolidColorBrush x:Key="Cheems.Brush.CreepyButton.CoverHover" Color="{StaticResource Cheems.Color.CreepyButton.CoverHover}" />
+    <SolidColorBrush x:Key="Cheems.Brush.CreepyButton.Eye" Color="{StaticResource Cheems.Color.CreepyButton.Text}" />
+    <SolidColorBrush x:Key="Cheems.Brush.CreepyButton.Pupil" Color="{StaticResource Cheems.Color.CreepyButton.Base}" />
+
+    <!-- 控件级：CheemsFlipClock -->
+    <SolidColorBrush x:Key="Cheems.Brush.FlipClock.Background" Color="{StaticResource Cheems.Color.FlipClock.Background}" />
+    <SolidColorBrush x:Key="Cheems.Brush.FlipClock.Card" Color="{StaticResource Cheems.Color.FlipClock.Card}" />
+    <SolidColorBrush x:Key="Cheems.Brush.FlipClock.Text" Color="{StaticResource Cheems.Color.FlipClock.Text}" />
+
+    <!-- 控件级：CheemsConcentricCircleLoader -->
+    <SolidColorBrush x:Key="Cheems.Brush.ConcentricCircle.Blue" Color="{StaticResource Cheems.Color.ConcentricCircle.Blue}" />
+    <SolidColorBrush x:Key="Cheems.Brush.ConcentricCircle.Purple" Color="{StaticResource Cheems.Color.ConcentricCircle.Purple}" />
+    <SolidColorBrush x:Key="Cheems.Brush.ConcentricCircle.Pink" Color="{StaticResource Cheems.Color.ConcentricCircle.Pink}" />
+    <SolidColorBrush x:Key="Cheems.Brush.ConcentricCircle.Yellow" Color="{StaticResource Cheems.Color.ConcentricCircle.Yellow}" />
+    <SolidColorBrush x:Key="Cheems.Brush.ConcentricCircle.PaleBlue" Color="{StaticResource Cheems.Color.ConcentricCircle.PaleBlue}" />
+    <SolidColorBrush x:Key="Cheems.Brush.ConcentricCircle.Core" Color="{StaticResource Cheems.Color.ConcentricCircle.Core}" />
+
+    <!-- 控件级：CheemsFlightProgressBar -->
+    <SolidColorBrush x:Key="Cheems.Brush.FlightProgress.Track" Color="{StaticResource Cheems.Color.FlightProgress.Track}" />
+    <SolidColorBrush x:Key="Cheems.Brush.FlightProgress.Completed" Color="{StaticResource Cheems.Color.FlightProgress.Completed}" />
+    <SolidColorBrush x:Key="Cheems.Brush.FlightProgress.Plane" Color="{StaticResource Cheems.Color.FlightProgress.Plane}" />
+    <SolidColorBrush x:Key="Cheems.Brush.FlightProgress.Accent" Color="{StaticResource Cheems.Color.FlightProgress.Accent}" />
+    <SolidColorBrush x:Key="Cheems.Brush.FlightProgress.Cockpit" Color="{StaticResource Cheems.Color.FlightProgress.Cockpit}" />
+    <SolidColorBrush x:Key="Cheems.Brush.FlightProgress.Cloud" Color="{StaticResource Cheems.Color.FlightProgress.Cloud}" />
+    <SolidColorBrush x:Key="Cheems.Brush.FlightProgress.Text" Color="{StaticResource Cheems.Color.FlightProgress.Text}" />
+
     <!-- 控件级：CheemsPolylineLoader -->
     <SolidColorBrush x:Key="Cheems.Brush.PolylineLoader.Background" Color="{StaticResource Cheems.Color.PolylineLoader.Background}" />
     <SolidColorBrush x:Key="Cheems.Brush.PolylineLoader.Foreground" Color="{StaticResource Cheems.Color.PolylineLoader.Foreground}" />
@@ -249,5 +280,49 @@
     <!-- 控件级：CheemsCircuitProgressBar -->
     <SolidColorBrush x:Key="Cheems.Brush.CircuitProgress.Primary" Color="{StaticResource Cheems.Color.CircuitProgress.Primary}" />
     <SolidColorBrush x:Key="Cheems.Brush.CircuitProgress.Neutral" Color="{StaticResource Cheems.Color.CircuitProgress.Neutral}" />
+
+    <!-- 控件级：CheemsTrafficLightSwitch -->
+    <SolidColorBrush x:Key="Cheems.Brush.TrafficLight.Back" Color="{StaticResource Cheems.Color.TrafficLight.Back}" />
+    <SolidColorBrush x:Key="Cheems.Brush.TrafficLight.Black" Color="{StaticResource Cheems.Color.TrafficLight.Black}" />
+    <SolidColorBrush x:Key="Cheems.Brush.TrafficLight.Ring" Color="{StaticResource Cheems.Color.TrafficLight.Ring}" />
+    <SolidColorBrush x:Key="Cheems.Brush.TrafficLight.RedBase" Color="{StaticResource Cheems.Color.TrafficLight.RedBase}" />
+    <SolidColorBrush x:Key="Cheems.Brush.TrafficLight.YellowBase" Color="{StaticResource Cheems.Color.TrafficLight.YellowBase}" />
+    <SolidColorBrush x:Key="Cheems.Brush.TrafficLight.GreenBase" Color="{StaticResource Cheems.Color.TrafficLight.GreenBase}" />
+
+    <!-- 控件级：CheemsDarkTrafficLightSwitch -->
+    <SolidColorBrush x:Key="Cheems.Brush.DarkTrafficLight.Back" Color="{StaticResource Cheems.Color.DarkTrafficLight.Back}" />
+    <SolidColorBrush x:Key="Cheems.Brush.DarkTrafficLight.Black" Color="{StaticResource Cheems.Color.DarkTrafficLight.Black}" />
+    <SolidColorBrush x:Key="Cheems.Brush.DarkTrafficLight.NightRider" Color="{StaticResource Cheems.Color.DarkTrafficLight.NightRider}" />
+
+    <!-- 控件级：CheemsServerLoader -->
+    <SolidColorBrush x:Key="Cheems.Brush.ServerLoader.LineBack" Color="{StaticResource Cheems.Color.ServerLoader.LineBack}" />
+    <SolidColorBrush x:Key="Cheems.Brush.ServerLoader.LineFront" Color="{StaticResource Cheems.Color.ServerLoader.LineFront}" />
+    <SolidColorBrush x:Key="Cheems.Brush.ServerLoader.TopDark" Color="{StaticResource Cheems.Color.ServerLoader.TopDark}" />
+    <SolidColorBrush x:Key="Cheems.Brush.ServerLoader.ScreenBase" Color="{StaticResource Cheems.Color.ServerLoader.ScreenBase}" />
+    <SolidColorBrush x:Key="Cheems.Brush.ServerLoader.Screen1" Color="{StaticResource Cheems.Color.ServerLoader.Screen1}" />
+    <SolidColorBrush x:Key="Cheems.Brush.ServerLoader.Screen2" Color="{StaticResource Cheems.Color.ServerLoader.Screen2}" />
+    <SolidColorBrush x:Key="Cheems.Brush.ServerLoader.Screen3" Color="{StaticResource Cheems.Color.ServerLoader.Screen3}" />
+    <SolidColorBrush x:Key="Cheems.Brush.ServerLoader.Screen4" Color="{StaticResource Cheems.Color.ServerLoader.Screen4}" />
+    <SolidColorBrush x:Key="Cheems.Brush.ServerLoader.ScreenStroke" Color="{StaticResource Cheems.Color.ServerLoader.ScreenStroke}" />
+    <SolidColorBrush x:Key="Cheems.Brush.ServerLoader.Cyan" Color="{StaticResource Cheems.Color.ServerLoader.Cyan}" />
+    <SolidColorBrush x:Key="Cheems.Brush.ServerLoader.PanelBorder" Color="{StaticResource Cheems.Color.ServerLoader.PanelBorder}" />
+    <LinearGradientBrush x:Key="Cheems.Brush.ServerLoader.Particle" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Offset="0" Color="{StaticResource Cheems.Color.ServerLoader.ParticlePurple}" />
+        <GradientStop Offset="1" Color="{StaticResource Cheems.Color.ServerLoader.Cyan}" />
+    </LinearGradientBrush>
+
+    <!-- 控件级：CheemsFaceSwitch -->
+    <SolidColorBrush x:Key="Cheems.Brush.FaceSwitch.TrackOff" Color="{StaticResource Cheems.Color.FaceSwitch.TrackOff}" />
+    <SolidColorBrush x:Key="Cheems.Brush.FaceSwitch.Expression" Color="{StaticResource Cheems.Color.FaceSwitch.Expression}" />
+    <SolidColorBrush x:Key="Cheems.Brush.FaceSwitch.Transparent" Color="{StaticResource Cheems.Color.FaceSwitch.Transparent}" />
+
+    <!-- 控件级：CheemsRotarySwitch -->
+    <SolidColorBrush x:Key="Cheems.Brush.RotarySwitch.LineDark" Color="{StaticResource Cheems.Color.RotarySwitch.LineDark}" />
+    <SolidColorBrush x:Key="Cheems.Brush.RotarySwitch.LineLight" Color="{StaticResource Cheems.Color.RotarySwitch.LineLight}" />
+    <SolidColorBrush x:Key="Cheems.Brush.RotarySwitch.Label" Color="{StaticResource Cheems.Color.RotarySwitch.Label}" />
+    <SolidColorBrush x:Key="Cheems.Brush.RotarySwitch.KnobHighlight" Color="{StaticResource Cheems.Color.RotarySwitch.KnobHighlight}" />
+    <SolidColorBrush x:Key="Cheems.Brush.RotarySwitch.KnobHighlightStrong" Color="{StaticResource Cheems.Color.RotarySwitch.KnobHighlightStrong}" />
+    <SolidColorBrush x:Key="Cheems.Brush.RotarySwitch.Shadow" Color="{StaticResource Cheems.Color.RotarySwitch.Shadow}" />
+    <SolidColorBrush x:Key="Cheems.Brush.RotarySwitch.Transparent" Color="{StaticResource Cheems.Color.RotarySwitch.Transparent}" />
 
 </ResourceDictionary>

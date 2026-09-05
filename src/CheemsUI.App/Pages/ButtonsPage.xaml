@@ -75,6 +75,14 @@
                     </infra:CompactShowcaseControl.Demo>
                 </infra:CompactShowcaseControl>
 
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Buttons/CreepyButton.xaml.txt"
+                                              Margin="0,0,32,28"
+                                              Visibility="{Binding IsCreepyVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo>
+                        <Grid Margin="8"><cheems:CheemsCreepyButton Content="Button" /></Grid>
+                    </infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+
             </WrapPanel>
 
         </StackPanel>

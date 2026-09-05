@@ -1,0 +1,2 @@
+<!-- 4 秒循环：六层圆环差速旋转并收缩/展开，中心双圆反相缩放。 -->
+<cheems:CheemsConcentricCircleLoader Width="160" Height="160" />

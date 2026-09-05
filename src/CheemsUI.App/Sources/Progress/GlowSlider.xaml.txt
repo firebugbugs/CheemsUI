@@ -1,0 +1,5 @@
+<cheems:CheemsGlowSlider
+    Width="360"
+    GlowColor="#1FE0A0"
+    Step="0.1"
+    Value="{Binding ProgressValue, Mode=TwoWay}" />

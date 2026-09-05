@@ -1,0 +1,2 @@
+<!-- 悬停时盖板旋开并露出双眼；瞳孔跟随指针，眼睛每 3 秒眨动一次。 -->
+<cheems:CheemsCreepyButton Content="Button" />

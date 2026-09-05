@@ -86,7 +86,7 @@ public sealed class CheemsPulseDotsLoader : Control
 
         var baseColor = GetColor(BaseDotBrush, Color.FromRgb(0xB3, 0xD4, 0xFC));
         var activeColor = GetColor(ActiveDotBrush, Color.FromRgb(0x67, 0x93, 0xFB));
-        var elapsed = SystemParameters.ClientAreaAnimation && _animationStartedAt != 0
+        var elapsed = _animationStartedAt != 0
             ? (Stopwatch.GetTimestamp() - _animationStartedAt) / (double)Stopwatch.Frequency
             : 0;
 
@@ -161,7 +161,7 @@ public sealed class CheemsPulseDotsLoader : Control
         _animationStartedAt = Stopwatch.GetTimestamp();
         InvalidateVisual();
 
-        if (SystemParameters.ClientAreaAnimation && !_isRendering)
+        if (!_isRendering)
         {
             CompositionTarget.Rendering += OnRendering;
             _isRendering = true;

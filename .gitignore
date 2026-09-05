@@ -3,6 +3,10 @@ bin/
 obj/
 [Bb]uild/
 
+# 本地编译验证与视觉导出产物
+/.build-check/
+/artifacts/
+
 # IDE
 .vs/
 .idea/

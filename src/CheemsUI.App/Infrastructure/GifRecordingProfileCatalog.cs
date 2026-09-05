@@ -72,6 +72,7 @@ internal static class GifRecordingProfileCatalog
             [nameof(CheemsBlobLoader)] = (2.0, 0),
             [nameof(CheemsBounceBallLoader)] = (1.0, 0),
             [nameof(CheemsCubeLoadingLoader)] = (2.1, 1.2),
+            [nameof(CheemsConcentricCircleLoader)] = (4.0, 0),
             [nameof(CheemsDominoLoader)] = (1.0, 0.865),
             [nameof(CheemsEarthLoader)] = (5.0, 0.75),
             [nameof(CheemsGlitchLoader)] = (2.0, 0),
@@ -79,6 +80,7 @@ internal static class GifRecordingProfileCatalog
             [nameof(CheemsJumpingSquareLoader)] = (0.5, 0),
             [nameof(CheemsNewtonsCradleLoader)] = (1.2, 0),
             [nameof(CheemsOrbitDotsLoader)] = (2.4, 0),
+            [nameof(CheemsServerLoader)] = (3.0, 0.4),
             [nameof(CheemsPolylineLoader)] = (1.4, 0),
             [nameof(CheemsPulseDotsLoader)] = (1.5, 0.1),
             [nameof(CheemsRainbowBarsLoader)] = (0.9, 0.4),
@@ -102,7 +104,8 @@ internal static class GifRecordingProfileCatalog
             [nameof(CheemsSubscribeButton)] = 2.5,
             [nameof(CheemsShineButton)] = 2.6,
             [nameof(CheemsLeafButton)] = 2.9,
-            [nameof(CheemsLayered3DButton)] = 3.0
+            [nameof(CheemsLayered3DButton)] = 3.0,
+            [nameof(CheemsCreepyButton)] = 3.2
         };
 
     private static readonly IReadOnlyDictionary<string, object?> InitialContent =
@@ -116,7 +119,8 @@ internal static class GifRecordingProfileCatalog
             [nameof(CheemsLayered3DButton)] = "Button",
             [nameof(CheemsPixelHandButton)] = null,
             [nameof(CheemsLeafButton)] = "Button",
-            [nameof(CheemsSaharaButton)] = "WELCOME"
+            [nameof(CheemsSaharaButton)] = "WELCOME",
+            [nameof(CheemsCreepyButton)] = "Button"
         };
 
     private static readonly HashSet<string> ExcludedControls = new(StringComparer.Ordinal)
@@ -139,6 +143,26 @@ internal static class GifRecordingProfileCatalog
 
     private static GifRecordingProfile CreateProfile(Type type)
     {
+        if (type == typeof(CheemsTrafficLightSwitch) || type == typeof(CheemsDarkTrafficLightSwitch))
+        {
+            return new GifRecordingProfile(
+                type, "Inputs",
+                TimeSpan.FromSeconds(4.4), TimeSpan.Zero,
+                isAnimated: true,
+                ConfigureTrafficLightSwitch,
+                control => new TrafficLightSwitchRecordingScript((CheemsTrafficLightSwitch)control));
+        }
+
+        if (type == typeof(CheemsFlipClock))
+        {
+            return new GifRecordingProfile(
+                type, "Displays",
+                TimeSpan.FromSeconds(2), TimeSpan.Zero,
+                isAnimated: true,
+                ConfigureFlipClock,
+                control => new FlipClockRecordingScript((CheemsFlipClock)control));
+        }
+
         if (type.Name.EndsWith("Loader", StringComparison.Ordinal))
         {
             var timing = ResolveLoaderTiming(type);
@@ -272,6 +296,14 @@ internal static class GifRecordingProfileCatalog
         ((ToggleButton)control).IsChecked = false;
     }
 
+    private static void ConfigureTrafficLightSwitch(Control control)
+    {
+        ConfigureCommon(control);
+        ((CheemsTrafficLightSwitch)control).SelectedSignal = control is CheemsDarkTrafficLightSwitch
+            ? CheemsTrafficSignal.Green
+            : CheemsTrafficSignal.Yellow;
+    }
+
     private static void ConfigureProgress(Control control)
     {
         ConfigureCommon(control);
@@ -298,13 +330,20 @@ internal static class GifRecordingProfileCatalog
         searchBox.Text = string.Empty;
     }
 
+    private static void ConfigureFlipClock(Control control)
+    {
+        ConfigureCommon(control);
+        ((CheemsFlipClock)control).Value = new DateTime(2026, 1, 1, 12, 34, 59);
+    }
+
     private static int CategoryOrder(string category) => category switch
     {
         "Buttons" => 0,
         "Loaders" => 1,
         "Inputs" => 2,
-        "Progress" => 3,
-        _ => 4
+        "Displays" => 3,
+        "Progress" => 4,
+        _ => 5
     };
 }
 
@@ -344,6 +383,23 @@ internal sealed class PassiveRecordingScript : ControlRecordingScript
 
     public override void Update(TimeSpan elapsed)
     {
+    }
+}
+
+internal sealed class FlipClockRecordingScript : ControlRecordingScript
+{
+    private static readonly DateTime StartTime = new(2026, 1, 1, 12, 34, 59);
+    private readonly CheemsFlipClock _clock;
+    private int _lastSecond = -1;
+
+    public FlipClockRecordingScript(CheemsFlipClock clock) : base(clock) => _clock = clock;
+
+    public override void Update(TimeSpan elapsed)
+    {
+        var second = Math.Min((int)elapsed.TotalSeconds, 1);
+        if (second == _lastSecond) return;
+        _lastSecond = second;
+        _clock.Value = StartTime.AddSeconds(second);
     }
 }
 
@@ -549,6 +605,36 @@ internal sealed class ToggleRecordingScript : StagedRecordingScript
         _cursorPath?.GetPosition(elapsed, EnterTime, LeaveTime);
 
     public override void Finish() => RecordingInputState.Reset(_toggle);
+}
+
+internal sealed class TrafficLightSwitchRecordingScript : StagedRecordingScript
+{
+    private static readonly TimeSpan[] Times =
+    {
+        TimeSpan.Zero,
+        TimeSpan.FromSeconds(1.1),
+        TimeSpan.FromSeconds(2.2),
+        TimeSpan.FromSeconds(3.3)
+    };
+
+    private readonly CheemsTrafficLightSwitch _trafficLight;
+
+    public TrafficLightSwitchRecordingScript(CheemsTrafficLightSwitch trafficLight) : base(trafficLight) =>
+        _trafficLight = trafficLight;
+
+    protected override IReadOnlyList<TimeSpan> StageTimes => Times;
+
+    protected override void EnterStage(int stage)
+    {
+        _trafficLight.SelectedSignal = stage switch
+        {
+            1 => CheemsTrafficSignal.Red,
+            2 => CheemsTrafficSignal.Green,
+            _ => CheemsTrafficSignal.Yellow
+        };
+    }
+
+    public override void Finish() => _trafficLight.SelectedSignal = CheemsTrafficSignal.Yellow;
 }
 
 internal sealed class ProgressRecordingScript : ControlRecordingScript

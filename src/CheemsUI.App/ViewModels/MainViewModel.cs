@@ -106,6 +106,7 @@ public class MainViewModel : ObservableObject
             new("Buttons 按钮", new ButtonsViewModel(), "button controls 按键"),
             new("Loaders 加载", new LoadersViewModel(), "loader loading animation 动画 等待"),
             new("Inputs 输入", new InputsViewModel(), "input controls 输入控件"),
+            new("Displays 显示", new DisplaysViewModel(), "display clock time flip 数字 显示 时钟 时间 翻页"),
             new("Progress 进度", new ProgressViewModel(), "progress bar loading percentage 进度 进度条 百分比"),
             new("Backgrounds 背景", BackgroundSettings, "background birds vanta three webgl 飞鸟 鸟群 背景 特效 离线"),
         };

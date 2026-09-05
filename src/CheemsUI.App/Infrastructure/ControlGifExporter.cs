@@ -249,6 +249,7 @@ internal sealed class ControlGifExporter
             .AppendLine("Buttons: GIF (normal -> hover -> press 0.3s -> dwell 0.5s -> leave, custom cursor)")
             .AppendLine("Toggles: GIF (normal -> hover -> click on -> click off -> leave, custom cursor)")
             .AppendLine("Inputs: GIF (normal -> hover -> click focus -> type \"Cheems\", custom cursor)")
+            .AppendLine("Displays: GIF (bound value change -> flip transition)")
             .AppendLine("Progress: GIF (value 0 -> 100% in 5s)")
             .AppendLine($"Result: {counters.Succeeded}/{counters.TotalControls} succeeded")
             .AppendLine($"Cancelled: {counters.Cancelled}");

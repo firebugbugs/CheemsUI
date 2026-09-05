@@ -47,7 +47,7 @@ public sealed class CheemsNewtonsCradleLoader : Control
     {
         _startedAt = Stopwatch.GetTimestamp();
         ApplyFrame(0);
-        if (SystemParameters.ClientAreaAnimation && !_renderingSubscribed)
+        if (!_renderingSubscribed)
         {
             CompositionTarget.Rendering += OnRendering;
             _renderingSubscribed = true;

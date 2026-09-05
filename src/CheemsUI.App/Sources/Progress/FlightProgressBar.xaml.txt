@@ -1,0 +1,5 @@
+<!-- 飞机位置、缩放、阴影和云层均由 Value 驱动。 -->
+<cheems:CheemsFlightProgressBar
+    Origin="New York"
+    Destination="Madrid"
+    Value="{Binding ProgressValue, Mode=TwoWay}" />

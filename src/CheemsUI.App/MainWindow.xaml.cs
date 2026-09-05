@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using CheemsUI.App.Infrastructure;
 using CheemsUI.App.Infrastructure.Updates;
 using CheemsUI.App.ViewModels;
@@ -37,6 +38,47 @@ public partial class MainWindow : Window
         DataContext = viewModel;
         UpdateWindowFrameClip();
     }
+
+    private void TitleAvatar_MouseEnter(object sender, MouseEventArgs e)
+    {
+        var currentAngle = TitleAvatarRotate.Angle;
+        TitleAvatarScale.BeginAnimation(ScaleTransform.ScaleXProperty, CreateAnimation(TitleAvatarScale.ScaleX, 1.16, 180, new CubicEase { EasingMode = EasingMode.EaseOut }, holdEnd: true));
+        TitleAvatarScale.BeginAnimation(ScaleTransform.ScaleYProperty, CreateAnimation(TitleAvatarScale.ScaleY, 1.16, 180, new CubicEase { EasingMode = EasingMode.EaseOut }, holdEnd: true));
+        TitleAvatarRotate.BeginAnimation(
+            RotateTransform.AngleProperty,
+            new DoubleAnimation(currentAngle, currentAngle + 360, TimeSpan.FromMilliseconds(1600))
+            {
+                RepeatBehavior = RepeatBehavior.Forever
+            });
+    }
+
+    private void TitleAvatar_MouseLeave(object sender, MouseEventArgs e)
+    {
+        var currentScaleX = TitleAvatarScale.ScaleX;
+        var currentScaleY = TitleAvatarScale.ScaleY;
+        var currentAngle = TitleAvatarRotate.Angle;
+        var returnAngle = Math.Round(currentAngle / 360d) * 360d;
+        var returnEase = new BackEase { EasingMode = EasingMode.EaseOut, Amplitude = 0.22 };
+
+        TitleAvatarScale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+        TitleAvatarScale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+        TitleAvatarRotate.BeginAnimation(RotateTransform.AngleProperty, null);
+
+        TitleAvatarScale.ScaleX = 1;
+        TitleAvatarScale.ScaleY = 1;
+        TitleAvatarRotate.Angle = 0;
+
+        TitleAvatarScale.BeginAnimation(ScaleTransform.ScaleXProperty, CreateAnimation(currentScaleX, 1, 340, returnEase));
+        TitleAvatarScale.BeginAnimation(ScaleTransform.ScaleYProperty, CreateAnimation(currentScaleY, 1, 340, returnEase));
+        TitleAvatarRotate.BeginAnimation(RotateTransform.AngleProperty, CreateAnimation(currentAngle, returnAngle, 420, returnEase));
+    }
+
+    private static DoubleAnimation CreateAnimation(double from, double to, double milliseconds, IEasingFunction easingFunction, bool holdEnd = false) =>
+        new(from, to, TimeSpan.FromMilliseconds(milliseconds))
+        {
+            EasingFunction = easingFunction,
+            FillBehavior = holdEnd ? FillBehavior.HoldEnd : FillBehavior.Stop
+        };
 
     protected override void OnSourceInitialized(EventArgs e)
     {

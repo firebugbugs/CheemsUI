@@ -232,10 +232,7 @@ public sealed class CheemsOrbitDotsLoader : Control
         _animationStartedAt = Stopwatch.GetTimestamp();
         InvalidateVisual();
 
-        if (SystemParameters.ClientAreaAnimation)
-        {
-            SubscribeRendering();
-        }
+        SubscribeRendering();
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e) => UnsubscribeRendering();

@@ -63,6 +63,12 @@
                 <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/OrbitDots.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsOrbitDotsVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
                     <infra:CompactShowcaseControl.Demo><cheems:CheemsOrbitDotsLoader/></infra:CompactShowcaseControl.Demo>
                 </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/ConcentricCircle.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsConcentricCircleVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsConcentricCircleLoader Width="160" Height="160"/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
+                <infra:CompactShowcaseControl Source="/CheemsUI.App;component/Sources/Loaders/Server.xaml.txt" Margin="0,0,32,28" Visibility="{Binding IsServerVisible, Converter={StaticResource Cheems.App.Converter.BooleanToVisibility}}">
+                    <infra:CompactShowcaseControl.Demo><cheems:CheemsServerLoader/></infra:CompactShowcaseControl.Demo>
+                </infra:CompactShowcaseControl>
             </WrapPanel>
         </StackPanel>
     </ScrollViewer>

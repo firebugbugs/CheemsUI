@@ -1,0 +1,2 @@
+<!-- The choices are intentionally fixed to Red, Yellow and Green. -->
+<cheems:CheemsTrafficLightSwitch SelectedSignal="Yellow" />

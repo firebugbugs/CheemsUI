@@ -116,10 +116,7 @@ public sealed class CheemsTypewriterLoader : Control
         _animationStart = Stopwatch.GetTimestamp();
         ApplyFrame(0);
 
-        if (SystemParameters.ClientAreaAnimation)
-        {
-            SubscribeRendering();
-        }
+        SubscribeRendering();
     }
 
     private void OnUnloaded(object sender, RoutedEventArgs e)

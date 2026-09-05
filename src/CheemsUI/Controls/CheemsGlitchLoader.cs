@@ -79,7 +79,7 @@ public sealed class CheemsGlitchLoader : Control
     {
         _startedAt = Stopwatch.GetTimestamp();
         ApplyFrame(0);
-        if (!SystemParameters.ClientAreaAnimation || _renderingSubscribed) return;
+        if (_renderingSubscribed) return;
         CompositionTarget.Rendering += OnRendering;
         _renderingSubscribed = true;
     }

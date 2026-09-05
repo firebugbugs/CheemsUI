@@ -24,7 +24,9 @@ public sealed class LoadersViewModel : SearchablePageViewModel
         ["Glitch"] = "CheemsGlitchLoader glitch text loading loader 故障 文字 错位 抖动 倾斜 紫色 绿色 加载 andrew-demchenk0 uiverse",
         ["Polyline"] = "CheemsPolylineLoader polyline heartbeat pulse ECG loading loader 心跳 心电图 脉搏 折线 虚线 动画 红色 加载 milley69 uiverse",
         ["PulseDots"] = "CheemsPulseDotsLoader dots pulse loading loader five circles 五点 圆点 脉冲 扩散 蓝色 加载 adamgiebl uiverse",
-        ["OrbitDots"] = "CheemsOrbitDotsLoader rotating orbit colorful dots flash loader 旋转 轨道 彩色 圆点 闪光 收缩 加载 Nawsome uiverse"
+        ["OrbitDots"] = "CheemsOrbitDotsLoader rotating orbit colorful dots flash loader 旋转 轨道 彩色 圆点 闪光 收缩 加载 Nawsome uiverse",
+        ["ConcentricCircle"] = "CheemsConcentricCircleLoader concentric circle rings preloader colorful rotate 同心圆 圆环 彩色 旋转 加载 jkantner codepen",
+        ["Server"] = "CheemsServerLoader server node particles isometric data cloud 服务器 节点 粒子 数据 加载 Juanes200122 uiverse"
     })
     {
     }
@@ -45,6 +47,8 @@ public sealed class LoadersViewModel : SearchablePageViewModel
     public bool IsPolylineVisible => IsControlVisible("Polyline");
     public bool IsPulseDotsVisible => IsControlVisible("PulseDots");
     public bool IsOrbitDotsVisible => IsControlVisible("OrbitDots");
+    public bool IsConcentricCircleVisible => IsControlVisible("ConcentricCircle");
+    public bool IsServerVisible => IsControlVisible("Server");
     protected override void OnSearchFilterChanged()
     {
         OnPropertyChanged(nameof(IsTypewriterVisible));
@@ -63,5 +67,7 @@ public sealed class LoadersViewModel : SearchablePageViewModel
         OnPropertyChanged(nameof(IsPolylineVisible));
         OnPropertyChanged(nameof(IsPulseDotsVisible));
         OnPropertyChanged(nameof(IsOrbitDotsVisible));
+        OnPropertyChanged(nameof(IsConcentricCircleVisible));
+        OnPropertyChanged(nameof(IsServerVisible));
     }
 }

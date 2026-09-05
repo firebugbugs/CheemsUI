@@ -215,7 +215,7 @@ public sealed class CheemsCubeLoadingSurface : FrameworkElement
             _highlight = highlight;
         }
         _startedAt = Stopwatch.GetTimestamp();
-        if (SystemParameters.ClientAreaAnimation && !_subscribed)
+        if (!_subscribed)
         {
             CompositionTarget.Rendering += OnRendering; _subscribed = true;
         }

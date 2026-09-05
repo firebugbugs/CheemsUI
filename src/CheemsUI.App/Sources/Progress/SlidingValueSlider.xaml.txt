@@ -1,0 +1,6 @@
+<cheems:CheemsSlidingValueSlider
+    Width="390"
+    Minimum="0"
+    Maximum="100"
+    Step="1"
+    Value="{Binding ProgressValue, Mode=TwoWay}" />

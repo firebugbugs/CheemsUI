@@ -1,0 +1,152 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CheemsUI">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Colors.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Brushes.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type local:CheemsServerLoader}">
+        <!-- CSS zoom:1.2 applied to the SVG's 94×136 viewBox. -->
+        <Setter Property="Width" Value="112.8" />
+        <Setter Property="Height" Value="163.2" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsHitTestVisible" Value="False" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CheemsServerLoader}">
+                    <Viewbox Stretch="Uniform">
+                        <Canvas x:Name="PartRoot" Width="94" Height="136">
+                            <Path x:Name="PartLineV1"
+                                  Stroke="{StaticResource Cheems.Brush.ServerLoader.LineBack}"
+                                  Data="M87.3629,108.433 L49.1073,85.3765 C47.846,84.6163 45.8009,84.6163 44.5395,85.3765 L6.28392,108.433 C5.02255,109.194 5.02255,110.426 6.28392,111.187 L44.5395,134.243 C45.8009,135.004 47.846,135.004 49.1073,134.243 L87.3629,111.187 C88.6243,110.426 88.6243,109.194 87.3629,108.433 Z">
+                                <Path.RenderTransform><TranslateTransform x:Name="PartLineV1Translate" /></Path.RenderTransform>
+                            </Path>
+                            <Path x:Name="PartLineV2"
+                                  Stroke="{StaticResource Cheems.Brush.ServerLoader.LineFront}"
+                                  Data="M91.0928,95.699 L49.2899,70.5042 C47.9116,69.6734 45.6769,69.6734 44.2986,70.5042 L2.49568,95.699 C1.11735,96.5298 1.11735,97.8767 2.49568,98.7074 L44.2986,123.902 C45.6769,124.733 47.9116,124.733 49.2899,123.902 L91.0928,98.7074 C92.4712,97.8767 92.4712,96.5298 91.0928,95.699 Z">
+                                <Path.RenderTransform><TranslateTransform x:Name="PartLineV2Translate" /></Path.RenderTransform>
+                            </Path>
+
+                            <!-- node-server, particles, reflectores and panel-rigth share the final 0.4s delayed bounce. -->
+                            <Canvas x:Name="PartServerAssembly">
+                                <Canvas.RenderTransform><TranslateTransform x:Name="PartServerAssemblyTranslate" /></Canvas.RenderTransform>
+
+                                <Canvas x:Name="PartNodeServer">
+                                    <Path Data="M2.48637,72.0059 L43.8699,96.9428 C45.742,98.0709 48.281,97.8084 50.9284,96.2133 L91.4607,71.7833 C92.1444,71.2621 92.4197,70.9139 92.5421,70.1257 L92.5421,86.1368 C92.5421,86.9686 92.0025,87.9681 91.3123,88.3825 C84.502,92.4724 51.6503,112.204 50.0363,113.215 C48.2352,114.343 45.3534,114.343 43.5523,113.215 C41.9261,112.197 8.55699,91.8662 2.08967,87.926 C1.39197,87.5011 1.00946,86.5986 1.00946,85.4058 L1.00946,70.1257 C1.11219,70.9289 1.49685,71.3298 2.48637,72.0059 Z">
+                                        <Path.Fill>
+                                            <LinearGradientBrush MappingMode="Absolute" StartPoint="1.00946,92.0933" EndPoint="92.5421,92.0933">
+                                                <GradientStop Offset="0" Color="{StaticResource Cheems.Color.ServerLoader.Purple}" />
+                                                <GradientStop Offset="1" Color="{StaticResource Cheems.Color.ServerLoader.Blue}" />
+                                            </LinearGradientBrush>
+                                        </Path.Fill>
+                                    </Path>
+                                    <Path Data="M91.0928,68.7324 L49.2899,43.5375 C47.9116,42.7068 45.6769,42.7068 44.2986,43.5375 L2.49568,68.7324 C1.11735,69.5631 1.11735,70.91 2.49568,71.7407 L44.2986,96.9356 C45.6769,97.7663 47.9116,97.7663 49.2899,96.9356 L91.0928,71.7407 C92.4712,70.91 92.4712,69.5631 91.0928,68.7324 Z">
+                                        <Path.Fill>
+                                            <LinearGradientBrush MappingMode="Absolute" StartPoint="92.5,70" EndPoint="6.72169,91.1638">
+                                                <GradientStop Offset="0" Color="{StaticResource Cheems.Color.ServerLoader.TopBlue}" />
+                                                <GradientStop Offset="0.29" Color="{StaticResource Cheems.Color.ServerLoader.TopDark}" />
+                                                <GradientStop Offset="1" Color="{StaticResource Cheems.Color.ServerLoader.TopPurple}" />
+                                            </LinearGradientBrush>
+                                        </Path.Fill>
+                                        <Path.Stroke>
+                                            <LinearGradientBrush MappingMode="Absolute" StartPoint="92.5,70" EndPoint="3.55544,85.0762">
+                                                <GradientStop Offset="0" Color="{StaticResource Cheems.Color.ServerLoader.Cyan}" />
+                                                <GradientStop Offset="1" Color="{StaticResource Cheems.Color.ServerLoader.Violet}" />
+                                            </LinearGradientBrush>
+                                        </Path.Stroke>
+                                    </Path>
+
+                                    <Canvas Clip="M78.3486,68.7324 L49.0242,51.0584 C47.6459,50.2276 45.4111,50.2276 44.0328,51.0584 L14.7084,68.7324 C13.3301,69.5631 13.3301,70.91 14.7084,71.7407 L44.0328,89.4148 C45.4111,90.2455 47.6459,90.2455 49.0242,89.4148 L78.3486,71.7407 C79.7269,70.91 79.727,69.5631 78.3486,68.7324 Z">
+                                        <Path Fill="{StaticResource Cheems.Brush.ServerLoader.TopDark}"
+                                              Data="M78.3486,68.7324 L49.0242,51.0584 C47.6459,50.2276 45.4111,50.2276 44.0328,51.0584 L14.7084,68.7324 C13.3301,69.5631 13.3301,70.91 14.7084,71.7407 L44.0328,89.4148 C45.4111,90.2455 47.6459,90.2455 49.0242,89.4148 L78.3486,71.7407 C79.7269,70.91 79.727,69.5631 78.3486,68.7324 Z" />
+                                        <Canvas Clip="M68.9898,68.7324 L49.0242,56.699 C47.6459,55.8683 45.4111,55.8683 44.0328,56.699 L24.0673,68.7324 C22.6889,69.5631 22.6889,70.91 24.0673,71.7407 L44.0328,83.7741 C45.4111,84.6048 47.6459,84.6048 49.0242,83.7741 L68.9898,71.7407 C70.3681,70.91 70.3681,69.5631 68.9898,68.7324 Z">
+                                            <Path Fill="{StaticResource Cheems.Brush.ServerLoader.ScreenBase}" Data="M68.9898,68.7324 L49.0242,56.699 C47.6459,55.8683 45.4111,55.8683 44.0328,56.699 L24.0673,68.7324 C22.6889,69.5631 22.6889,70.91 24.0673,71.7407 L44.0328,83.7741 C45.4111,84.6048 47.6459,84.6048 49.0242,83.7741 L68.9898,71.7407 C70.3681,70.91 70.3681,69.5631 68.9898,68.7324 Z" />
+                                            <Path Fill="{StaticResource Cheems.Brush.ServerLoader.Screen1}" Data="M70.1311,69.3884 L48.42,56.303 C47.3863,55.6799 45.7103,55.6799 44.6765,56.303 L22.5275,69.6523 C21.4938,70.2754 21.4938,71.2855 22.5275,71.9086 L44.2386,84.994 C45.2723,85.617 46.9484,85.617 47.9821,84.994 L70.1311,71.6446 C71.1648,71.0216 71.1648,70.0114 70.1311,69.3884 Z" />
+                                            <Path Fill="{StaticResource Cheems.Brush.ServerLoader.Screen2}" Data="M70.131,70.8923 L48.4199,57.8069 C47.3862,57.1839 45.7101,57.1839 44.6764,57.8069 L22.5274,71.1562 C21.4937,71.7793 21.4937,72.7894 22.5274,73.4125 L44.2385,86.4979 C45.2722,87.1209 46.9482,87.1209 47.982,86.4979 L70.131,73.1486 C71.1647,72.5255 71.1647,71.5153 70.131,70.8923 Z" />
+                                            <Path Fill="{StaticResource Cheems.Brush.ServerLoader.Screen3}" Data="M69.751,72.1675 L48.4199,59.3111 C47.3862,58.6881 45.7101,58.6881 44.6764,59.3111 L23.2004,72.2548 C22.1667,72.8779 22.1667,73.888 23.2004,74.5111 L44.5315,87.3674 C45.5653,87.9905 47.2413,87.9905 48.2751,87.3674 L69.751,74.4238 C70.7847,73.8007 70.7847,72.7905 69.751,72.1675 Z" />
+                                            <Path Fill="{StaticResource Cheems.Brush.ServerLoader.Screen4}" Data="M68.5091,72.9231 L48.4199,60.8153 C47.3862,60.1922 45.7101,60.1922 44.6764,60.8153 L24.8146,72.7861 C23.7808,73.4091 23.7808,74.4193 24.8146,75.0424 L44.9038,87.1502 C45.9375,87.7733 47.6135,87.7733 48.6473,87.1502 L68.5091,75.1794 C69.5428,74.5563 69.5428,73.5462 68.5091,72.9231 Z" />
+                                            <Path Fill="{StaticResource Cheems.Brush.ServerLoader.Screen4}" Data="M66.6747,73.3219 L48.4199,62.3197 C47.3862,61.6966 45.7101,61.6966 44.6764,62.3197 L26.4412,73.3101 C25.4075,73.9332 25.4075,74.9433 26.4412,75.5664 L44.696,86.5686 C45.7297,87.1917 47.4058,87.1917 48.4395,86.5686 L66.6747,75.5782 C67.7084,74.9551 67.7084,73.945 66.6747,73.3219 Z" />
+                                        </Canvas>
+                                        <Path Fill="{x:Null}" Stroke="{StaticResource Cheems.Brush.ServerLoader.ScreenStroke}" StrokeThickness="0.5"
+                                              Data="M68.9898,68.7324 L49.0242,56.699 C47.6459,55.8683 45.4111,55.8683 44.0328,56.699 L24.0673,68.7324 C22.6889,69.5631 22.6889,70.91 24.0673,71.7407 L44.0328,83.7741 C45.4111,84.6048 47.6459,84.6048 49.0242,83.7741 L68.9898,71.7407 C70.3681,70.91 70.3681,69.5631 68.9898,68.7324 Z" />
+                                    </Canvas>
+                                </Canvas>
+
+                                <Canvas x:Name="PartParticles">
+                                    <Path x:Name="PartParticle1" Fill="{StaticResource Cheems.Brush.ServerLoader.Particle}" Data="M43.5482,32.558 C44.5429,32.558 45.3493,31.7162 45.3493,30.6778 C45.3493,29.6394 44.5429,28.7976 43.5482,28.7976 C42.5535,28.7976 41.7471,29.6394 41.7471,30.6778 C41.7471,31.7162 42.5535,32.558 43.5482,32.558 Z"><Path.RenderTransform><TranslateTransform x:Name="PartParticle1Translate" /></Path.RenderTransform></Path>
+                                    <Path x:Name="PartParticle2" Fill="{StaticResource Cheems.Brush.ServerLoader.Particle}" Data="M50.0323,48.3519 C51.027,48.3519 51.8334,47.5101 51.8334,46.4717 C51.8334,45.4333 51.027,44.5915 50.0323,44.5915 C49.0375,44.5915 48.2311,45.4333 48.2311,46.4717 C48.2311,47.5101 49.0375,48.3519 50.0323,48.3519 Z"><Path.RenderTransform><TranslateTransform x:Name="PartParticle2Translate" /></Path.RenderTransform></Path>
+                                    <Path x:Name="PartParticle3" Fill="{StaticResource Cheems.Brush.ServerLoader.Particle}" Data="M40.3062,62.6416 C41.102,62.6416 41.7471,61.9681 41.7471,61.1374 C41.7471,60.3067 41.102,59.6332 40.3062,59.6332 C39.5104,59.6332 38.8653,60.3067 38.8653,61.1374 C38.8653,61.9681 39.5104,62.6416 40.3062,62.6416 Z"><Path.RenderTransform><TranslateTransform x:Name="PartParticle3Translate" /></Path.RenderTransform></Path>
+                                    <Path x:Name="PartParticle4" Fill="{StaticResource Cheems.Brush.ServerLoader.Particle}" Data="M50.7527,73.9229 C52.1453,73.9229 53.2743,72.7444 53.2743,71.2906 C53.2743,69.8368 52.1453,68.6583 50.7527,68.6583 C49.3601,68.6583 48.2311,69.8368 48.2311,71.2906 C48.2311,72.7444 49.3601,73.9229 50.7527,73.9229 Z"><Path.RenderTransform><TranslateTransform x:Name="PartParticle4Translate" /></Path.RenderTransform></Path>
+                                    <Path x:Name="PartParticle5" Fill="{StaticResource Cheems.Brush.ServerLoader.Particle}" Data="M48.5913,76.9312 C49.1882,76.9312 49.672,76.4262 49.672,75.8031 C49.672,75.1801 49.1882,74.675 48.5913,74.675 C47.9945,74.675 47.5107,75.1801 47.5107,75.8031 C47.5107,76.4262 47.9945,76.9312 48.5913,76.9312 Z"><Path.RenderTransform><TranslateTransform x:Name="PartParticle5Translate" /></Path.RenderTransform></Path>
+                                    <Path x:Name="PartParticle6" Fill="{StaticResource Cheems.Brush.ServerLoader.Particle}" Data="M52.9153,67.1541 C53.115,67.1541 53.2768,66.9858 53.2768,66.7781 C53.2768,66.5704 53.115,66.402 52.9153,66.402 C52.7156,66.402 52.5538,66.5704 52.5538,66.7781 C52.5538,66.9858 52.7156,67.1541 52.9153,67.1541 Z"><Path.RenderTransform><TranslateTransform x:Name="PartParticle6Translate" /></Path.RenderTransform></Path>
+                                    <Path x:Name="PartParticle7" Fill="{StaticResource Cheems.Brush.ServerLoader.Particle}" Data="M52.1936,43.8394 C52.7904,43.8394 53.2743,43.3344 53.2743,42.7113 C53.2743,42.0883 52.7904,41.5832 52.1936,41.5832 C51.5967,41.5832 51.1129,42.0883 51.1129,42.7113 C51.1129,43.3344 51.5967,43.8394 52.1936,43.8394 Z"><Path.RenderTransform><TranslateTransform x:Name="PartParticle7Translate" /></Path.RenderTransform></Path>
+                                    <Path x:Name="PartParticle8" Fill="{StaticResource Cheems.Brush.ServerLoader.Particle}" Data="M57.2367,29.5497 C57.8335,29.5497 58.3173,29.0446 58.3173,28.4216 C58.3173,27.7985 57.8335,27.2935 57.2367,27.2935 C56.6398,27.2935 56.156,27.7985 56.156,28.4216 C56.156,29.0446 56.6398,29.5497 57.2367,29.5497 Z"><Path.RenderTransform><TranslateTransform x:Name="PartParticle8Translate" /></Path.RenderTransform></Path>
+                                    <Path x:Name="PartParticle9" Fill="{StaticResource Cheems.Brush.ServerLoader.Particle}" Data="M43.9084,34.8144 C44.3063,34.8144 44.6289,34.4777 44.6289,34.0623 C44.6289,33.647 44.3063,33.3102 43.9084,33.3102 C43.5105,33.3102 43.188,33.647 43.188,34.0623 C43.188,34.4777 43.5105,34.8144 43.9084,34.8144 Z"><Path.RenderTransform><TranslateTransform x:Name="PartParticle9Translate" /></Path.RenderTransform></Path>
+                                </Canvas>
+
+                                <Canvas x:Name="PartReflectors">
+                                    <Path Opacity="0.2" Data="M49.2037,57.0009 L68.7638,68.7786 C69.6763,69.3089 69.7967,69.9684 69.794,70.1625 L69.794,13.7383 C69.7649,13.5587 69.6807,13.4657 69.4338,13.3096 L48.4832,0.601307 C46.9202,-0.192595 46.0788,-0.208238 44.6446,0.601307 L23.6855,13.2118 C23.1956,13.5876 23.1966,13.7637 23.1956,14.4904 L23.246,70.1625 C23.2948,69.4916 23.7327,69.0697 25.1768,68.2447 L43.9084,57.0008 C44.8268,56.4344 45.3776,56.2639 46.43,56.2487 C47.5299,56.2257 48.1356,56.4222 49.2037,57.0009 Z">
+                                        <Path.Fill><LinearGradientBrush MappingMode="Absolute" StartPoint="67.8638,88.5145" EndPoint="62.9858,16.0743"><GradientStop Offset="0" Color="{StaticResource Cheems.Color.ServerLoader.Screen4}"/><GradientStop Offset="1" Color="{StaticResource Cheems.Color.ServerLoader.TransparentWhite}"/></LinearGradientBrush></Path.Fill>
+                                    </Path>
+                                    <Path Opacity="0.2" Data="M48.8867,27.6696 C49.9674,26.9175 68.6774,14.9197 68.6774,14.9197 C69.3063,14.5327 69.7089,14.375 69.7796,13.756 L69.7796,70.1979 C69.7775,70.8816 69.505,71.208 68.7422,71.7322 L48.9299,83.6603 C48.2003,84.1258 47.6732,84.2687 46.5103,84.2995 C45.3295,84.2679 44.8074,84.1213 44.0907,83.6603 L24.4348,71.8149 C23.5828,71.3313 23.2369,71.0094 23.2316,70.1979 L23.1884,13.9816 C23.1798,14.8398 23.4982,15.3037 24.7518,16.0874 C24.7518,16.0874 42.7629,26.9175 44.2038,27.6696 C45.6447,28.4217 46.0049,28.4217 46.5452,28.4217 C47.0856,28.4217 47.806,28.4217 48.8867,27.6696 Z">
+                                        <Path.Fill><LinearGradientBrush MappingMode="Absolute" StartPoint="36.2597,88.0938" EndPoint="31.4515,39.4139"><GradientStop Offset="0" Color="{StaticResource Cheems.Color.ServerLoader.Screen4}"/><GradientStop Offset="1" Color="{StaticResource Cheems.Color.ServerLoader.TransparentWhite}"/></LinearGradientBrush></Path.Fill>
+                                    </Path>
+                                </Canvas>
+
+                                <Canvas x:Name="PartRightPanel">
+                                    <Path Fill="{StaticResource Cheems.Brush.ServerLoader.Cyan}" Data="M72,91.8323 C72,90.5121 72.9268,88.9068 74.0702,88.2467 L87.9298,80.2448 C89.0731,79.5847 90,80.1198 90,81.44 C90,82.7602 89.0732,84.3656 87.9298,85.0257 L74.0702,93.0275 C72.9268,93.6876 72,93.1525 72,91.8323 Z" />
+                                    <Path Fill="{StaticResource Cheems.Brush.ServerLoader.PanelBorder}" Data="M72,89.4419 L90,79.0496 L72,89.4419 Z M90.6928,81.44 C90.6928,82.9811 89.6109,84.8551 88.2762,85.6257 L74.763,93.4275 C73.237,94.3085 72,93.5943 72,91.8323 C72,92.7107 72.9268,92.8876 74.0702,92.2275 L87.9298,84.2257 C88.6905,83.7865 89.3072,82.7184 89.3072,81.84 L90.6928,81.44 Z" />
+                                    <Path Fill="{StaticResource Cheems.Brush.ServerLoader.Cyan}" Data="M67,94.6603 C67,93.3848 67.8954,91.8339 69,91.1962 C70.1046,90.5584 71,91.0754 71,92.3509 L71,92.5129 C71,93.7884 70.1046,95.3393 69,95.977 C67.8954,96.6147 67,96.0978 67,94.8223 Z" />
+                                    <Path Fill="{StaticResource Cheems.Brush.ServerLoader.PanelBorder}" Data="M67,92.3509 L71,90.0415 L67,92.3509 Z M71.6928,92.5129 C71.6928,94.0093 70.6423,95.8288 69.3464,96.577 C68.0505,97.3252 67,96.7187 67,95.2223 L67,94.8223 C67,95.6559 67.8954,95.8147 69,95.177 C69.7219,94.7602 70.3072,93.7465 70.3072,92.9129 L71.6928,92.5129 Z" />
+                                </Canvas>
+                            </Canvas>
+                        </Canvas>
+                    </Viewbox>
+
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <!-- bounce-lines: the 50% keyframe is -3 px, exactly as the source. -->
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartLineV1Translate" Storyboard.TargetProperty="Y" Duration="0:0:3" RepeatBehavior="Forever">
+                                        <SplineDoubleKeyFrame KeyTime="0:0:1.5" Value="-3" KeySpline="0.42,0,0.58,1" />
+                                        <SplineDoubleKeyFrame KeyTime="0:0:3" Value="0" KeySpline="0.42,0,0.58,1" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartLineV2Translate" Storyboard.TargetProperty="Y" BeginTime="0:0:0.2" Duration="0:0:3" RepeatBehavior="Forever">
+                                        <SplineDoubleKeyFrame KeyTime="0:0:1.5" Value="-3" KeySpline="0.42,0,0.58,1" />
+                                        <SplineDoubleKeyFrame KeyTime="0:0:3" Value="0" KeySpline="0.42,0,0.58,1" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartServerAssemblyTranslate" Storyboard.TargetProperty="Y" BeginTime="0:0:0.4" Duration="0:0:3" RepeatBehavior="Forever">
+                                        <SplineDoubleKeyFrame KeyTime="0:0:1.5" Value="-3" KeySpline="0.42,0,0.58,1" />
+                                        <SplineDoubleKeyFrame KeyTime="0:0:3" Value="0" KeySpline="0.42,0,0.58,1" />
+                                    </DoubleAnimationUsingKeyFrames>
+
+                                    <!-- Each child particle retains its own source duration and delay. -->
+                                    <DoubleAnimation Storyboard.TargetName="PartParticle1Translate" Storyboard.TargetProperty="Y" From="0" To="-40" BeginTime="0:0:0" Duration="0:0:2.2" RepeatBehavior="Forever" />
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticle1" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0" Duration="0:0:2.2" RepeatBehavior="Forever"><LinearDoubleKeyFrame KeyTime="0" Value="0"/><LinearDoubleKeyFrame KeyTime="0:0:0.22" Value="1"/><LinearDoubleKeyFrame KeyTime="0:0:2.2" Value="0"/></DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimation Storyboard.TargetName="PartParticle2Translate" Storyboard.TargetProperty="Y" From="0" To="-40" BeginTime="0:0:0.3" Duration="0:0:2.5" RepeatBehavior="Forever" />
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticle2" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.3" Duration="0:0:2.5" RepeatBehavior="Forever"><LinearDoubleKeyFrame KeyTime="0" Value="0"/><LinearDoubleKeyFrame KeyTime="0:0:0.25" Value="1"/><LinearDoubleKeyFrame KeyTime="0:0:2.5" Value="0"/></DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimation Storyboard.TargetName="PartParticle3Translate" Storyboard.TargetProperty="Y" From="0" To="-40" BeginTime="0:0:0.6" Duration="0:0:2" RepeatBehavior="Forever" />
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticle3" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.6" Duration="0:0:2" RepeatBehavior="Forever"><LinearDoubleKeyFrame KeyTime="0" Value="0"/><LinearDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/><LinearDoubleKeyFrame KeyTime="0:0:2" Value="0"/></DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimation Storyboard.TargetName="PartParticle4Translate" Storyboard.TargetProperty="Y" From="0" To="-40" BeginTime="0:0:0.2" Duration="0:0:2.8" RepeatBehavior="Forever" />
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticle4" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.2" Duration="0:0:2.8" RepeatBehavior="Forever"><LinearDoubleKeyFrame KeyTime="0" Value="0"/><LinearDoubleKeyFrame KeyTime="0:0:0.28" Value="1"/><LinearDoubleKeyFrame KeyTime="0:0:2.8" Value="0"/></DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimation Storyboard.TargetName="PartParticle5Translate" Storyboard.TargetProperty="Y" From="0" To="-40" BeginTime="0:0:0.4" Duration="0:0:2.3" RepeatBehavior="Forever" />
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticle5" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.4" Duration="0:0:2.3" RepeatBehavior="Forever"><LinearDoubleKeyFrame KeyTime="0" Value="0"/><LinearDoubleKeyFrame KeyTime="0:0:0.23" Value="1"/><LinearDoubleKeyFrame KeyTime="0:0:2.3" Value="0"/></DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimation Storyboard.TargetName="PartParticle6Translate" Storyboard.TargetProperty="Y" From="0" To="-40" BeginTime="0:0:0.1" Duration="0:0:3" RepeatBehavior="Forever" />
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticle6" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.1" Duration="0:0:3" RepeatBehavior="Forever"><LinearDoubleKeyFrame KeyTime="0" Value="0"/><LinearDoubleKeyFrame KeyTime="0:0:0.3" Value="1"/><LinearDoubleKeyFrame KeyTime="0:0:3" Value="0"/></DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimation Storyboard.TargetName="PartParticle7Translate" Storyboard.TargetProperty="Y" From="0" To="-40" BeginTime="0:0:0.5" Duration="0:0:2.1" RepeatBehavior="Forever" />
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticle7" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.5" Duration="0:0:2.1" RepeatBehavior="Forever"><LinearDoubleKeyFrame KeyTime="0" Value="0"/><LinearDoubleKeyFrame KeyTime="0:0:0.21" Value="1"/><LinearDoubleKeyFrame KeyTime="0:0:2.1" Value="0"/></DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimation Storyboard.TargetName="PartParticle8Translate" Storyboard.TargetProperty="Y" From="0" To="-40" BeginTime="0:0:0.2" Duration="0:0:2.6" RepeatBehavior="Forever" />
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticle8" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.2" Duration="0:0:2.6" RepeatBehavior="Forever"><LinearDoubleKeyFrame KeyTime="0" Value="0"/><LinearDoubleKeyFrame KeyTime="0:0:0.26" Value="1"/><LinearDoubleKeyFrame KeyTime="0:0:2.6" Value="0"/></DoubleAnimationUsingKeyFrames>
+                                    <DoubleAnimation Storyboard.TargetName="PartParticle9Translate" Storyboard.TargetProperty="Y" From="0" To="-40" BeginTime="0:0:0.3" Duration="0:0:2.4" RepeatBehavior="Forever" />
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PartParticle9" Storyboard.TargetProperty="Opacity" BeginTime="0:0:0.3" Duration="0:0:2.4" RepeatBehavior="Forever"><LinearDoubleKeyFrame KeyTime="0" Value="0"/><LinearDoubleKeyFrame KeyTime="0:0:0.24" Value="1"/><LinearDoubleKeyFrame KeyTime="0:0:2.4" Value="0"/></DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

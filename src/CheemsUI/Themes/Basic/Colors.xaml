@@ -177,6 +177,35 @@
     <Color x:Key="Cheems.Color.LeafButton.HoverBorder">#F3B182</Color>
     <Color x:Key="Cheems.Color.LeafButton.Text">#181818</Color>
 
+    <!-- CheemsCreepyButton：CodePen jkantner Creepy Button 原始 HSL 色值换算 -->
+    <Color x:Key="Cheems.Color.CreepyButton.Base">#000000</Color>
+    <Color x:Key="Cheems.Color.CreepyButton.Text">#F1F2F4</Color>
+    <Color x:Key="Cheems.Color.CreepyButton.Focus">#86A6F9</Color>
+    <Color x:Key="Cheems.Color.CreepyButton.Cover">#255FF4</Color>
+    <Color x:Key="Cheems.Color.CreepyButton.CoverHover">#0B46DA</Color>
+
+    <!-- CheemsFlipClock：CodePen wen-yan Minimal Flip Clock 原始色值 -->
+    <Color x:Key="Cheems.Color.FlipClock.Background">#F3F2ED</Color>
+    <Color x:Key="Cheems.Color.FlipClock.Card">#FFFFFF</Color>
+    <Color x:Key="Cheems.Color.FlipClock.Text">#2B2B2B</Color>
+
+    <!-- CheemsConcentricCircleLoader：CodePen jkantner 原始 HSL/RGBA 色值 -->
+    <Color x:Key="Cheems.Color.ConcentricCircle.Blue">#0D4EF2</Color>
+    <Color x:Key="Cheems.Color.ConcentricCircle.Purple">#B10DF2</Color>
+    <Color x:Key="Cheems.Color.ConcentricCircle.Pink">#F20D4E</Color>
+    <Color x:Key="Cheems.Color.ConcentricCircle.Yellow">#F5C13D</Color>
+    <Color x:Key="Cheems.Color.ConcentricCircle.PaleBlue">#80CFDCFC</Color>
+    <Color x:Key="Cheems.Color.ConcentricCircle.Core">#80082F91</Color>
+
+    <!-- CheemsFlightProgressBar：CodePen alvaromontoro Flight Slider 原始色值 -->
+    <Color x:Key="Cheems.Color.FlightProgress.Track">#6C6C84</Color>
+    <Color x:Key="Cheems.Color.FlightProgress.Completed">#000000</Color>
+    <Color x:Key="Cheems.Color.FlightProgress.Plane">#F0F4FC</Color>
+    <Color x:Key="Cheems.Color.FlightProgress.Accent">#BB5555</Color>
+    <Color x:Key="Cheems.Color.FlightProgress.Cockpit">#99CCFF</Color>
+    <Color x:Key="Cheems.Color.FlightProgress.Cloud">#FFFFFF</Color>
+    <Color x:Key="Cheems.Color.FlightProgress.Text">#24242C</Color>
+
     <!-- CheemsPolylineLoader：Uiverse milley69 原始色值 -->
     <Color x:Key="Cheems.Color.PolylineLoader.Background">#33FF4D50</Color>
     <Color x:Key="Cheems.Color.PolylineLoader.Foreground">#FFFF4D4F</Color>
@@ -286,6 +315,95 @@
     <!-- CheemsCircuitProgressBar：Uiverse AshtonLiou 原始色值 -->
     <Color x:Key="Cheems.Color.CircuitProgress.Primary">#2E8B57</Color>
     <Color x:Key="Cheems.Color.CircuitProgress.Neutral">#FFFFFF</Color>
+
+    <!-- CheemsTrafficLightSwitch：Uiverse Praashoo7 原始色值 -->
+    <Color x:Key="Cheems.Color.TrafficLight.Back">#171717</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.Black">#000000</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.White">#FFFFFF</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.Ring">#47434C</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.RedBase">#9B0621</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.YellowBase">#949207</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.GreenBase">#2F9407</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.RedGlowCenter">#FFC97E</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.RedGlowMiddle">#FF1818</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.RedGlowSoft">#CCFF1818</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.RedGlowEdge">#73FF1818</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.YellowGlowCenter">#F6FF7E</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.YellowGlowMiddle">#EEFF00</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.YellowGlowSoft">#CCEEFF00</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.YellowGlowEdge">#73EEFF00</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.GreenGlowCenter">#F6FF7E</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.GreenGlowMiddle">#00FF00</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.GreenGlowSoft">#CC00FF00</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.GreenGlowEdge">#7300FF00</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.RedDots">#B3650000</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.YellowDots">#B35B6500</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.GreenDots">#B300650D</Color>
+    <Color x:Key="Cheems.Color.TrafficLight.Transparent">#00000000</Color>
+
+    <!-- CheemsDarkTrafficLightSwitch：Uiverse PauloRFJ 原始色值 -->
+    <Color x:Key="Cheems.Color.DarkTrafficLight.Back">#171717</Color>
+    <Color x:Key="Cheems.Color.DarkTrafficLight.Black">#000000</Color>
+    <Color x:Key="Cheems.Color.DarkTrafficLight.NightRider">#2E2E2E</Color>
+    <Color x:Key="Cheems.Color.DarkTrafficLight.GlowCenter">#E1E1E1</Color>
+    <Color x:Key="Cheems.Color.DarkTrafficLight.Red">#FF0047</Color>
+    <Color x:Key="Cheems.Color.DarkTrafficLight.Yellow">#FFFF00</Color>
+    <Color x:Key="Cheems.Color.DarkTrafficLight.Green">#7BC200</Color>
+    <Color x:Key="Cheems.Color.DarkTrafficLight.Transparent">#00000000</Color>
+
+    <!-- CheemsServerLoader：Uiverse Juanes200122 原始 SVG 色值 -->
+    <Color x:Key="Cheems.Color.ServerLoader.LineBack">#4B22B5</Color>
+    <Color x:Key="Cheems.Color.ServerLoader.LineFront">#5728CC</Color>
+    <Color x:Key="Cheems.Color.ServerLoader.Purple">#5727CC</Color>
+    <Color x:Key="Cheems.Color.ServerLoader.Blue">#4354BF</Color>
+    <Color x:Key="Cheems.Color.ServerLoader.TopBlue">#4559C4</Color>
+    <Color x:Key="Cheems.Color.ServerLoader.TopDark">#332C94</Color>
+    <Color x:Key="Cheems.Color.ServerLoader.TopPurple">#5727CB</Color>
+    <Color x:Key="Cheems.Color.ServerLoader.Cyan">#91DDFB</Color>
+    <Color x:Key="Cheems.Color.ServerLoader.Violet">#8841D5</Color>
+    <Color x:Key="Cheems.Color.ServerLoader.ScreenBase">#5E5E5E</Color>
+    <Color x:Key="Cheems.Color.ServerLoader.Screen1">#71B1C6</Color>
+    <Color x:Key="Cheems.Color.ServerLoader.Screen2">#80C0D4</Color>
+    <Color x:Key="Cheems.Color.ServerLoader.Screen3">#89D3EB</Color>
+    <Color x:Key="Cheems.Color.ServerLoader.Screen4">#97E6FF</Color>
+    <Color x:Key="Cheems.Color.ServerLoader.ScreenStroke">#F4F4F4</Color>
+    <Color x:Key="Cheems.Color.ServerLoader.PanelBorder">#489CB7</Color>
+    <Color x:Key="Cheems.Color.ServerLoader.ParticlePurple">#5927CE</Color>
+    <Color x:Key="Cheems.Color.ServerLoader.TransparentWhite">#00FFFFFF</Color>
+
+    <!-- CheemsFaceSwitch：Uiverse Shoh2008 原始色值 -->
+    <Color x:Key="Cheems.Color.FaceSwitch.GradientStart">#F19AF3</Color>
+    <Color x:Key="Cheems.Color.FaceSwitch.GradientEnd">#F099B5</Color>
+    <Color x:Key="Cheems.Color.FaceSwitch.TrackOff">#D7D7D7</Color>
+    <Color x:Key="Cheems.Color.FaceSwitch.ThumbStart">#DEDEDE</Color>
+    <Color x:Key="Cheems.Color.FaceSwitch.ThumbEnd">#FFFFFF</Color>
+    <Color x:Key="Cheems.Color.FaceSwitch.Expression">#9B9B9B</Color>
+    <Color x:Key="Cheems.Color.FaceSwitch.Shadow">#000000</Color>
+    <Color x:Key="Cheems.Color.FaceSwitch.Transparent">#00000000</Color>
+
+    <!-- CheemsRotarySwitch：Uiverse Pradeepsaranbishnoi 原始色值 -->
+    <Color x:Key="Cheems.Color.RotarySwitch.FaceCenter">#888888</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.FaceEdge">#333333</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.LineDark">#3C3D3F</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.LineLight">#666769</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.Label">#EEEEEE</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.TextShadow">#444444</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.KnobOuterTop">#F2F6F5</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.KnobOuterBottom">#CBD5D6</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.KnobInnerTop">#EEF7F6</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.KnobInnerBottom">#8D989A</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.DotTop">#DAE2E4</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.DotBottom">#ECF5F4</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.GlowCenter">#B8A3CC</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.GlowMiddle">#6B9FC5E0</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.GlowOuter">#006F71B3</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.GlowEdge">#00432289</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.InsetShadow">#99000000</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.KnobHighlight">#66FFFFFF</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.KnobHighlightStrong">#99FFFFFF</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.Highlight">#FFFFFF</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.Shadow">#000000</Color>
+    <Color x:Key="Cheems.Color.RotarySwitch.Transparent">#00000000</Color>
 
     <!-- 通用 -->
     <Color x:Key="Cheems.Color.Shadow">#80000000</Color>

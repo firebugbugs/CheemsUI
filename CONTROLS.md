@@ -1,10 +1,10 @@
 # 控件总览
 
-CheemsUI 全部 **42 个控件**的清单与动效演示。所有图片均为 Demo 程序自动实录生成的 GIF（按钮 / 开关 / 输入框为带鼠标光标的完整交互演示，输入框演示逐字输入 "Cheems"；进度条为 0 → 100% 全程 5s；Loader 为循环动画）。
+CheemsUI 全部 **53 个控件**的清单与动效演示。所有图片均由 Demo 程序自动实录生成（按钮 / 二态开关 / 输入框包含交互过程，多挡选择器展示状态变化，输入框逐字输入 "Cheems"；进度条为 0 → 100% 全程 5s；Loader 为完整循环动画）。
 
 [![返回 README](https://img.shields.io/badge/%E2%86%90_%E8%BF%94%E5%9B%9E_README-18181B?style=flat-square)](README.md)
 
-## Buttons（8）
+## Buttons（9）
 
 每个按钮为完整交互实录 GIF（光标移入 → 悬停 → 按下 0.5s → 释放停留 0.5s → 移出）：
 
@@ -18,8 +18,9 @@ CheemsUI 全部 **42 个控件**的清单与动效演示。所有图片均为 De
 | `CheemsDeleteButton`<br>删除按钮，悬停出确认叉 | <img src="docs/gallery/Buttons/CheemsDeleteButton.gif" width="200"> |
 | `CheemsPixelHandButton`<br>像素风手指按钮 | <img src="docs/gallery/Buttons/CheemsPixelHandButton.gif" width="200"> |
 | `CheemsLeafButton`<br>叶形按钮 | <img src="docs/gallery/Buttons/CheemsLeafButton.gif" width="200"> |
+| `CheemsCreepyButton`<br>眼球跟随、眨眼与按压反馈按钮 | <img src="docs/gallery/Buttons/CheemsCreepyButton.gif" width="200"> |
 
-## Loaders（17）
+## Loaders（19）
 
 全部为无限循环动画，放入界面即自动播放；每个控件在 `Themes/Controls/*.xaml` 里有对应的专属配色键可覆盖。
 
@@ -35,10 +36,12 @@ CheemsUI 全部 **42 个控件**的清单与动效演示。所有图片均为 De
 | **NewtonsCradle** | **OrbitDots** | **Polyline** |
 | ![](docs/gallery/Loaders/CheemsPulseDotsLoader.gif) | ![](docs/gallery/Loaders/CheemsRainbowBarsLoader.gif) | ![](docs/gallery/Loaders/CheemsTypewriterLoader.gif) |
 | **PulseDots** | **RainbowBars** | **Typewriter** |
-| ![](docs/gallery/Loaders/CheemsWashingMachineLoader.gif) | ![](docs/gallery/Loaders/CheemsWaveBarsLoader.gif) | |
-| **WashingMachine** | **WaveBars** | |
+| ![](docs/gallery/Loaders/CheemsWashingMachineLoader.gif) | ![](docs/gallery/Loaders/CheemsWaveBarsLoader.gif) | ![](docs/gallery/Loaders/CheemsConcentricCircleLoader.gif) |
+| **WashingMachine** | **WaveBars** | **ConcentricCircle** |
+| ![](docs/gallery/Loaders/CheemsServerLoader.gif) | | |
+| **Server** | | |
 
-## Inputs（13）
+## Inputs（17）
 
 开关为完整交互实录 GIF（光标移入 → 悬停 → 点击打开 → 移开）：
 
@@ -55,6 +58,15 @@ CheemsUI 全部 **42 个控件**的清单与动效演示。所有图片均为 De
 | `CheemsPixelSwitch`<br>像素风开关 | <img src="docs/gallery/Inputs/CheemsPixelSwitch.gif" width="150"> |
 | `CheemsPixelCoinSwitch`<br>像素投币开关 | <img src="docs/gallery/Inputs/CheemsPixelCoinSwitch.gif" width="150"> |
 | `CheemsScaleSwitch`<br>天平式开关 | <img src="docs/gallery/Inputs/CheemsScaleSwitch.gif" width="150"> |
+| `CheemsFaceSwitch`<br>滑动表情开关，关闭 / 笑脸连续翻转 | <img src="docs/gallery/Inputs/CheemsFaceSwitch.gif" width="150"> |
+
+多挡与单选控件展示当前状态或状态变化；旋钮通过 `ItemsSource` 自定义挡位，两种红绿灯固定为红 / 黄 / 绿三项：
+
+| 控件 | 状态实录 |
+|---|---|
+| `CheemsRotarySwitch`<br>可自定义挡位的旋转选择器（`ItemsSource` / `SelectedIndex`） | <img src="docs/gallery/Inputs/CheemsRotarySwitch.gif" width="180"> |
+| `CheemsTrafficLightSwitch`<br>保留未选灯底色的三挡 LED 选择器 | <img src="docs/gallery/Inputs/CheemsTrafficLightSwitch.gif" width="200"> |
+| `CheemsDarkTrafficLightSwitch`<br>未选灯完全熄灭的三挡 LED 选择器 | <img src="docs/gallery/Inputs/CheemsDarkTrafficLightSwitch.gif" width="200"> |
 
 输入框为完整交互实录 GIF（光标移入 → 点击聚焦 → 逐字输入 "Cheems"）：
 
@@ -63,7 +75,13 @@ CheemsUI 全部 **42 个控件**的清单与动效演示。所有图片均为 De
 | `CheemsGlowInput`<br>聚焦发光输入框（`Placeholder` 属性） | <img src="docs/gallery/Inputs/CheemsGlowInput.gif" width="240"> |
 | `CheemsSearchBox`<br>搜索框（`Label` / `Text`，带清除按钮） | <img src="docs/gallery/Inputs/CheemsSearchBox.gif" width="240"> |
 
-## Progress（4）
+## Displays（1）
+
+| 控件 | 演示 |
+|---|---|
+| `CheemsFlipClock`<br>支持 `DateTime Value` 的翻页数字时钟 | <img src="docs/gallery/Displays/CheemsFlipClock.gif" width="280"> |
+
+## Progress（7）
 
 均继承自 `ProgressBar`，直接绑定 `Value` / `Minimum` / `Maximum` 使用。GIF 为 0 → 100% 全程 5s 的完整行程实录：
 
@@ -73,3 +91,6 @@ CheemsUI 全部 **42 个控件**的清单与动效演示。所有图片均为 De
 | `CheemsCircuitProgressBar` | <img src="docs/gallery/Progress/CheemsCircuitProgressBar.gif" width="240"> |
 | `CheemsMonoProgressBar` | <img src="docs/gallery/Progress/CheemsMonoProgressBar.gif" width="240"> |
 | `CheemsWaveProgressBall` | <img src="docs/gallery/Progress/CheemsWaveProgressBall.gif" width="240"> |
+| `CheemsFlightProgressBar`<br>带起终点标签和飞机航线的可拖动进度条 | <img src="docs/gallery/Progress/CheemsFlightProgressBar.gif" width="280"> |
+| `CheemsGlowSlider`<br>机械旋钮与可配置发光色的可拖动滑块 | <img src="docs/gallery/Progress/CheemsGlowSlider.gif" width="280"> |
+| `CheemsSlidingValueSlider`<br>带滑动数值气泡的可拖动滑块 | <img src="docs/gallery/Progress/CheemsSlidingValueSlider.gif" width="280"> |

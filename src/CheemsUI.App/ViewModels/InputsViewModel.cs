@@ -22,6 +22,10 @@ public sealed class InputsViewModel : SearchablePageViewModel
         ["Pixel"] = "CheemsPixelSwitch pixel switch toggle 像素 开关 zl306 uiverse",
         ["Metal"] = "CheemsMetalSwitch metal metallic handle switch toggle 金属 手柄 开关 cssbuttons-io uiverse",
         ["PixelCoin"] = "CheemsPixelCoinSwitch pixel coin happy sad switch toggle 像素 硬币 笑脸 哭脸 开关 santhosh_2608 uiverse",
+        ["RotarySwitch"] = "CheemsRotarySwitch rotary selector multi position gear dial 旋钮 旋转 多档 挡位 开关 Pradeepsaranbishnoi uiverse",
+        ["FaceSwitch"] = "CheemsFaceSwitch face expression pink gradient toggle checkbox 表情 粉色 渐变 开关 Shoh2008 uiverse",
+        ["TrafficLightSwitch"] = "CheemsTrafficLightSwitch red yellow green radio light selector 红绿灯 红灯 黄灯 绿灯 单选 Praashoo7 uiverse",
+        ["DarkTrafficLightSwitch"] = "CheemsDarkTrafficLightSwitch red yellow green dark inactive neutral radio light selector 暗色 红绿灯 熄灭 无颜色 单选 PauloRFJ uiverse",
         ["GlowInput"] = "CheemsGlowInput input textbox text field glow focus hover 输入框 文本框 发光 聚焦 悬停 蓝色 reglobby uiverse",
         ["SearchBox"] = "CheemsSearchBox search input textbox floating label clear 搜索 输入框 文本框 浮动标签 清除 Li-Deheng uiverse"
     })
@@ -54,6 +58,10 @@ public sealed class InputsViewModel : SearchablePageViewModel
     public bool IsPixelVisible => IsControlVisible("Pixel");
     public bool IsMetalVisible => IsControlVisible("Metal");
     public bool IsPixelCoinVisible => IsControlVisible("PixelCoin");
+    public bool IsRotarySwitchVisible => IsControlVisible("RotarySwitch");
+    public bool IsFaceSwitchVisible => IsControlVisible("FaceSwitch");
+    public bool IsTrafficLightSwitchVisible => IsControlVisible("TrafficLightSwitch");
+    public bool IsDarkTrafficLightSwitchVisible => IsControlVisible("DarkTrafficLightSwitch");
     public bool IsGlowInputVisible => IsControlVisible("GlowInput");
     public bool IsSearchBoxVisible => IsControlVisible("SearchBox");
     public bool IsSwitchSectionVisible => VisibleSwitchCount > 0;
@@ -61,7 +69,7 @@ public sealed class InputsViewModel : SearchablePageViewModel
     public int VisibleSwitchCount => new[]
     {
         IsDayNightVisible, IsAmPmVisible, IsCheckToggleVisible, IsScaleSwitchVisible, IsMechanicalToggleVisible, IsIosStretchSwitchVisible, IsGenderToggleVisible, IsLedVisible,
-        IsPixelVisible, IsMetalVisible, IsPixelCoinVisible
+        IsPixelVisible, IsMetalVisible, IsPixelCoinVisible, IsRotarySwitchVisible, IsFaceSwitchVisible, IsTrafficLightSwitchVisible, IsDarkTrafficLightSwitchVisible
     }.Count(value => value);
 
     protected override void OnSearchFilterChanged()
@@ -77,6 +85,10 @@ public sealed class InputsViewModel : SearchablePageViewModel
         OnPropertyChanged(nameof(IsPixelVisible));
         OnPropertyChanged(nameof(IsMetalVisible));
         OnPropertyChanged(nameof(IsPixelCoinVisible));
+        OnPropertyChanged(nameof(IsRotarySwitchVisible));
+        OnPropertyChanged(nameof(IsFaceSwitchVisible));
+        OnPropertyChanged(nameof(IsTrafficLightSwitchVisible));
+        OnPropertyChanged(nameof(IsDarkTrafficLightSwitchVisible));
         OnPropertyChanged(nameof(IsGlowInputVisible));
         OnPropertyChanged(nameof(IsSearchBoxVisible));
         OnPropertyChanged(nameof(IsSwitchSectionVisible));

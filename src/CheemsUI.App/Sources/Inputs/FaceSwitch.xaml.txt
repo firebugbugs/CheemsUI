@@ -1,0 +1,2 @@
+<!-- IsChecked supports normal TwoWay binding. -->
+<cheems:CheemsFaceSwitch IsChecked="True" />

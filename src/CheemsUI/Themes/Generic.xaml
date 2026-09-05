@@ -15,6 +15,10 @@
         <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsLayered3DButton.xaml" />
         <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsPixelHandButton.xaml" />
         <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsLeafButton.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsCreepyButton.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsFlipClock.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsConcentricCircleLoader.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsServerLoader.xaml" />
         <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsTypewriterLoader.xaml" />
         <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsWashingMachineLoader.xaml" />
         <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsAiMatrixLoader.xaml" />
@@ -43,11 +47,18 @@
         <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsPixelSwitch.xaml" />
         <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsMetalSwitch.xaml" />
         <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsPixelCoinSwitch.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsRotarySwitch.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsFaceSwitch.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsTrafficLightSwitch.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsDarkTrafficLightSwitch.xaml" />
         <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsSearchBox.xaml" />
         <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsGlowInput.xaml" />
         <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsCosmicProgressBar.xaml" />
         <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsWaveProgressBall.xaml" />
         <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsMonoProgressBar.xaml" />
         <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsCircuitProgressBar.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsFlightProgressBar.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsGlowSlider.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Controls/CheemsSlidingValueSlider.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

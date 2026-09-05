@@ -1,0 +1,2 @@
+<!-- Fixed red/yellow/green positions; inactive lamps are completely neutral. -->
+<cheems:CheemsDarkTrafficLightSwitch SelectedSignal="Green" />

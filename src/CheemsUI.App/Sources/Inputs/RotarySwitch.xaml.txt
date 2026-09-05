@@ -1,0 +1,6 @@
+<!-- The default ItemsSource is OFF, 1, 2, 3, 4, 5. -->
+<cheems:CheemsRotarySwitch SelectedIndex="0" />
+
+<!-- Any number of positions can be supplied with ItemsSource. -->
+<cheems:CheemsRotarySwitch ItemsSource="{Binding FanSpeeds}"
+                           SelectedItem="{Binding FanSpeed}" />

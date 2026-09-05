@@ -1,0 +1,2 @@
+<!-- SystemTime 由页面 ViewModel 每秒更新为 DateTime.Now。 -->
+<cheems:CheemsFlipClock Value="{Binding SystemTime, Mode=OneWay}" />

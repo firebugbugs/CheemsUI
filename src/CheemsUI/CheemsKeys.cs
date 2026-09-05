@@ -17,6 +17,9 @@ public static class CheemsKeys
     public const string BackgroundElevatedBrush = "Cheems.Brush.Background.Elevated";
     public const string BorderDefaultBrush = "Cheems.Brush.Border.Default";
 
+    // ---- CheemsCreepyButton 颜色（Colors.xaml） ----
+    public const string CreepyButtonCoverHoverColor = "Cheems.Color.CreepyButton.CoverHover";
+
     // ---- CheemsDayNightSwitch 颜色（Colors.xaml） ----
     public const string DayNightSunColor = "Cheems.Color.DayNight.Sun";
     public const string DayNightMoonColor = "Cheems.Color.DayNight.Moon";

@@ -1,0 +1,59 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:CheemsUI">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Brushes.xaml" />
+        <ResourceDictionary Source="/CheemsUI;component/Themes/Basic/Fonts.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type local:CheemsFlipClock}">
+        <Setter Property="Width" Value="368" />
+        <Setter Property="Height" Value="112" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="CardBackground" Value="{DynamicResource Cheems.Brush.FlipClock.Card}" />
+        <Setter Property="Foreground" Value="{DynamicResource Cheems.Brush.FlipClock.Text}" />
+        <Setter Property="FontFamily" Value="{DynamicResource Cheems.FontFamily.Default}" />
+        <Setter Property="FontSize" Value="66" />
+        <Setter Property="FontWeight" Value="ExtraBold" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CheemsFlipClock}">
+                    <Viewbox Stretch="Fill">
+                        <StackPanel Width="368" Height="112" Orientation="Horizontal">
+                                <Grid Width="112" Height="112">
+                                    <Border Background="{TemplateBinding CardBackground}" CornerRadius="14">
+                                        <Border.Effect><DropShadowEffect BlurRadius="6" ShadowDepth="3" Opacity="0.10" /></Border.Effect>
+                                    </Border>
+                                    <TextBlock x:Name="PartHourBaseText" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                               Foreground="{TemplateBinding Foreground}" FontFamily="{TemplateBinding FontFamily}"
+                                               FontSize="{TemplateBinding FontSize}" FontWeight="{TemplateBinding FontWeight}" />
+                                    <Grid x:Name="PartHourOldBottom"><Grid.Clip><RectangleGeometry Rect="0,56,112,56" /></Grid.Clip><Border Background="{TemplateBinding CardBackground}" CornerRadius="14" /><TextBlock x:Name="PartHourOldBottomText" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" FontWeight="{TemplateBinding FontWeight}" /></Grid>
+                                    <Grid x:Name="PartHourOldTop" RenderTransformOrigin="0.5,0.5"><Grid.RenderTransform><ScaleTransform /></Grid.RenderTransform><Grid.Clip><RectangleGeometry Rect="0,0,112,56" /></Grid.Clip><Border Background="{TemplateBinding CardBackground}" CornerRadius="14" /><TextBlock x:Name="PartHourOldTopText" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" FontWeight="{TemplateBinding FontWeight}" /></Grid>
+                                    <Grid x:Name="PartHourNewBottom" RenderTransformOrigin="0.5,0.5"><Grid.RenderTransform><ScaleTransform ScaleY="0" /></Grid.RenderTransform><Grid.Clip><RectangleGeometry Rect="0,56,112,56" /></Grid.Clip><Border Background="{TemplateBinding CardBackground}" CornerRadius="14" /><TextBlock x:Name="PartHourNewBottomText" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" FontWeight="{TemplateBinding FontWeight}" /></Grid>
+                                    <Border Height="1" VerticalAlignment="Center" Background="{DynamicResource Cheems.Brush.FlipClock.Background}" Opacity="0.8" />
+                                </Grid>
+
+                                <Grid Width="112" Height="112" Margin="16,0,0,0">
+                                    <Border Background="{TemplateBinding CardBackground}" CornerRadius="14"><Border.Effect><DropShadowEffect BlurRadius="6" ShadowDepth="3" Opacity="0.10" /></Border.Effect></Border>
+                                    <TextBlock x:Name="PartMinuteBaseText" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" FontWeight="{TemplateBinding FontWeight}" />
+                                    <Grid x:Name="PartMinuteOldBottom"><Grid.Clip><RectangleGeometry Rect="0,56,112,56" /></Grid.Clip><Border Background="{TemplateBinding CardBackground}" CornerRadius="14" /><TextBlock x:Name="PartMinuteOldBottomText" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" FontWeight="{TemplateBinding FontWeight}" /></Grid>
+                                    <Grid x:Name="PartMinuteOldTop" RenderTransformOrigin="0.5,0.5"><Grid.RenderTransform><ScaleTransform /></Grid.RenderTransform><Grid.Clip><RectangleGeometry Rect="0,0,112,56" /></Grid.Clip><Border Background="{TemplateBinding CardBackground}" CornerRadius="14" /><TextBlock x:Name="PartMinuteOldTopText" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" FontWeight="{TemplateBinding FontWeight}" /></Grid>
+                                    <Grid x:Name="PartMinuteNewBottom" RenderTransformOrigin="0.5,0.5"><Grid.RenderTransform><ScaleTransform ScaleY="0" /></Grid.RenderTransform><Grid.Clip><RectangleGeometry Rect="0,56,112,56" /></Grid.Clip><Border Background="{TemplateBinding CardBackground}" CornerRadius="14" /><TextBlock x:Name="PartMinuteNewBottomText" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" FontWeight="{TemplateBinding FontWeight}" /></Grid>
+                                    <Border Height="1" VerticalAlignment="Center" Background="{DynamicResource Cheems.Brush.FlipClock.Background}" Opacity="0.8" />
+                                </Grid>
+
+                                <Grid Width="112" Height="112" Margin="16,0,0,0">
+                                    <Border Background="{TemplateBinding CardBackground}" CornerRadius="14"><Border.Effect><DropShadowEffect BlurRadius="6" ShadowDepth="3" Opacity="0.10" /></Border.Effect></Border>
+                                    <TextBlock x:Name="PartSecondBaseText" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" FontWeight="{TemplateBinding FontWeight}" />
+                                    <Grid x:Name="PartSecondOldBottom"><Grid.Clip><RectangleGeometry Rect="0,56,112,56" /></Grid.Clip><Border Background="{TemplateBinding CardBackground}" CornerRadius="14" /><TextBlock x:Name="PartSecondOldBottomText" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" FontWeight="{TemplateBinding FontWeight}" /></Grid>
+                                    <Grid x:Name="PartSecondOldTop" RenderTransformOrigin="0.5,0.5"><Grid.RenderTransform><ScaleTransform /></Grid.RenderTransform><Grid.Clip><RectangleGeometry Rect="0,0,112,56" /></Grid.Clip><Border Background="{TemplateBinding CardBackground}" CornerRadius="14" /><TextBlock x:Name="PartSecondOldTopText" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" FontWeight="{TemplateBinding FontWeight}" /></Grid>
+                                    <Grid x:Name="PartSecondNewBottom" RenderTransformOrigin="0.5,0.5"><Grid.RenderTransform><ScaleTransform ScaleY="0" /></Grid.RenderTransform><Grid.Clip><RectangleGeometry Rect="0,56,112,56" /></Grid.Clip><Border Background="{TemplateBinding CardBackground}" CornerRadius="14" /><TextBlock x:Name="PartSecondNewBottomText" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" FontWeight="{TemplateBinding FontWeight}" /></Grid>
+                                    <Border Height="1" VerticalAlignment="Center" Background="{DynamicResource Cheems.Brush.FlipClock.Background}" Opacity="0.8" />
+                                </Grid>
+                        </StackPanel>
+                    </Viewbox>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
